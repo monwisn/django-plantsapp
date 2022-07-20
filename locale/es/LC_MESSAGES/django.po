@@ -1,0 +1,52 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"Report-Msgid-Bugs-To: bartram11@gmail.com\n"
+"POT-Creation-Date: 2022-06-22 11:24:12\n"
+"PO-Revision-Date: 2022-06-22 11:24:12\n"
+"Last-Translator: Server <root@localhost>\n"
+"Language-Team: English <bartram11@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\main\templates\main\user_profile.html:65
+msgid "Edit Information"
+msgstr "Editar Informacion"
+
+#: .\main\templates\main\user_profile.html:36
+msgid "Edit profile"
+msgstr "Editar perfil"
+
+#: .\main\templates\main\user_profile.html:91
+msgid "Edit Profile"
+msgstr "Editar Perfil"
+
+#: .\main\templates\main\user_profile.html:36
+msgid "Edit Your information"
+msgstr "Edita tu información"
+
+#: .\plants_app\settings.py:174
+msgid "English"
+msgstr "Inglés"
+
+#: .\main\templates\main\user_profile.html:43
+msgid "Hello"
+msgstr "Hola"
+
+#: .\plants_app\settings.py:175
+msgid "Polish"
+msgstr "Polaco"
+
+#: .\main\templates\main\user_profile.html:21
+msgid "Profile information"
+msgstr "Información del perfil"
+
+#: .\plants_app\settings.py:176
+msgid "Spanish"
+msgstr "Español"
+
+#: .\main\templates\main\home_page.html:8
+msgid "Welcome to Watering Plants Application"
+msgstr "Bienvenido a la Aplicación de Riego de Plantas"
