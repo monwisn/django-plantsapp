@@ -29,7 +29,7 @@ class NewsletterUser(models.Model):
         return self.email
 
     def get_absolute_url(self):
-        return reverse('newsletter_sign_up', args=[str(self.id)])  # reverse('url_name', args=(obj.pk,))
+        return reverse('main:newsletter_sign_up', args=str(self.id))  # reverse('url_name', args=(obj.pk,))
 
 
 class Newsletter(models.Model):

@@ -31,3 +31,4 @@ class NewsletterUserListViewTest(TestCase):
         self.assertTrue('is_paginated' in response.context)
         self.assertTrue(response.context['is_paginated'] is True)
         self.assertEqual(len(response.context['newsletter_users']), 10)
+

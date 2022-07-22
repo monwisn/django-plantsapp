@@ -1,7 +1,4 @@
 from http import HTTPStatus
-from multiprocessing.connection import Client
-
-from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 

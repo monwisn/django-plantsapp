@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from main.common import Timestamped, SlugMixin
@@ -17,10 +18,12 @@ class Category(Timestamped, SlugMixin):
         verbose_name = "category"
         verbose_name_plural = "Categories"
 
-
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Category, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('blog:category_detail', args=str(self.id))
 
     def __str__(self):
         return self.title
@@ -53,6 +56,7 @@ class Post(Timestamped, SlugMixin):
         # if not self.slug:
         #     self.slug = slugify(self.title)
         super(Post, self).save(*args, **kwargs)
+
 
     def __str__(self):
         return f'post {self.id}: "{self.title}"'

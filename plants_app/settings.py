@@ -223,10 +223,11 @@ TRANSLATIONS_HINT_LANGUAGE = 'en'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIR = os.path.join(BASE_DIR, 'static')
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATIC_ROOT = BASE_DIR / 'staticfiles-cdn'  # in production we want cdn
+STATIC_URL = '/static/'  # is the URL location of static files located in STATIC_ROOT
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATICFILES_DIRS = [BASE_DIR / 'main/static']   # tells Django where to look for static files in a Django project
+STATIC_ROOT = [BASE_DIR / 'staticfiles']   # is the folder location of static files when collectstatic is run
+
 
 # to reduce the size of the static files when they are served (more efficient)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

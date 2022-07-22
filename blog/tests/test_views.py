@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.urls import reverse
 
 
 class ViewsTestCase(TestCase):
@@ -7,7 +8,6 @@ class ViewsTestCase(TestCase):
         response = self.client.get('127.0.0.1:8000')
 
         self.assertEqual(response.status_code, 200)
-
 
     def test_index_loads_fail(self):
         """The index page doesn't load properly"""
