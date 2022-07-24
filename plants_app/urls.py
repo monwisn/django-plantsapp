@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
+from django.views.static import serve
 
 from .views import push_notification, send_push
 
@@ -20,6 +21,8 @@ urlpatterns = i18n_patterns(
     path('blog/', include('blog.urls')),
     path('control/', include('control_panel.urls')),
     path('galleries/', include('galleries.urls')),
+    # path('media/', serve, {'document_root': settings.MEDIA_ROOT}),
+    # path('static/', serve, {'document_root': settings.STATIC_ROOT}),
     prefix_default_language=False,
     ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

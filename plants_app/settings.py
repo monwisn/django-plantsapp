@@ -11,11 +11,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
+import environ
 
 import dj_database_url
 import django_heroku
 
-import environ
 from pathlib import Path
 
 from django.contrib import messages, staticfiles
@@ -38,9 +38,14 @@ SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al
 # DEBUG = True  # development
 DEBUG = False  # production
 
+# ADMINS = (
+#     ('admin', 'bartkram11@gmail.com'),
+# )
+#
+# MANAGERS = ADMINS
 
-# ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', '.ngrok.io']
+ALLOWED_HOSTS = ["*"]  # don;t use it for production
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', '.ngrok.io']
 
 CSRF_TRUSTED_ORIGINS = ['https://*.ngrok.io', 'https://*.127.0.0.1']
 
@@ -210,12 +215,6 @@ TRANSLATIONS_MAKE_BACKUPS = True
 
 TRANSLATIONS_CLEAN_PO_AFTER_BACKUP = False
 
-# TRANSLATIONS_QUERYSET_FORCE_FILTERS = ['admin-', ]
-
-# TRANSLATIONS_CUSTOM_FILTERS = (
-#     (r'^admin-', 'Admin fields'),
-# )
-
 TRANSLATIONS_ADMIN_EXCLUDE_FIELDS = ['get_hint', 'locale_parent_dir', 'domain']
 
 TRANSLATIONS_HINT_LANGUAGE = 'en'
@@ -224,16 +223,32 @@ TRANSLATIONS_HINT_LANGUAGE = 'en'
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'  # is the URL location of static files located in STATIC_ROOT
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-STATICFILES_DIRS = [BASE_DIR / 'main/static']   # tells Django where to look for static files in a Django project
-STATIC_ROOT = [BASE_DIR / 'staticfiles']   # is the folder location of static files when collectstatic is run
+MEDIA_URL = '/media/'
 
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main/static'), ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'main/static')
+    # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+# MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# STATICFILES_DIRS = [BASE_DIR / 'main/static'] # tells Django where to look for static files in a Django project
+# STATIC_ROOT = BASE_DIR / 'staticfiles'  # is the folder location of static files when collectstatic is run
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
 
 # to reduce the size of the static files when they are served (more efficient)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
+
+TEMPLATE_LOADERS = 'django.template.loaders.filesystem.Loader'
 
 # To serve files directly from their original locations
 WHITENOISE_USE_FINDERS = True
@@ -260,7 +275,6 @@ NEWSLETTER_THUMBNAIL = 'sorl-thumbnail'
 NEWSLETTER_ROOT = BASE_DIR / 'main/templates'
 
 # Gmail sending config
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 DEFAULT_FROM_EMAIL = 'bartkram11@gamil.com'
@@ -271,13 +285,11 @@ EMAIL_PORT = 587  # this is gmail's port
 EMAIL_USE_TLS = True  # this encrypts our emails being sent
 
 # Django REST Framework:
-
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 # Django messages
-
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-secondary',
     messages.INFO: 'alert-info',
@@ -286,4 +298,4 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
-django_heroku.settings(locals())
+django_heroku.settings(locals())  # to activate django-heroku
