@@ -24,14 +24,16 @@ urlpatterns = i18n_patterns(
     # path('media/', serve, {'document_root': settings.MEDIA_ROOT}),
     # path('static/', serve, {'document_root': settings.STATIC_ROOT}),
     prefix_default_language=False,
-    ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+)
+# ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if 'rosetta' in settings.INSTALLED_APPS:
     urlpatterns += [
         re_path(r'^rosetta/', include('rosetta.urls'))
     ]
-
 
 # handler = "app_name.views.function in views.py"
 handler404 = "plants_app.views.page_not_found_404"
