@@ -1,4 +1,7 @@
 [build-system]
+
+target-version = ['py310']
+
 requires = [
   "setuptools == 57.5.0",
   "wheel",

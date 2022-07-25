@@ -31,8 +31,8 @@ environ.Env.read_env()
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = env("SECRET_KEY")
-SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al'
+SECRET_KEY = env("SECRET_KEY")
+# SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True  # development
@@ -84,6 +84,7 @@ INSTALLED_APPS = [
 # LocaleMiddleware: # this middleware should come after the SessionMiddleware because it needs to use the session data.
 # It should also be placed before the CommonMiddleware because the CommonMiddleware needs the active language to resolve
 # the URLs being requested.
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # add whitenoise exactly here
@@ -118,36 +119,25 @@ WSGI_APPLICATION = 'plants_app.wsgi.application'
 
 # postgres database:
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': env("DATABASE_NAME"),
-#         'USER': env("DATABASE_USER"),
-#         'PASSWORD': env("DATABASE_PASSWORD"),
-#         'HOST': env("DATABASE_HOST"),
-#         'PORT': env("DATABASE_PORT"),
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'plants_app_db',
-        'USER': 'monika_plants_app',
-        'PASSWORD': 'xyz123^dd2ded',
-        'HOST': 'localhost',
-        'PORT': 5432,
+        'NAME': env("DATABASE_NAME"),
+        'USER': env("DATABASE_USER"),
+        'PASSWORD': env("DATABASE_PASSWORD"),
+        'HOST': env("DATABASE_HOST"),
+        'PORT': env("DATABASE_PORT"),
     }
 }
 
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+prod_db = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)
 
 # Database for Docker:
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #         'NAME': os.environ.get('POSTGRES_NAME'),
 #         'USER': os.environ.get('POSTGRES_USER'),
 #         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
@@ -155,6 +145,7 @@ DATABASES['default'].update(db_from_env)
 #         'PORT': 5432,
 #     }
 # }
+
 
 
 # Password validation
@@ -209,7 +200,7 @@ LANGUAGE_SESSION_KEY = '_language'
 
 # TRANSLATIONS_BASE_DIR = BASE_DIR
 
-TRANSLATIONS_IGNORED_PATHS = ['env', 'media', ]
+TRANSLATIONS_IGNORED_PATHS = ['env', ]
 
 TRANSLATIONS_MAKE_BACKUPS = True
 
@@ -235,7 +226,7 @@ else:
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # STATICFILES_DIRS = [BASE_DIR / 'main/static'] # tells Django where to look for static files in a Django project
-# STATIC_ROOT = BASE_DIR / 'staticfiles'  # is the folder location of static files when collectstatic is run
+# STATIC_ROOT = BASE_DIR / 'staticfiles'  # the absolute path to the directory where collectstatic will collect static files for deployment
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',

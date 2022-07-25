@@ -35,6 +35,8 @@ if 'rosetta' in settings.INSTALLED_APPS:
         re_path(r'^rosetta/', include('rosetta.urls'))
     ]
 
-# handler = "app_name.views.function in views.py"
-handler404 = "plants_app.views.page_not_found_404"
-handler500 = "plants_app.views.error_500"
+if not settings.DEBUG:
+    # handler = "app_name.views.function in views.py"
+    handler403 = "plants_app.views.forbidden_403"
+    handler404 = "plants_app.views.page_not_found_404"
+    handler500 = "plants_app.views.error_500"

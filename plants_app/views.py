@@ -9,7 +9,11 @@ from django.views.decorators.http import require_GET, require_POST
 from webpush import send_user_notification
 
 
-def page_not_found_404(request, exception, template_name='404.html'):
+def forbidden_403(request, template_name='403.html'):
+    return render(request, template_name, status=403)
+
+
+def page_not_found_404(request, template_name='404.html'):
     return render(request, template_name, status=404)
 
 
