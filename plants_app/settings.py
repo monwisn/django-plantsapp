@@ -14,7 +14,7 @@ import os
 import environ
 
 import dj_database_url
-import django_heroku
+# import django_heroku
 
 from pathlib import Path
 
@@ -288,4 +288,4 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
-django_heroku.settings(locals())  # to activate django-heroku
+# django_heroku.settings(locals())  # to activate django-heroku
