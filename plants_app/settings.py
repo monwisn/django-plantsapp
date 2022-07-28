@@ -31,8 +31,7 @@ environ.Env.read_env()
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = env("SECRET_KEY")
-SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al'
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # development
@@ -48,7 +47,6 @@ ALLOWED_HOSTS = ["*"]  # don;t use it for production
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', '.ngrok.io']
 
 CSRF_TRUSTED_ORIGINS = ['https://*.ngrok.io', 'https://*.127.0.0.1']
-
 
 # Application definition
 INSTALLED_APPS = [
@@ -89,7 +87,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # add whitenoise exactly here
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',   # add exactly here
+    'django.middleware.locale.LocaleMiddleware',  # add exactly here
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -130,6 +128,8 @@ DATABASES = {
     }
 }
 
+DATABASE_URL = 'postgres://monika_plants_app:xyz123^dd2ded@localhost/plants_app_db'
+
 prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 
@@ -145,7 +145,6 @@ DATABASES['default'].update(prod_db)
 #         'PORT': 5432,
 #     }
 # }
-
 
 
 # Password validation
@@ -166,11 +165,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 WEBPUSH_SETTINGS = {
-   "VAPID_PUBLIC_KEY": "BDcxyHK3YDNBSfLD3znx72PZCh31p18y6no06f4dbsOfysh4vMIbP-4FrXtVo_c6ZcOOH2KZqi7_2DSmDRNoDJ8",
-   "VAPID_PRIVATE_KEY": "EKO42Y5YlevKQVEpNNDIfl6HCDNEaCf-fdGQbHSIsIk",
-   "VAPID_ADMIN_EMAIL": "bartkram11@gmail.com"
+    "VAPID_PUBLIC_KEY": "BDcxyHK3YDNBSfLD3znx72PZCh31p18y6no06f4dbsOfysh4vMIbP-4FrXtVo_c6ZcOOH2KZqi7_2DSmDRNoDJ8",
+    "VAPID_PRIVATE_KEY": "EKO42Y5YlevKQVEpNNDIfl6HCDNEaCf-fdGQbHSIsIk",
+    "VAPID_ADMIN_EMAIL": "bartkram11@gmail.com"
 }
 
 # Internationalization
@@ -236,7 +234,6 @@ STATICFILES_FINDERS = (
 
 # to reduce the size of the static files when they are served (more efficient)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 TEMPLATE_LOADERS = 'django.template.loaders.filesystem.Loader'
 
