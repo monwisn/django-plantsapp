@@ -35,8 +35,8 @@ environ.Env.read_env()
 SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # development
-# DEBUG = False  # production
+# DEBUG = True  # development
+DEBUG = False  # production
 
 # ADMINS = (
 #     ('admin', 'bartkram11@gmail.com'),
@@ -140,7 +140,7 @@ DATABASES = {
 }
 
 
-DATABASE_URL = 'postgres://monika_plants_app:xyz123^dd2ded@localhost/plants_app_db'
+# DATABASE_URL = 'postgres://monika_plants_app:xyz123^dd2ded@localhost/plants_app_db'
 
 prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
