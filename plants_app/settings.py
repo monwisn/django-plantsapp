@@ -31,7 +31,8 @@ environ.Env.read_env()
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+# SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # development
@@ -117,16 +118,27 @@ WSGI_APPLICATION = 'plants_app.wsgi.application'
 
 # postgres database:
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': env("DATABASE_NAME"),
+#         'USER': env("DATABASE_USER"),
+#         'PASSWORD': env("DATABASE_PASSWORD"),
+#         'HOST': env("DATABASE_HOST"),
+#         'PORT': env("DATABASE_PORT"),
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env("DATABASE_NAME"),
-        'USER': env("DATABASE_USER"),
-        'PASSWORD': env("DATABASE_PASSWORD"),
-        'HOST': env("DATABASE_HOST"),
-        'PORT': env("DATABASE_PORT"),
+        'NAME': 'plants_app_db',
+        'USER': 'monika_plants_app',
+        'PASSWORD': 'xyz123^dd2ded',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
+
 
 DATABASE_URL = 'postgres://monika_plants_app:xyz123^dd2ded@localhost/plants_app_db'
 
