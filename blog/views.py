@@ -89,6 +89,7 @@ def post_list(request):
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     files = Images.objects.filter(images=Images.images)
+
     template = 'blog/post_detail.html'
     context = {'post': post, 'files': files}
 
@@ -159,13 +160,20 @@ def new_post(request):
 @login_required
 def edit_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    user = request.user
+    form = PostForm(instance=post)
 
-    if request.method == 'POST':
+
+    if request.method == 'POST' and user.id == post.author.id:
         form = PostForm(request.POST, request.FILES, instance=post)
 
         if form.is_valid():
             post = form.save()
             messages.success(request, 'The blog post has been updated!')
+
+    elif request.method == 'POST' and user.id != post.author.id:
+        messages.warning(request, 'Not your blog post, your must be login as a proper user to edit/delete')
+
     else:
         form = PostForm(instance=post)
 
@@ -181,10 +189,15 @@ def edit_post(request, pk):
 @login_required
 def delete_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
+    user = request.user
+    form = PostForm(instance=post)
+    if request.method == 'POST' and user.id == post.author.id:
         post.delete()
         form = PostForm()
         messages.success(request, 'You have successfully delete the post.')
+
+    elif request.method == 'POST' and user.id != post.author.id:
+        messages.warning(request, 'Not your blog post, your must be login as a proper user to edit/delete')
 
     else:
         form = PostForm(instance=post)
@@ -202,7 +215,7 @@ def delete_post(request, pk):
 def post_list_admin(request):
     post = Post.objects.all()
 
-    pages = pagination(request, post, 5)
+    pages = pagination(request, post, 10)
 
     context = {
         'post_list_admin': pages,

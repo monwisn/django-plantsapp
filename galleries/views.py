@@ -48,6 +48,8 @@ def galleries_list(request):
 def galleries_list_view(request):
     galleries = Gallery.objects.filter(author=request.user).filter(status=Status.PUBLISHED).annotate(
         p_count=Count("photos")).filter(p_count__gt=0)
+    # galleries = Gallery.objects.filter(author=request.user).filter(status=Status.PUBLISHED).annotate(
+    #     p_count=Count("photos")).filter(p_count__gt=0)
     pages = pagination(request, galleries, 4)
 
     return render(request, 'galleries/galleries_list_view.html', {'galleries': pages, 'page_obj': pages})
@@ -88,6 +90,16 @@ def gallery_delete(request, pk):
     return render(request, 'galleries/gallery_delete.html', {'gallery': gallery})
 
 
+@staff_member_required
+def galleries_list_admin(request):
+    galleries = Gallery.objects.all()
+    pages = pagination(request, galleries, 15)
+
+    context = {'galleries_list_admin': galleries,
+               'page_obj': pages}
+    return render(request, 'galleries/galleries_list_admin.html', context)
+
+
 @login_required(login_url='/authentication/login')
 def add_photos(request, gallery_id):
     gallery = Gallery.objects.get(pk=gallery_id)
@@ -101,19 +113,9 @@ def add_photos(request, gallery_id):
                 if f:
                     Photo.objects.create(gallery=gallery, **f)
         messages.success(request, "Your photos have been successfully added to the gallery!")
-        return HttpResponseRedirect(reverse("galleries:add_photos", args=[gallery_id]))
+        return HttpResponseRedirect(reverse("galleries:details", args=[gallery_id]))
 
     return render(request, "galleries/add_photos.html", {"formset": formset, "gallery": gallery, 'form': form})
-
-
-@staff_member_required
-def galleries_list_admin(request):
-    galleries = Gallery.objects.all()
-    pages = pagination(request, galleries, 15)
-
-    context = {'galleries_list_admin': galleries,
-               'page_obj': pages}
-    return render(request, 'galleries/galleries_list_admin.html', context)
 
 
 @login_required(login_url='/authentication/login')
@@ -122,12 +124,29 @@ def photos_view(request, gallery_id):
     # photos = Photo.objects.filter(gallery__author=request.user)
 
     return render(request, "galleries/photos_view.html", {"gallery": gallery})
-    # return render(request, "galleries/photos_view.html", {"gallery": gallery, "photos": pages, 'page_obj': pages})
 
 
-def photo_edit(request):
-    pass
+# @login_required(login_url='/authentication/login')
+def photo_edit(request, pk):
+    photo = get_object_or_404(Photo, pk=pk, )
+    if request.method == 'POST':
+        form = PhotoForm(request.POST, request.FILES, instance=photo)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Photo details have been updated!')
+            return redirect('galleries:list')
+    else:
+        form = PhotoForm(instance=photo)
+
+    return render(request, 'galleries/add_photos.html', {'form': form, 'photo': photo})
 
 
-def photo_delete(request):
-    pass
+@login_required(login_url='/authentication/login')
+def photo_delete(request, pk):
+    photo = get_object_or_404(Photo, pk=pk)
+    if request.method == 'POST':
+        photo.delete()
+        messages.success(request, f'Photo has been successfully deleted from "{photo.gallery.title}" gallery.')
+        return redirect('galleries:list')
+
+    return render(request, 'galleries/photo_delete.html', {'photo': photo})

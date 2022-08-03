@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.mail import BadHeaderError, EmailMultiAlternatives
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template
@@ -15,7 +16,7 @@ from django.views.generic.list import ListView
 
 from authentication.forms import EditRegisterForm
 from plants_app import settings
-from .forms import UserProfileForm, ContactForm, NewsletterUserSignUpForm
+from .forms import UserProfileForm, ContactForm, NewsletterUserSignUpForm, UserDeleteForm
 from .models import UserProfile, NewsletterUser
 
 
@@ -67,7 +68,6 @@ def cookie_banner(request):
 
 
 def home_page(request):
-
     return render(request, 'main/home_page.html')
 
 
@@ -111,7 +111,22 @@ def user_profile(request):
         profile_form = UserProfileForm(instance=request.user.userprofile)
 
     return render(request, 'main/user_profile.html', {'user': request.user, 'register_form': register_form,
+
                                                       'profile_form': profile_form})
+
+
+@login_required
+def delete_user(request):
+    if request.method == 'POST':
+        delete_form = UserDeleteForm(request.POST, instance=request.user)
+        user = request.user
+        user.delete()
+        messages.info(request, 'Your account has been deleted.')
+        return redirect('authentication:register')
+    else:
+        delete_form = UserDeleteForm(instance=request.user)
+
+    return render(request, 'main/delete_user.html', {'delete_form': delete_form})
 
 
 def contact(request):
@@ -249,10 +264,10 @@ def change_language(request):
 # def translate_website(request):
 #     if 'language' in request.GET and request.GET['language']:
 #         language = request.GET['language']
-#         if language in ['en-us', 'pl', 'es']:
+#         if language in ['en', 'pl', 'es']:
 #             if language == 'pl':
 #                 translation.activate(language)
-#             if language == 'en-us':
+#             if language == 'en':
 #                 translation.activate(language)
 #             if language == 'es':
 #                 translation.activate(language)

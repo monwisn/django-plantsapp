@@ -2,8 +2,8 @@ body {
     /*background-color: darkseagreen !important;*/
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center;
     background-attachment: fixed;
-    /*background-position: center center;*/
     width: 1500px;
     height: 888px;
     }
@@ -60,6 +60,13 @@ ul li a:hover {
     /*color: black;*/
     /*font-style: normal;*/
     opacity: .70;
+}
+
+.box2 {
+    background-color: white;
+    /*color: black;*/
+    /*font-style: normal;*/
+    opacity: .90;
 }
 
 .special-card {

@@ -12,10 +12,10 @@
     <div class="row">
         <div class="col-md-5">
             <div class="card card-body">
-                <p align="center">Are you sure you want to delete: "{{ gallery }}"?</p>
+                <p style="text-align: center">Are you sure you want to delete: "{{ gallery }}"?</p>
                 <form action="{% url 'galleries:gallery_delete' gallery.id  %}" method="POST">
                     {% csrf_token %}
-                    <p align="center">
+                    <p style="text-align: center">
                         <input class="btn btn-primary" type="submit" value="Confirm">
                         <a class="btn btn-danger" href="{% url 'galleries:list' %}">Cancel</a>
                     </p>

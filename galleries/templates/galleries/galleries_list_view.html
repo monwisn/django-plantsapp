@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load thumbnail %}
 {% load crispy_forms_tags %}
 {% load crispy_forms_filters %}
@@ -10,9 +11,13 @@
         {% for gallery in page_obj %}
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="card h-100">
-                    {% thumbnail gallery.photos.first.image "300x300" crop="center" as im %}
-                        <img class="card-img-top" src="{{ im.url }}" alt="">
-                    {% endthumbnail %}
+                    {% if gallery.photos.first.status == 2 %}
+                        {% thumbnail gallery.photos.first.image "300x300" crop="center" as im %}
+                            <img class="card-img-top" src="{{ im.url }}" alt="">
+                        {% endthumbnail %}
+                    {% else %}
+                        <img class="card-img-top" width="300" height="300" src="{% static "main/img/gallery-cover-photo.jpg" %}" alt="cover-photo">
+                    {% endif %}
                     <div class="card-body">
                         <h4 class="card-title text-center">{{ gallery.title }}</h4>
                     </div>

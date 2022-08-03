@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 
 from .models import UserProfile, NewsletterUser
 
@@ -34,3 +35,9 @@ class NewsletterUserSignUpForm(forms.ModelForm):
             email = self.cleaned_data.get('email')
 
             return email
+
+
+class UserDeleteForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = []   # delete form has only submit button, empty "fields" list still necessary

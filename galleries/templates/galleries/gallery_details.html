@@ -9,9 +9,17 @@
             </b>
         </div>
     {% else %}
-        <div style="text-align: right; font-size: medium">
-            <a href="{% url 'galleries:list' %}"><button class="btn btn-secondary">Back to list</button></a>
-        </div><br>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                {{ message|striptags|safe|linebreaksbr }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div style="text-align: right; font-size: medium">
+        <a href="{% url 'galleries:list' %}"><button class="btn btn-secondary">Back to list</button></a>
+    </div><br>
         <div class="card card-body">
             <h2><b>{{ gallery.title }}</b></h2><hr>
 {#            {% if user.id == gallery.author.id %}#}

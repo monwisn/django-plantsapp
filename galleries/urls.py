@@ -14,8 +14,8 @@ urlpatterns = [
     path('gallery-delete/<int:pk>', gallery_delete, name='gallery_delete'),
     path('galleries-list-admin/', galleries_list_admin, name='galleries_list_admin'),
     path('galleries-list-view/', galleries_list_view, name='galleries_list_view'),
-
     path('galleries-list-view/<int:gallery_id>', photos_view, name='photos_view'),
+
     path('photo-edit/<int:pk>', photo_edit, name='photo_edit'),
     path('photo-delete/<int:pk>', photo_delete, name='photo_delete'),
 ]

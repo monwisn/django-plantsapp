@@ -14,9 +14,9 @@
 
     <!--User Bio- profile form-->
     <br><br>
-	<div class="container mx-auto" align="center">
-	    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-3 pb-4 special-card">
+	<div class="container mx-auto" style="text-align: center">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-3 pb-4 special-card">
                 <div class="card p-4">
                     <h4 class="card-title font-weight-bold text-center">{% trans 'Profile information' %}</h4>
 			      	<hr>
@@ -28,7 +28,7 @@
                             <p>{{ user.userprofile.bio }} </p>
                         <p class="text-muted mb-0" style="font-size: 12px">Location:</p>
 				  		    <p>{{ user.userprofile.location }} </p>
-                        <p class="text-muted mb-0" style="font-size: 12px">Your birth date:</p>
+                        <p class="text-muted mb-0" style="font-size: 12px">Your birthdate:</p>
                             <p>{{ user.userprofile.birth_date }}</p>
                          <p class="text-muted mb-0" style="font-size: 12px">Joined:</p>
                             <p>{{ user.userprofile.join_date }}</p>
@@ -53,6 +53,15 @@
 				  		<p>{{ user.email }} </p>
                     </div>
                     <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#profileModal-register">{% trans 'Edit Your information' %}</button>
+                </div>
+            </div>
+
+    <!-- User Account-->
+            <div class="col-sm-12 col-md-12 col-lg-3 pb-4 special-card">
+                <div class="card p-4">
+                    <h4 class="card-title font-weight-bold text-center">{% trans 'Delete user account' %}</h4>
+                    <hr>
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#profileModal-account">{% trans 'Delete account' %}</button>
                 </div>
             </div>
 
@@ -108,7 +117,31 @@
             </div>
         </div>
     </div>
-{% endblock %}
 
+    <!--Delete User Account-->
+    <div class="col-sm-10 col-md-10 col-lg-8 pb-4">
+        <div class="modal fade" tabindex="-1" id="profileModal-account" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center">{% trans 'Delete Account' %}:</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="text-align: center">
+                            {% trans 'Are you sure you want to delete your account?' %}
+                            {% trans 'If you delete account your profile will be deleted as well as all your blog posts.' %}
+                        </p><hr>
+                        <div class="form-group">
+                            <a href="{% url 'main:delete_user' %}"><button class="btn btn-danger">Delete</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+{% endblock %}
 
 

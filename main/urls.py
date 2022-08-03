@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import home_page, about, create_user_profile, user_profile, contact, \
     newsletter_signup, newsletter_unsubscribe, newsletter_users, newsletter_user_delete, \
-    change_language, policy, accept_cookie_policy, cookie_banner
+    change_language, policy, accept_cookie_policy, cookie_banner, delete_user
 
 # from .views import NewsletterUserListView, NewsletterUserDetailView
 # from .api_views import CreateNewsletterUserApiView
@@ -13,6 +13,7 @@ urlpatterns = [
     path('about/', about, name='about'),
     path('user/create/', create_user_profile, name='create_user_profile'),
     path('user/profile/', user_profile, name='user_profile'),
+    path('delete-user/', delete_user, name='delete_user'),
     path('contact/', contact, name='contact'),
     path('newsletter/sign-up/', newsletter_signup, name='newsletter_sign_up'),
     path('newsletter/unsubscribe/', newsletter_unsubscribe, name='newsletter_unsubscribe'),

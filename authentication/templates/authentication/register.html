@@ -16,6 +16,7 @@
     <form method="POST" class="form-group">
         {% csrf_token %}
         {{ register_form|crispy }}
+        <br>
         <button type="submit" class="btn btn-success">Register</button>
         <div style="text-align: right; font-size: medium">
             Already have an account? Login here:

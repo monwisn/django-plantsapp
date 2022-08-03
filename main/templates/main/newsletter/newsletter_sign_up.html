@@ -22,7 +22,9 @@
                     {% csrf_token %}
                     {{ form|crispy }}
                     {{ values|linebreaks }}
-                    <button class="btn btn-primary" type="submit" >Subscribe</button>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit" >Subscribe</button>
+                    </div>
                 </form>
                 {% endif %}
             </div>

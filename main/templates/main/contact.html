@@ -28,7 +28,9 @@
             {% csrf_token %}
             {{ form|crispy }}
             {{ values|linebreaks }}
-            <button class="btn btn-primary" type="submit">Send</button>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit">Send</button>
+            </div>
         </form>
     </div>
 {% endblock %}

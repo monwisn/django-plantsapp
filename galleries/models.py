@@ -5,9 +5,8 @@ from tinymce import models as tinymce_models
 
 
 class Status(models.IntegerChoices):
-    NEW = 1, "New"
-    HIDE = 2, "Hide"
-    PUBLISHED = 3, "Published"
+    HIDE = 1, "Hide"
+    PUBLISHED = 2, "Published"
 
 
 class Gallery(Timestamped, SlugMixin):
@@ -50,7 +49,6 @@ class Photo(Timestamped, SlugMixin):
     status = models.PositiveSmallIntegerField(default=Status.PUBLISHED, choices=Status.choices)
     send_reminder = models.BooleanField(default=False, verbose_name='Send reminder to email')
     slug = models.SlugField(max_length=100, unique=True)
-
 
     def __str__(self):
         return self.title

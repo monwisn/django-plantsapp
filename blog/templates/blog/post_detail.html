@@ -33,7 +33,7 @@
         {% if post.image %}
             {% thumbnail post.image "x320" as im %}
                 <p style="text-align:center"><a href="{{ post.image.url }}">
-                    <img src="{{ im.url }}" alt="" title="image for post: {{ post.pk }}"/></a>
+                    <img style="border:3px solid black;" src="{{ im.url }}" alt="" title="image for post: {{ post.pk }}"/></a>
                 </p>
             {% endthumbnail %}
         {% endif %}
@@ -53,7 +53,7 @@
                 {% thumbnail image.images "x320" as img %}
                     <p style="text-align:center">
                         <a href="{{ image.images.url }}">
-                            <img src="{{ img.url }}" alt="images"/>
+                            <img style="border:3px solid black;" src="{{ img.url }}" alt="images"/>
                         </a>
                     </p>
                 {% endthumbnail %}

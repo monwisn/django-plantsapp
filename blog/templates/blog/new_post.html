@@ -14,7 +14,7 @@
     {% with url_name=request.resolver_match.url_name %}
         {% if url_name == 'new_post' %}
             <h4><b>Add a new post</b></h4>
-        {% elif url_name == 'edit_post' %}
+        {% elif url_name == 'edit_post'%}
             <h4><b>Edit post: </b>{{ post.title }}</h4>
         {% else %}
             <h4>Delete post: {{ post.title }}</h4>
@@ -29,6 +29,7 @@
 {#            {{ form.media }}  # we can add images to text, bold, italics text etc #}
         </div>
         {{ values|linebreaks }}
+        <div class="modal-footer">
         {% with url_name=request.resolver_match.url_name %}
             {% if url_name == 'new_post' %}
                 <button class="btn btn-primary" type="submit">Save</button>
@@ -41,6 +42,7 @@
                 <a class="btn btn-dark" href="{% url 'blog:blog_list' %}" role="button">Back</a>
             {% endif %}
         {% endwith %}
+        </div>
     </form>
     </div>
     {{ values|linebreaks }}

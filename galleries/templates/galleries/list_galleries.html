@@ -33,13 +33,13 @@
             </thead>
             <tbody>
             {% for item in gallery %}
-                <tr align="center">
+                <tr style="text-align: center">
                     <td>{{ item.title }}</td>
                     <td>{{ item.photos.count }}</td>
                     <td>{{ item.created }}</td>
                     <td>{{ item.updated }}</td>
                     <td>{{ item.get_status_display }}</td>
-                    {% if item.status == 2 %}
+                    {% if item.status == 1 %}
                         <td><button class="btn btn-info" disabled>Gallery is hidden</button></td>
                     {% else %}
                         <td><a href="{% url 'galleries:details' gallery_id=item.pk %}"><button class="btn btn-info">Gallery details</button></a></td>

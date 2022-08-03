@@ -20,6 +20,8 @@ from .forms import RegisterForm, EditRegisterForm
 from .token import account_activation_token
 
 
+# registration without an activation link
+
 # def register(request):
 #     if request.method == "POST":
 #         form = RegisterForm(request.POST)

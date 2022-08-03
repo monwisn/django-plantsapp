@@ -119,7 +119,6 @@ def control_newsletter_edit(request, pk):
     return render(request, 'control_panel/control_newsletter.html', {'form': form})
 
 
-
 def control_newsletter_delete(request, pk):
     newsletter = get_object_or_404(Newsletter, pk=pk)
     if request.method == 'POST':

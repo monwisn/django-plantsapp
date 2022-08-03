@@ -24,7 +24,7 @@
                                 {% if gallery_image.is_published %}
                                     {% thumbnail gallery_image.image "x300" as im %}
                                         <a href="{{ gallery_image.image.url }}">
-                                            <img src="{{ im.url }}" alt="" title=""/>
+                                            <img style="border:3px solid black;" src="{{ im.url }}" alt="" title=""/>
                                         </a>
                                     {% endthumbnail %}
                                 {% endif %}
