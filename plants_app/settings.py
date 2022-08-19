@@ -15,6 +15,8 @@ import environ
 
 import dj_database_url
 import django_heroku
+import cloudinary
+import cloudinary_storage
 
 from pathlib import Path
 
