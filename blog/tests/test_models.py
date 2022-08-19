@@ -1,6 +1,9 @@
 from django.test import TestCase
 from django.template.defaultfilters import slugify
+from django.utils import timezone
+
 from blog.models import Post, Category
+from main.models import NewsletterUser
 
 
 class ModelsTestCase(TestCase):
@@ -67,3 +70,5 @@ class CategoryModelTest(TestCase):
     def test_get_absolute_url_fail(self):
         category = Category.objects.get(id=1)
         self.assertEqual(category.get_absolute_url(), '/blog/category_detail/1')
+
+

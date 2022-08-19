@@ -4,8 +4,55 @@
 
 {% block title %}Welcome site{% endblock %}
 {% block content %}
+
     <div style="text-align: center; font-size: large">
         <h4><b>{% trans 'Welcome to Watering Plants Application' %}</b></h4>
+    </div>
+
+    {#    <!-- weather section -->#}
+    <div class="col-sm-12 col-md-12 col-lg-3 pb-4 special-card">
+        <div class="card bold-card p-4">
+            <h4 class="card-title font-weight-bold text-center">{% trans 'Weather info' %}</h4>
+            <hr>
+            <form method="POST" class="form-inline">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class='form-control' name='city' placeholder="Search city">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-outline-primary">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+            {{ values|linebreaks }}
+            {% if weather.icon and weather.datetime and weather.city and weather.temperature and weather.feels_like and weather.description %}
+                <article class="media">
+                    <div class="media-left">
+                        <figure class="image is-60x60">
+                            <img src="https://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Image">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <span class="datetime">{{ weather.datetime }}</span>
+                                <br>
+                                <span class="title">{{ weather.city|capfirst }}, {{ weather.country_code }}</span>
+                                {{ values|linebreaks }}
+                                <span class="subtitle"><b>{{ weather.temperature }}°C</b></span>
+                                <br> Feels like {{ weather.feels_like }}°C ({{ weather.description }})
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div style="text-align: center; font-size: large">
+{#        <h4><b>{% trans 'Welcome to Watering Plants Application' %}</b></h4>#}
         <br>
         <div id="slider" class="carousel slide" data-ride="carousel" data-interval="4000" align="center">
             <ol class="carousel-indicators">
@@ -28,18 +75,6 @@
                     <img class="d-block w-60" src="{% static 'main/img/home_page4.png' %}" alt="Fourth slide" width="40%">
                 </div>
             </div>
-{#            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">#}
-{#                <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
-{#                <span class="sr-only">Previous</span>#}
-{#            </a>#}
-{#            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">#}
-{#                <span class="carousel-control-next-icon" aria-hidden="true"></span>#}
-{#                <span class="sr-only">Next</span>#}
-{#            </a>#}
-{##}
-{#        <div id="slider">#}
-{#            <img src="{% static "main/img/home_page1.png" %}" alt="logo" width="60%">#}
-{#        </div><br>#}
         </div><br>
         <a href="https://www.facebook.com/"><i class="fa fa-social fa-facebook" aria-hidden="true"></i></a>
         <a href="https://www.instagram.com/"><i class="fa fa-social fa-instagram" aria-hidden="true"></i></a>
@@ -48,16 +83,16 @@
         <a href="https://youtube.com/"><i class="fa fa-social fa-youtube" aria-hidden="true"></i></a>
     </div>
         {{ value|linebreaks }}
-        <footer>
-            <div style="text-align: center; font-size: medium">
-                <button type="button" class="btn button-pill">
-                    <a href="{% url 'main:newsletter_sign_up' %}" class="nav-link">Newsletter</a>
-                </button>
-                <button type="button" class="btn button-pill">
-                    <a href="{% url 'main:policy' %}" class="nav-link">Cookies policy</a>
-                </button>
-            </div>
-        </footer><br>
+    <footer>
+        <div style="text-align: center; font-size: medium">
+            <button type="button" class="btn button-pill">
+                <a href="{% url 'main:newsletter_sign_up' %}" class="nav-link">Newsletter</a>
+            </button>
+            <button type="button" class="btn button-pill">
+                <a href="{% url 'main:policy' %}" class="nav-link">Cookies policy</a>
+            </button>
+        </div>
+    </footer><br>
 {#        <footer class="social-footer">#}
 {#            <ul class="menu simple">#}
 {#                <li><a href="https://www.facebook.com/"><i class="fa fa-social fa-facebook" aria-hidden="true"></i></a></li>#}

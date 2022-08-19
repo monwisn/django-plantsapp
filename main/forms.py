@@ -40,4 +40,5 @@ class NewsletterUserSignUpForm(forms.ModelForm):
 class UserDeleteForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = []   # delete form has only submit button, empty "fields" list still necessary
+        fields = []   # delete form has only submitted button, empty "fields" list still necessary
+

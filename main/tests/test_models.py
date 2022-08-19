@@ -1,5 +1,4 @@
 from unittest import TestCase
-
 from django.utils import timezone
 
 from main.models import NewsletterUser
@@ -18,10 +17,10 @@ class NewsletterUserModelTest(TestCase):
 
 class NewsletterUserTest(TestCase):
 
-    def create_newsletter_user(self, email="test@user.com", joined=timezone.now()):
+    def test_should_create_newsletter_user(self, email="test@user.com", joined=timezone.now()):
         return NewsletterUser.objects.create(email=email, joined=joined)
 
     def test_newsletter_user_creation(self):
-        newsletter_user = self.create_newsletter_user()
+        newsletter_user = self.test_should_create_newsletter_user()
         self.assertTrue(isinstance(newsletter_user, NewsletterUser))
-        self.assertEqual(newsletter_user.__unicode__(), newsletter_user.email)
+        self.assertEqual(str(newsletter_user), newsletter_user.email)

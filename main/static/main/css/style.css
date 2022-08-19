@@ -15,6 +15,69 @@ textarea {
   display:block;
 }
 
+section {
+  display: block;
+}
+
+.media {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  text-align: left;
+}
+
+.media-left {
+  margin-right: 1rem;
+}
+
+.media-content {
+  -ms-flex-preferred-size: auto;
+      flex-basis: auto;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  -ms-flex-negative: 1;
+      flex-shrink: 1;
+  overflow: auto;
+  text-align: left;
+}
+
+.image.is-60x60 {
+  height: 60px;
+  width: 60px;
+}
+
+.subtitle {
+  color: #4a4a4a;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.title {
+  color: #363636;
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 1.125;
+}
+
+.title,
+.subtitle {
+  word-break: break-word;
+}
+
+.datetime {
+    /*display: block;*/
+    font-size: medium;
+}
+
+.bold-card {
+    border: 1px solid dimgrey;
+}
+
 .dropdown-menu {
     /*background-color: transparent;*/
     background-color: rgba(255, 255, 255, .7) !important;
@@ -42,6 +105,7 @@ textarea {
     min-width: 15em !important;
     width: 100% !important;
 }
+
 ul {
     list-style-type: none;
 }
@@ -144,7 +208,6 @@ ul li a:hover {
   background: #bb0000;
   color: white;
 }
-
 
 .button-pill {
   background-color: #fefefe;

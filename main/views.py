@@ -1,4 +1,6 @@
 import datetime
+
+import requests
 from django import template
 from django.conf import settings
 from django.contrib import messages
@@ -68,7 +70,29 @@ def cookie_banner(request):
 
 
 def home_page(request):
-    return render(request, 'main/home_page.html')
+    if request.method == 'POST':
+        city = request.POST['city']  # use your own api_key place api_key in place of appid ="your_api_key_here"
+        lang = 'en'
+        url = f'https://api.openweathermap.org/data/2.5/weather?q={city}' \
+              f'&units=metric&appid=84459d8299db831d56abee888bea5970&lang={lang}'
+        current_datetime = datetime.datetime.now().strftime("%B %d,  %I:%M %p")
+        city_weather = requests.get(url).json()
+
+        weather = {
+            'city': city_weather['name'],
+            'country_code': city_weather['sys']['country'],
+            'temperature': round(city_weather['main']['temp']),
+            'description': city_weather['weather'][0]['description'],
+            'feels_like': round(city_weather['main']['feels_like']),
+            'icon': city_weather['weather'][0]['icon'],
+            'datetime': current_datetime
+        }
+        # print(weather)
+    else:
+        weather = {}
+
+    # return render(request, 'main/weather.html', {'weather': weather})
+    return render(request, 'main/home_page.html', {'weather': weather})
 
 
 def about(request):
@@ -97,21 +121,23 @@ def user_profile(request):
     if request.method == 'POST':
         register_form = EditRegisterForm(request.POST, instance=request.user)
         profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+
         if register_form.is_valid():
             register_form.save()
             messages.success(request, 'Your account information has been successfully updated!')
         elif profile_form.is_valid():
             profile_form.save()
             messages.success(request, 'Your profile has been successfully updated!')
+
         else:
             messages.error(request, 'Something went wrong! (You may have entered incorrect data).')
         return redirect('main:user_profile')
+
     else:
         register_form = EditRegisterForm(instance=request.user)
         profile_form = UserProfileForm(instance=request.user.userprofile)
 
     return render(request, 'main/user_profile.html', {'user': request.user, 'register_form': register_form,
-
                                                       'profile_form': profile_form})
 
 
