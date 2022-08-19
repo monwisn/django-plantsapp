@@ -40,8 +40,8 @@ SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True  # development
-# DEBUG = False  # production
+# DEBUG = True  # development
+DEBUG = False  # production
 
 # ADMINS = (
 #     ('admin', 'bartkram11@gmail.com'),
@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'jazzmin',
     'dal',
     'dal_select2',
+    'cloudinary_storage',
     'whitenoise.runserver_nostatic',  # above the built-in staticfiles
     'django.contrib.admin',
     'django.contrib.auth',
@@ -77,6 +78,7 @@ INSTALLED_APPS = [
     'translation_manager',
     'rosetta',
     'webpush',
+    'cloudinary',
 
     'main.apps.MainConfig',
     'authentication.apps.AuthenticationConfig',
@@ -254,6 +256,14 @@ TEMPLATE_LOADERS = 'django.template.loaders.filesystem.Loader'
 
 # To serve files directly from their original locations
 WHITENOISE_USE_FINDERS = True
+
+# cloudinary to serve media files
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'hwsaxtipv',
+    'API_KEY': '862665951215524',
+    'API_SECRET': 'DG3rhdnRiyOW1_LhsscuadKCsRY',
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

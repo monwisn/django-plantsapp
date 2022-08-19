@@ -138,11 +138,14 @@ def photo_edit(request):
         photo_form = PhotosFormSet(request.POST, request.FILES or None)
 
         if form.is_valid():
-            form.save()
+            for form in photo_form:
+                print(form.cleaned_data)
+            # form.save()
             messages.success(request, 'Photo details have been updated!')
             return redirect('galleries:list')
     else:
         form = PhotoForm()
+        photo_form = PhotosFormSet()
 
     return render(request, 'galleries/add_photos.html', {'form': form})
 
