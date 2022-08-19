@@ -61,7 +61,6 @@ INSTALLED_APPS = [
     'jazzmin',
     'dal',
     'dal_select2',
-    'cloudinary_storage',
     'whitenoise.runserver_nostatic',  # above the built-in staticfiles
     'django.contrib.admin',
     'django.contrib.auth',
@@ -81,6 +80,7 @@ INSTALLED_APPS = [
     'rosetta',
     'webpush',
     'cloudinary',
+    'cloudinary_storage',
 
     'main.apps.MainConfig',
     'authentication.apps.AuthenticationConfig',
