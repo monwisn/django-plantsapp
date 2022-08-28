@@ -127,25 +127,21 @@ def photos_view(request, gallery_id):
 
 
 @login_required(login_url='/authentication/login')
-def photo_edit(request):
-    PhotosFormSet = modelformset_factory(PhotoForm, extra=1)
-
-    form = PhotoForm(request.POST, request.FILES or None)
-    photo_form = PhotosFormSet(request.POST, request.FILES or None)
+def photo_edit(request, pk):
+    photo = Photo()
+    photo_form = PhotoForm(instance=photo)
 
     if request.method == 'POST':
         form = PhotoForm(request.POST, request.FILES or None)
-        photo_form = PhotosFormSet(request.POST, request.FILES or None)
 
         if form.is_valid():
-            for form in photo_form:
+            for f in photo_form:
+                f = form.save(commit=False)
+                f.save()
                 print(form.cleaned_data)
             # form.save()
             messages.success(request, 'Photo details have been updated!')
             return redirect('galleries:list')
-    else:
-        form = PhotoForm()
-        photo_form = PhotosFormSet()
 
     return render(request, 'galleries/add_photos.html', {'form': form})
 

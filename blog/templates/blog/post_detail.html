@@ -71,7 +71,7 @@
                     <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary">Like</button>
                 {% endif %}
             {% else %}
-                <small>You must be <a href="{% url 'register:login' %}">logged in </a>to like</small>
+                <small>You must be <a href="{% url 'authentication:login' %}">logged in </a>to like</small>
             {% endif %}
             - {{ post.num_likes }} Likes
         </form>
