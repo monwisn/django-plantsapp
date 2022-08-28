@@ -51,8 +51,8 @@ DEBUG = True  # development
 #
 # MANAGERS = ADMINS
 
-ALLOWED_HOSTS = ["*"]  # don't use it for production
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', '.ngrok.io']
+# ALLOWED_HOSTS = ["*"]  # don't use it for production
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', '.ngrok.io']
 
 CSRF_TRUSTED_ORIGINS = ['https://*.ngrok.io', 'https://*.127.0.0.1']
 
@@ -137,6 +137,7 @@ WSGI_APPLICATION = 'plants_app.wsgi.application'
 #         'PORT': env("DATABASE_PORT"),
 #     }
 # }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -153,7 +154,6 @@ prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 
 # Database for Docker:
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -313,6 +313,3 @@ MESSAGE_TAGS = {
 }
 
 django_heroku.settings(locals())  # to activate django-heroku
-
-
-######
