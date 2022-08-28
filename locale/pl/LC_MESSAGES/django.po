@@ -79,5 +79,10 @@ msgstr ""
 "Spowoduje to trwałe usunięcie Twojego profilu i wszelkich wygenerowanych "
 "przez Ciebie treści. Potwierdź usunięcie konta."
 
+#: .\main\templates\main\home_page.html:9
 msgid "Welcome to Watering Plants Application"
 msgstr "Witaj w Aplikacji do Podlewania Roślin"
+
+#: .\main\templates\main\home_page.html:15
+msgid "Weather Info"
+msgstr "Informacje Pogodowe"
