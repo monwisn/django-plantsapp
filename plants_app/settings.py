@@ -51,8 +51,8 @@ DEBUG = False  # production
 #
 # MANAGERS = ADMINS
 
-# ALLOWED_HOSTS = ["*"]  # don't use it for production
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', '.ngrok.io']
+ALLOWED_HOSTS = ["*"]  # don't use it for production
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', '.ngrok.io']
 
 CSRF_TRUSTED_ORIGINS = ['https://*.ngrok.io', 'https://*.127.0.0.1']
 
