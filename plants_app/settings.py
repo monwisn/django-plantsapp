@@ -42,8 +42,8 @@ SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True  # development
-# DEBUG = False  # production
+# DEBUG = True  # development
+DEBUG = False  # production
 
 # ADMINS = (
 #     ('admin', 'bartkram11@gmail.com'),
@@ -54,7 +54,7 @@ DEBUG = True  # development
 # ALLOWED_HOSTS = ["*"]  # don't use it for production
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', '.ngrok.io']
 
-CSRF_TRUSTED_ORIGINS = ['https://*.ngrok.io', 'https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://*.ngrok.io', 'https://*.127.0.0.1', 'https://*.herokuapp.com']
 
 # Application definition
 INSTALLED_APPS = [

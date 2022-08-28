@@ -240,7 +240,7 @@ def send_email_if_new_post(form):
     for sub in subscribers:
         try:
             msg = EmailMultiAlternatives(title, text_content, from_email, [sub.email],
-                                         headers={'Reply-To': 'bartkram11@mgail.com'})
+                                         headers={'Reply-To': 'bartkram11@gmail.com'})
             msg.attach_alternative(html_content, 'text/html')
             msg.send()
 

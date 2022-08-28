@@ -170,7 +170,7 @@ def password_reset(request):
                     html_content = htmltemp.render(content)
                     try:
                         msg = EmailMultiAlternatives(subject, text_content, 'bartkram11@gmail.com', [user.email],
-                                                     headers={'Reply-To': 'bartkram11@mgail.com'})
+                                                     headers={'Reply-To': 'bartkram11@gmail.com'})
                         msg.attach_alternative(html_content, 'text/html')
                         msg.send()
                     except BadHeaderError:
