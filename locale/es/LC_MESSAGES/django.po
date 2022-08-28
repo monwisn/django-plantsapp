@@ -84,5 +84,5 @@ msgid "Welcome to Watering Plants Application"
 msgstr "Bienvenido a la Aplicación de Riego de Plantas"
 
 #: .\main\templates\main\home_page.html:15
-msgid "Weather Info"
-msgstr "Información Meteorológica"
+msgid "Weather info"
+msgstr "Información meteorológica"
