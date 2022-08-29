@@ -51,8 +51,8 @@ DEBUG = False  # production
 #
 # MANAGERS = ADMINS
 
-# ALLOWED_HOSTS = ["*"]  # don't use it for production
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', '.ngrok.io']
+ALLOWED_HOSTS = ["*"]  # don't use it for production
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', '.ngrok.io']
 
 CSRF_TRUSTED_ORIGINS = ['https://*.ngrok.io', 'https://*.127.0.0.1', 'https://*.herokuapp.com']
 
@@ -154,6 +154,7 @@ prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 
 # Database for Docker:
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -234,16 +235,16 @@ STATIC_URL = '/static/'  # is the URL location of static files located in STATIC
 MEDIA_URL = '/media/'
 
 if DEBUG:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main/static'), ]
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main/static'), ]  # tells Django where to look for static files in a Django project
+
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'main/static')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'main/static')   # the absolute path to the directory where collectstatic will collect static files for deployment
+
     # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# STATICFILES_DIRS = [BASE_DIR / 'main/static'] # tells Django where to look for static files in a Django project
-# STATIC_ROOT = BASE_DIR / 'staticfiles'  # the absolute path to the directory where collectstatic will collect static files for deployment
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
