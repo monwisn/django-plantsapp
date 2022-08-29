@@ -51,8 +51,8 @@ DEBUG = False  # production
 #
 # MANAGERS = ADMINS
 
-ALLOWED_HOSTS = ["*"]  # don't use it for production
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', '.ngrok.io']
+# ALLOWED_HOSTS = ["*"]  # don't use it for production
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', '.ngrok.io']
 
 CSRF_TRUSTED_ORIGINS = ['https://*.ngrok.io', 'https://*.127.0.0.1', 'https://*.herokuapp.com']
 
@@ -234,15 +234,16 @@ TRANSLATIONS_HINT_LANGUAGE = 'en'
 STATIC_URL = '/static/'  # is the URL location of static files located in STATIC_ROOT
 MEDIA_URL = '/media/'
 
-if DEBUG:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main/static'), ]  # tells Django where to look for static files in a Django project
+# if DEBUG:
+#     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main/static'), ]  # tells Django where to look for static files in a Django project
+#
+# else:
+#     STATIC_ROOT = os.path.join(BASE_DIR, 'main/static')   # the absolute path to the directory where collectstatic will collect static files for deployment
 
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'main/static')   # the absolute path to the directory where collectstatic will collect static files for deployment
 
-    # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main/static'), ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'main/static')
 
-# MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
