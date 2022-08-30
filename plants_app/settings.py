@@ -29,9 +29,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env()
 
-# os.environ['DATABASE_URL'] = 'postgres://monika_plants_app:xyz123^dd2ded@localhost/plants_app_db'
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -42,8 +39,8 @@ SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-# DEBUG = True  # development
-DEBUG = False  # production
+DEBUG = True  # development
+# DEBUG = False  # production
 
 ADMINS = (
     ('admin', 'bartkram11@gmail.com'),
@@ -257,12 +254,13 @@ TEMPLATE_LOADERS = 'django.template.loaders.filesystem.Loader'
 # To serve files directly from their original locations
 WHITENOISE_USE_FINDERS = True
 
-# cloudinary to serve media files
+# Cloudinary to serve media files
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'hwsaxtipv',
     'API_KEY': '862665951215524',
     'API_SECRET': 'DG3rhdnRiyOW1_LhsscuadKCsRY',
 }
+
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
@@ -310,43 +308,5 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
-
- # Debugging in heroku live
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': ('%(asctime)s [%(process)d] [%(levelname)s] ' +
-                       'pathname=%(pathname)s lineno=%(lineno)s ' +
-                       'funcname=%(funcName)s %(message)s'),
-            'datefmt': '%Y-%m-%d %H:%M:%S'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        }
-    },
-    'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'logging.NullHandler',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        }
-    },
-    'loggers': {
-        'testlogger': {
-            'handlers': ['console'],
-            'level': 'INFO',
-        }
-    }
-}
-
-DEBUG_PROPAGATE_EXCEPTIONS = True
-COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
-
-
-django_heroku.settings(locals())  # to activate django-heroku
+# To activate django-heroku
+django_heroku.settings(locals())

@@ -2,7 +2,7 @@ from django import template
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail, EmailMultiAlternatives, BadHeaderError
+from django.core.mail import EmailMultiAlternatives, BadHeaderError
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -71,7 +71,7 @@ class SearchPostView(ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_backends = (SearchFilter, DjangoFilterBackend)
-    search_fields = ('title', 'description')  # '^' starts-with search, '=' exact matches
+    search_fields = ('title', 'description')
     pagination_class = PageNumberPagination
 
 
