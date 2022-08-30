@@ -45,11 +45,11 @@ SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al
 # DEBUG = True  # development
 DEBUG = False  # production
 
-# ADMINS = (
-#     ('admin', 'bartkram11@gmail.com'),
-# )
-#
-# MANAGERS = ADMINS
+ADMINS = (
+    ('admin', 'bartkram11@gmail.com'),
+)
+
+MANAGERS = ADMINS
 
 # ALLOWED_HOSTS = ["*"]  # don't use it for production
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', '.ngrok.io']
@@ -234,15 +234,11 @@ TRANSLATIONS_HINT_LANGUAGE = 'en'
 STATIC_URL = '/static/'  # is the URL location of static files located in STATIC_ROOT
 MEDIA_URL = '/media/'
 
-# if DEBUG:
-#     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main/static'), ]  # tells Django where to look for static files in a Django project
-#
-# else:
-#     STATIC_ROOT = os.path.join(BASE_DIR, 'main/static')   # the absolute path to the directory where collectstatic will collect static files for deployment
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main/static'), ]  # tells Django where to look for static files in a Django project
 
-
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main/static'), ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'main/static')
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'main/static')   # the absolute path to the directory where collectstatic will collect static files for deployment
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -255,6 +251,8 @@ STATICFILES_FINDERS = (
 
 # to reduce the size of the static files when they are served (more efficient)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 TEMPLATE_LOADERS = 'django.template.loaders.filesystem.Loader'
 
