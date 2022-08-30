@@ -1,3 +1,4 @@
+from cloudinary.models import CloudinaryField
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
@@ -40,8 +41,10 @@ class Post(Timestamped, SlugMixin):
     place = models.CharField(max_length=100, default='Gdansk')
     category = models.ForeignKey(Category, default='new', on_delete=models.SET_DEFAULT)
     slug = models.SlugField(max_length=200, unique=True)
-    file = models.FileField(upload_to='blog/files/', blank=True, null=True)
-    image = models.ImageField(upload_to='blog/images/%Y/%m/%d/')
+    # file = models.FileField(upload_to='blog/files/', blank=True, null=True)
+    file = CloudinaryField(blank=True, null=True)
+    image = CloudinaryField('Image', resource_type="image", format='jpg')
+    # image = models.ImageField(upload_to='blog/images/%Y/%m/%d/')
     image_width = models.IntegerField(blank=True, null=True, editable=False)
     status = models.CharField(max_length=10, default='Draft', choices=STATUS_CHOICES)
     likes = models.ManyToManyField(User, related_name='likes')
@@ -64,5 +67,6 @@ class Post(Timestamped, SlugMixin):
 
 class Images(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images', default=None)
-    images = models.ImageField(upload_to='blog/images_all/', null=True, blank=True)
+    images = CloudinaryField(null=True, blank=True)
+    # images = models.ImageField(upload_to='blog/images_all/', null=True, blank=True)
 

@@ -231,7 +231,7 @@ TRANSLATIONS_HINT_LANGUAGE = 'en'
 STATIC_URL = '/static/'  # is the URL location of static files located in STATIC_ROOT
 MEDIA_URL = '/media/'
 
-if not DEBUG:
+if DEBUG:
     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main/static'), ]  # tells Django where to look for static files in a Django project
 
 else:
