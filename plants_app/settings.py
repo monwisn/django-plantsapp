@@ -247,8 +247,8 @@ STATICFILES_FINDERS = (
 )
 
 # to reduce the size of the static files when they are served (more efficient)
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
 TEMPLATE_LOADERS = 'django.template.loaders.filesystem.Loader'
 
