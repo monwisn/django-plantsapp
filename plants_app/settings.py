@@ -250,9 +250,8 @@ STATICFILES_FINDERS = (
 )
 
 # to reduce the size of the static files when they are served (more efficient)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-DEBUG_PROPAGATE_EXCEPTIONS = True
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 TEMPLATE_LOADERS = 'django.template.loaders.filesystem.Loader'
 
