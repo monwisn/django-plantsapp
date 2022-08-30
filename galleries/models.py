@@ -3,8 +3,6 @@ from django.db import models
 from main.common import Timestamped, SlugMixin
 from tinymce import models as tinymce_models
 
-from cloudinary.models import CloudinaryField
-
 
 class Status(models.IntegerChoices):
     HIDE = 1, "Hide"
@@ -45,8 +43,7 @@ class Photo(Timestamped, SlugMixin):
     title = models.CharField(max_length=100)
     short_description = models.CharField(max_length=300, null=True, blank=True)
     how_often = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Once a week')
-    # image = models.ImageField(upload_to=upload_to)
-    image = CloudinaryField('image')
+    image = models.ImageField(upload_to=upload_to)
     gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE, related_name="photos")
     source = models.CharField(max_length=512, null=True, blank=True)
     status = models.PositiveSmallIntegerField(default=Status.PUBLISHED, choices=Status.choices)

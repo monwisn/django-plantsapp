@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block styles %}
-    <link href="{% static "/main/css/style.css" %}" rel="stylesheet">
-{% endblock %}
+{#{% block styles %}#}
+{#    <link href="{% static "/main/css/style.css" %}" rel="stylesheet">#}
+{#{% endblock %}#}
 
 {% block content %}
     <div style="display: flex; justify-content: flex-end">Current login user: &nbsp;<b>{{ user.username }}</b></div>
