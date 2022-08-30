@@ -7,13 +7,13 @@ from .models import Post, Category, Images
 
 class ReadOnlyAdminMixin:
 
-    def has_add_permission(self, request):
+    def has_add_permission(self):
         return False
 
-    def has_change_permission(self, request, obj=None):
+    def has_change_permission(self):
         return False
 
-    def has_delete_permission(self, request, obj=None):
+    def has_delete_permission(self):
         return False
 
     def has_view_permission(self, request, obj=None):
@@ -47,7 +47,7 @@ class PostAdmin(admin.ModelAdmin, ReadOnlyAdminMixin):
 
 @admin.register(Category)
 class CategoryAdmin(GuardedModelAdmin):    # new option: object permissions
-    list_display = ['title', 'slug', 'created', 'updated']
+    list_display = ['title', 'description', 'slug', 'created', 'updated']
     search_fields = ['title', 'description']
     exclude = ('slug',)
 
