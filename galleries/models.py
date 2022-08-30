@@ -1,4 +1,3 @@
-from PIL import Image
 from django.contrib.auth.models import User
 from django.db import models
 from main.common import Timestamped, SlugMixin
@@ -57,12 +56,3 @@ class Photo(Timestamped, SlugMixin):
     @property
     def is_published(self):
         return self.status == Status.PUBLISHED
-
-    def save(self):
-        super(Photo, self).save()
-        if self.image:
-            size = (160, 160)
-            image = Image.open(self.image)
-            image.thumbnail(size, Image.ANTIALIAS)
-            image.save(self.image.path)
-

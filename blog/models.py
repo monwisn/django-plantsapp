@@ -4,7 +4,6 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from PIL import Image
 from main.common import Timestamped, SlugMixin
 
 
@@ -52,19 +51,11 @@ class Post(Timestamped, SlugMixin):
     def num_likes(self):
         return self.likes.count()
 
-    # def save(self, *args, **kwargs):
-    #     # self.slug = slugify(self.title)
-    #     # if not self.slug:
-    #     #     self.slug = slugify(self.title)
-    #     super(Post, self).save(*args, **kwargs)
-
     def save(self, *args, **kwargs):
+        # self.slug = slugify(self.title)
+        # if not self.slug:
+        #     self.slug = slugify(self.title)
         super(Post, self).save(*args, **kwargs)
-        if self.image:
-            size = (160, 160)
-            image = Image.open(self.image)
-            image.thumbnail(size, Image.ANTIALIAS)
-            image.save(self.image.path)
 
 
     def __str__(self):
