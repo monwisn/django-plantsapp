@@ -14,7 +14,7 @@
    - postgres database
    - docker (commands to run server: docker-compose up (build))
    - set your EMAIL_HOST_USER, EMAIL_HOST_PASSWORD and DEFAULT_FROM_EMAIL (settings.py)
-     # 'less secure apps' option must be enabled in gmail for proper sending emails.
+     # 'Less secure apps' option must be enabled in gmail for proper sending emails.
    - install requirements.txt (pip install -r requirements.txt)
    - python manage.py makemigrations, next: migrate
    - python manage.py loaddata initial_data-blog.json (if exists)
