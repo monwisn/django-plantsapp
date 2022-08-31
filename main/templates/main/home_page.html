@@ -4,6 +4,14 @@
 
 {% block title %}Welcome site{% endblock %}
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                {{ message|striptags|safe|linebreaksbr }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
     <div style="text-align: center; font-size: large">
         <h4><b>{% trans 'Welcome to Watering Plants Application' %}</b></h4>

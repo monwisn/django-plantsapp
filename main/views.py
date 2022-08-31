@@ -70,6 +70,7 @@ def cookie_banner(request):
 
 
 def home_page(request):
+    weather = {}
     if request.method == 'POST':
         city = request.POST['city']  # use your own api_key place api_key in place of appid ="your_api_key_here"
         lang = 'en'
@@ -78,20 +79,25 @@ def home_page(request):
         current_datetime = datetime.datetime.now().strftime("%B %d,  %I:%M %p")
         city_weather = requests.get(url).json()
 
-        weather = {
-            'city': city_weather['name'],
-            'country_code': city_weather['sys']['country'],
-            'temperature': round(city_weather['main']['temp']),
-            'description': city_weather['weather'][0]['description'],
-            'feels_like': round(city_weather['main']['feels_like']),
-            'icon': city_weather['weather'][0]['icon'],
-            'datetime': current_datetime
-        }
+        if city_weather['cod'] == "404" or city == "":
+            messages.info(request, 'Incorrect city name, try again.')
+
+        else:
+            weather = {
+                'city': city_weather['name'],
+                'country_code': city_weather['sys']['country'],
+                'temperature': round(city_weather['main']['temp']),
+                'description': city_weather['weather'][0]['description'],
+                'feels_like': round(city_weather['main']['feels_like']),
+                'icon': city_weather['weather'][0]['icon'],
+                'datetime': current_datetime
+                }
+
         # print(weather)
+
     else:
         weather = {}
 
-    # return render(request, 'main/weather.html', {'weather': weather})
     return render(request, 'main/home_page.html', {'weather': weather})
 
 
