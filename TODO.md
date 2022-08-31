@@ -17,8 +17,7 @@
      # 'less secure apps' option must be enabled in gmail for proper sending emails.
    - install requirements.txt (pip install -r requirements.txt)
    - python manage.py makemigrations, next: migrate
-   - python manage.py loaddata initial_data-blog.json 
-   - python manage.py loaddata initial_data-newsletters.json
+   - python manage.py loaddata initial_data-blog.json (if exists)
    - python manage.py createsuperuser
    - python manage.py runserver
    

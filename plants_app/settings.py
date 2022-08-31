@@ -33,17 +33,15 @@ environ.Env.read_env()
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
-# SECRET_KEY = env("SECRET_KEY")
-SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al'
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True  # development
-# DEBUG = False  # production
+# DEBUG = True  # development
+DEBUG = False  # production
 
 ADMINS = (
-    ('admin', 'bartkram11@gmail.com'),
+    ('admin', 'YOUR_GMAIL'),
 )
 
 MANAGERS = ADMINS
@@ -124,28 +122,16 @@ WSGI_APPLICATION = 'plants_app.wsgi.application'
 
 # postgres database:
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': env("DATABASE_NAME"),
-#         'USER': env("DATABASE_USER"),
-#         'PASSWORD': env("DATABASE_PASSWORD"),
-#         'HOST': env("DATABASE_HOST"),
-#         'PORT': env("DATABASE_PORT"),
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'plants_app_db',
-        'USER': 'monika_plants_app',
-        'PASSWORD': 'xyz123^dd2ded',
-        'HOST': 'localhost',
-        'PORT': 5432,
+        'NAME': env("DATABASE_NAME"),
+        'USER': env("DATABASE_USER"),
+        'PASSWORD': env("DATABASE_PASSWORD"),
+        'HOST': env("DATABASE_HOST"),
+        'PORT': env("DATABASE_PORT"),
     }
 }
-
 
 prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
@@ -183,9 +169,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 WEBPUSH_SETTINGS = {
-    "VAPID_PUBLIC_KEY": "BDcxyHK3YDNBSfLD3znx72PZCh31p18y6no06f4dbsOfysh4vMIbP-4FrXtVo_c6ZcOOH2KZqi7_2DSmDRNoDJ8",
-    "VAPID_PRIVATE_KEY": "EKO42Y5YlevKQVEpNNDIfl6HCDNEaCf-fdGQbHSIsIk",
-    "VAPID_ADMIN_EMAIL": "bartkram11@gmail.com"
+    "VAPID_PUBLIC_KEY": "PUBLIC_KEY",
+    "VAPID_PRIVATE_KEY": "PRIVATE_KEY",
+    "VAPID_ADMIN_EMAIL": "YOUR_GMAIL"
 }
 
 # Internationalization
@@ -248,7 +234,7 @@ STATICFILES_FINDERS = (
 
 # to reduce the size of the static files when they are served (more efficient)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-# STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
+
 
 TEMPLATE_LOADERS = 'django.template.loaders.filesystem.Loader'
 
@@ -257,9 +243,9 @@ WHITENOISE_USE_FINDERS = True
 
 # Cloudinary to serve media files
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'hwsaxtipv',
-    'API_KEY': '862665951215524',
-    'API_SECRET': 'DG3rhdnRiyOW1_LhsscuadKCsRY',
+    'CLOUD_NAME': 'NAME',
+    'API_KEY': 'API_KEY',
+    'API_SECRET': 'API_SECRET_KEY',
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
@@ -288,10 +274,10 @@ NEWSLETTER_ROOT = BASE_DIR / 'main/templates'
 # Gmail sending config
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-DEFAULT_FROM_EMAIL = 'bartkram11@gamil.com'
+DEFAULT_FROM_EMAIL = 'YOUR_GMAIL'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'bartkram11@gmail.com'
-EMAIL_HOST_PASSWORD = 'xjabjiktcydxhotr'
+EMAIL_HOST_USER = 'YOUR_GMAIL'
+EMAIL_HOST_PASSWORD = 'GENERATED FOR THIRD-PARTY APPS PASSWORD'
 EMAIL_PORT = 587  # this is gmail's port
 EMAIL_USE_TLS = True  # this encrypts our emails being sent
 

@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='newsletter',
             name='email',
-            field=models.ManyToManyField(default='bartkram11@gmail.com', to='main.newsletteruser'),
+            field=models.ManyToManyField(default='YOUR_GMAIL', to='main.newsletteruser'),
         ),
     ]

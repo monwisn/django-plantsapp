@@ -180,12 +180,12 @@ def contact(request):
             try:
                 if send_to_me:
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email, from_email],
-                                                 headers={'Reply-To': 'bartkram11@gmail.com'})
+                                                 headers={'Reply-To': 'YOUR_GMAIL'})
                     msg.attach_alternative(html_content, 'text/html')
                     msg.send()
                 else:
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email],
-                                                 headers={'Reply-To': 'bartkram11@gmail.com'})
+                                                 headers={'Reply-To': 'YOUR_GMAIL'})
                     msg.attach_alternative(html_content, 'text/html')
                     msg.send()
             except BadHeaderError:
