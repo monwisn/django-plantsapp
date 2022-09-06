@@ -6,7 +6,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.core.mail import BadHeaderError, EmailMultiAlternatives
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template
@@ -90,15 +89,39 @@ def home_page(request):
                 'description': city_weather['weather'][0]['description'],
                 'feels_like': round(city_weather['main']['feels_like']),
                 'icon': city_weather['weather'][0]['icon'],
-                'datetime': current_datetime
-                }
-
-        # print(weather)
+                'datetime': current_datetime,
+            }
 
     else:
         weather = {}
 
     return render(request, 'main/home_page.html', {'weather': weather})
+
+
+def api_location(request):
+    geolocation = requests.get(
+        "https://ipgeolocation.abstractapi.com/v1/?api_key=cf3d1c1feafd4da1ae1cdcbd33082d30&"
+        "fields=ip_address,city").json()
+
+    geo = {
+        'city': geolocation['city'],
+        # 'ip_address': geolocation['ip_address'],
+    }
+
+    city = geo['city']
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid=84459d8299db831d56abee888bea5970'
+    city_weather = requests.get(url).json()
+
+    weather = {
+        'city': city_weather['name'],
+        'country_code': city_weather['sys']['country'],
+        'temperature': round(city_weather['main']['temp']),
+        'description': city_weather['weather'][0]['description'],
+        'feels_like': round(city_weather['main']['feels_like']),
+        'icon': city_weather['weather'][0]['icon'],
+    }
+
+    return render(request, 'main/location.html', {'weather': weather})
 
 
 def about(request):
@@ -150,7 +173,7 @@ def user_profile(request):
 @login_required
 def delete_user(request):
     if request.method == 'POST':
-        delete_form = UserDeleteForm(request.POST, instance=request.user)
+        # delete_form = UserDeleteForm(request.POST, instance=request.user)
         user = request.user
         user.delete()
         messages.info(request, 'Your account has been deleted.')
@@ -180,12 +203,12 @@ def contact(request):
             try:
                 if send_to_me:
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email, from_email],
-                                                 headers={'Reply-To': 'YOUR_GMAIL'})
+                                                 headers={'Reply-To': 'bartkram11@gmail.com'})
                     msg.attach_alternative(html_content, 'text/html')
                     msg.send()
                 else:
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email],
-                                                 headers={'Reply-To': 'YOUR_GMAIL'})
+                                                 headers={'Reply-To': 'bartkram11@gmail.com'})
                     msg.attach_alternative(html_content, 'text/html')
                     msg.send()
             except BadHeaderError:
@@ -210,6 +233,7 @@ def newsletter_users(request):
     return render(request, 'main/newsletter/newsletter_users_list.html', context)
 
 
+@staff_member_required
 def newsletter_user_delete(request, pk):
     newsletter_user = NewsletterUser.objects.get(id=pk)
     if request.method == 'POST':

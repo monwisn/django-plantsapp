@@ -20,6 +20,7 @@ urlpatterns = i18n_patterns(
     path('blog/', include('blog.urls')),
     path('control/', include('control_panel.urls')),
     path('galleries/', include('galleries.urls')),
+    # path('hobby/', include('hobby.urls')),
     prefix_default_language=False,
 )
 # ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

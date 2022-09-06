@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
+
 from main.common import Timestamped, SlugMixin
 from tinymce import models as tinymce_models
 
@@ -21,6 +23,9 @@ class Gallery(Timestamped, SlugMixin):
         verbose_name = "gallery"
         verbose_name_plural = "Galleries"
 
+    def get_absolute_url(self):
+        return reverse('galleries:details', kwargs={'gallery_id': self.pk})
+
     def __str__(self):
         return self.title
 
@@ -40,6 +45,7 @@ class Photo(Timestamped, SlugMixin):
         ('Once a week', 'Once a week'),
         ('Once every 2 weeks', 'Once every 2 weeks'),
     )
+
     title = models.CharField(max_length=100)
     short_description = models.CharField(max_length=300, null=True, blank=True)
     how_often = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Once a week')
@@ -56,3 +62,4 @@ class Photo(Timestamped, SlugMixin):
     @property
     def is_published(self):
         return self.status == Status.PUBLISHED
+

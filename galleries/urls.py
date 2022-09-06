@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import galleries_list, gallery_details, add_gallery, add_photos, gallery_edit, \
-    gallery_delete, galleries_list_admin, galleries_list_view, photos_view, photo_edit, photo_delete
+    gallery_delete, galleries_list_admin, galleries_list_view, photos_view, photo_delete, PhotosEditView
 
 
 app_name = "galleries"
@@ -15,7 +15,6 @@ urlpatterns = [
     path('galleries-list-admin/', galleries_list_admin, name='galleries_list_admin'),
     path('galleries-list-view/', galleries_list_view, name='galleries_list_view'),
     path('galleries-list-view/<int:gallery_id>', photos_view, name='photos_view'),
-
-    path('photo-edit/<int:pk>', photo_edit, name='photo_edit'),
     path('photo-delete/<int:pk>', photo_delete, name='photo_delete'),
+    path('<int:pk>/photos-edit/', PhotosEditView.as_view(), name='photos_edit'),
 ]

@@ -16,23 +16,25 @@
     <div class="card card-body">
         {% if user.id == gallery.author.id %}
             <h3><b>{{ gallery.title }}</b></h3><hr>
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <section class="photo_gallery">
+{#            <div class="container">#}
+{#                <div class="row">#}
+{#                    <div class="col">#}
+{#                        <section class="photo_gallery">#}
                             {% for gallery_image in gallery.photos.all %}
                                 {% if gallery_image.is_published %}
-                                    {% thumbnail gallery_image.image "x300" as im %}
-                                        <a href="{{ gallery_image.image.url }}">
-                                            <img style="border:3px solid black;" src="{{ im.url }}" alt="" title=""/>
-                                        </a>
-                                    {% endthumbnail %}
+                                    <p style="text-align:center">
+                                        {% thumbnail gallery_image.image "x300" as im %}
+                                            <a href="{{ gallery_image.image.url }}">
+                                                <img class="centerImage" style="border:3px solid black;" src="{{ im.url }}" alt="image" title=""/>
+                                            </a>
+                                        {% endthumbnail %}
+                                    </p>
                                 {% endif %}
                             {% endfor %}
-                        </section>
-                    </div>
-                </div>
-            </div>
+{#                        </section>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
         {% endif %}
         <br/>
     </div>

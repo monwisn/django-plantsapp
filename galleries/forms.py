@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import inlineformset_factory
+
 from .models import Gallery, Photo
 
 
@@ -17,3 +19,13 @@ class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
         fields = ["title", "short_description", "image", "status", "source", "how_often", "send_reminder"]
+
+
+# GalleryPhotosFormset = inlineformset_factory(Gallery, Photo, form=PhotoForm)
+GalleryPhotosFormset = inlineformset_factory(Gallery, Photo, fields=("title",
+                                                                     "short_description",
+                                                                     "image",
+                                                                     "status",
+                                                                     "source",
+                                                                     "how_often",
+                                                                     "send_reminder"))

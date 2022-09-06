@@ -1,15 +1,18 @@
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from django.forms import modelformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.utils.translation import gettext as _
+from django.views.generic import FormView
+from django.views.generic.detail import SingleObjectMixin
 
 from galleries.models import Gallery, Photo, Status
-from galleries.forms import GalleryForm, PhotoForm
+from galleries.forms import GalleryForm, PhotoForm, GalleryPhotosFormset
 from plants_app.config import pagination
 
 
@@ -57,9 +60,10 @@ def galleries_list_view(request):
 
 @login_required(login_url='/authentication/login')
 def gallery_details(request, gallery_id):
-    gallery = Gallery.objects.get(pk=gallery_id)
-
-    return render(request, "galleries/gallery_details.html", {"gallery": gallery})
+    gallery = get_object_or_404(Gallery, pk=gallery_id)
+    count = gallery.photos.all()
+    pages = pagination(request, count, 10)
+    return render(request, "galleries/gallery_details.html", {"gallery": gallery, 'page_obj': pages})
 
 
 @login_required(login_url='/authentication/login')
@@ -106,6 +110,7 @@ def add_photos(request, gallery_id):
     PhotosFormSet = modelformset_factory(Photo, form=PhotoForm, extra=1)
     formset = PhotosFormSet(queryset=gallery.photos.none())
     form = PhotoForm()
+
     if request.method == "POST":
         formset = PhotosFormSet(request.POST, request.FILES)
         if formset.is_valid():
@@ -127,26 +132,6 @@ def photos_view(request, gallery_id):
 
 
 @login_required(login_url='/authentication/login')
-def photo_edit(request, pk):
-    photo = Photo()
-    photo_form = PhotoForm(instance=photo)
-
-    if request.method == 'POST':
-        form = PhotoForm(request.POST, request.FILES or None)
-
-        if form.is_valid():
-            for f in photo_form:
-                f = form.save(commit=False)
-                f.save()
-                print(form.cleaned_data)
-            # form.save()
-            messages.success(request, 'Photo details have been updated!')
-            return redirect('galleries:list')
-
-    return render(request, 'galleries/add_photos.html', {'form': form})
-
-
-@login_required(login_url='/authentication/login')
 def photo_delete(request, pk):
     photo = get_object_or_404(Photo, pk=pk)
     if request.method == 'POST':
@@ -155,3 +140,28 @@ def photo_delete(request, pk):
         return redirect('galleries:list')
 
     return render(request, 'galleries/photo_delete.html', {'photo': photo})
+
+
+class PhotosEditView(SingleObjectMixin, LoginRequiredMixin, FormView):
+    model = Gallery
+    template_name = 'galleries/photos_edit.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Gallery.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Gallery.objects.all())
+        return super().post(request, *args, **kwargs)
+
+    def get_form(self, form_class=None):
+        return GalleryPhotosFormset(**self.get_form_kwargs(), instance=self.object)
+
+    def form_valid(self, form):
+        form.save()
+        messages.add_message(self.request, messages.SUCCESS, 'Photos have been successfully updated.')
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('galleries:details', kwargs={'gallery_id': self.object.pk})

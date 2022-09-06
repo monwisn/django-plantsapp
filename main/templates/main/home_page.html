@@ -33,6 +33,14 @@
                     </div>
                 </div>
             </form>
+
+            {#    <!-- api location -->#}
+            <div style="text-align: center; font-size: medium">
+                {{ values|linebreaks }}
+                Use your current <a href="{% url 'main:api_location' %}">location</a>
+                <img src="{% static "main/img/location_icon.png" %}" alt="logo" width="6%">
+            </div>
+
             {{ values|linebreaks }}
             {% if weather.icon and weather.datetime and weather.city and weather.temperature and weather.feels_like and weather.description %}
                 <article class="media">
