@@ -77,6 +77,8 @@ INSTALLED_APPS = [
     'webpush',
     'cloudinary',
     'cloudinary_storage',
+    'django_celery_results',
+    'django_celery_beat',
 
     'main.apps.MainConfig',
     'authentication.apps.AuthenticationConfig',
@@ -283,7 +285,7 @@ LOGOUT_REDIRECT_URL = '/'
 NEWSLETTER_THUMBNAIL = 'sorl-thumbnail'
 NEWSLETTER_ROOT = BASE_DIR / 'main/templates'
 
-# Gmail sending config
+# Gmail Sending Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 DEFAULT_FROM_EMAIL = 'bartkram11@gmail.com'
@@ -292,6 +294,22 @@ EMAIL_HOST_USER = 'bartkram11@gmail.com'
 EMAIL_HOST_PASSWORD = 'xjabjiktcydxhotr'
 EMAIL_PORT = 587  # this is gmail's port
 EMAIL_USE_TLS = True  # this encrypts our emails being sent
+
+# Celery Configuration
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Warsaw'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# stores tasks status in django database
+CELERY_RESULT_BACKEND = 'django-db'
+
+# celery beat setting
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
 
 # Django REST Framework:
 REST_FRAMEWORK = {
