@@ -232,10 +232,12 @@ STATIC_URL = '/static/'  # is the URL location of static files located in STATIC
 MEDIA_URL = '/media/'
 
 if DEBUG:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'main/static'), ]  # tells Django where to look for static files in a Django project
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'main/static'), ]  # tells Django where to look for static files in a Django project
 
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'main/static')  # the absolute path to the directory where collectstatic will collect static files for deployment
+    STATIC_ROOT = os.path.join(BASE_DIR,
+                               'main/static')  # the absolute path to the directory where collectstatic will collect static files for deployment
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -247,7 +249,6 @@ STATICFILES_FINDERS = (
 
 # to reduce the size of the static files when they are served (more efficient)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 TEMPLATE_LOADERS = 'django.template.loaders.filesystem.Loader'
 
@@ -295,8 +296,8 @@ EMAIL_PORT = 587  # this is gmail's port
 EMAIL_USE_TLS = True  # this encrypts our emails being sent
 
 # Celery Configuration
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_BROKER_URL = 'redis://:p40891d05143cda309f34808c719ff2beb87113706a0e4db52949b86ae98275b1@ec2-44-198-147-115.compute-1.amazonaws.com:30580'  # or 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['json']  # or ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Warsaw'
@@ -308,7 +309,6 @@ CELERY_RESULT_BACKEND = 'django-db'
 
 # celery beat setting
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
-
 
 # Django REST Framework:
 REST_FRAMEWORK = {

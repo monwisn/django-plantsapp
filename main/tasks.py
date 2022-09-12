@@ -1,9 +1,11 @@
+from time import sleep
+
 from celery import shared_task
 from django.conf import settings
 from django.core.mail import send_mail
 
 
-@shared_task()
+@shared_task
 def send_mail_task():
     print("Mail sending...")
     subject = "Time for plants!"
