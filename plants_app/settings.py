@@ -85,7 +85,6 @@ INSTALLED_APPS = [
     'control_panel.apps.ControlPanelConfig',
     'blog.apps.BlogConfig',
     'galleries.apps.GalleriesConfig',
-    'hobby.apps.HobbyConfig',
 ]
 
 # LocaleMiddleware: # this middleware should come after the SessionMiddleware because it needs to use the session data.
