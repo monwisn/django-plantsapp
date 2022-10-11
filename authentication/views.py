@@ -166,7 +166,8 @@ def password_reset(request):
                     htmltemp = template.loader.get_template('authentication/password_reset_email.html')
                     content = {
                         'email': user.email,
-                        'domain': '127.0.0.1:8000',
+                        'domain': 'plants-mw.herokuapp.com',
+                        # 'domain': '127.0.0.1:8000',
                         'site_name': 'authentication',
                         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                         'user': user,
