@@ -13,7 +13,7 @@ from django.views.generic.detail import SingleObjectMixin
 
 from galleries.models import Gallery, Photo, Status
 from galleries.forms import GalleryForm, PhotoForm, GalleryPhotosFormset
-from plants_app.celery import setup_periodic_tasks
+# from plants_app.celery import setup_periodic_tasks
 from plants_app.config import pagination
 
 

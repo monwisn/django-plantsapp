@@ -77,8 +77,8 @@ INSTALLED_APPS = [
     'webpush',
     'cloudinary',
     'cloudinary_storage',
-    'django_celery_results',
-    'django_celery_beat',
+    # 'django_celery_results',
+    # 'django_celery_beat',
     'captcha',
     'allauth',
     'allauth.account',
@@ -302,22 +302,22 @@ EMAIL_HOST_PASSWORD = 'xjabjiktcydxhotr'
 EMAIL_PORT = 587  # this is gmail's port
 EMAIL_USE_TLS = True  # this encrypts our emails being sent
 
-# Celery Configuration
-CELERY_BROKER_URL = 'redis://:p40891d05143cda309f34808c719ff2beb87113706a0e4db52949b86ae98275b1@ec2-44-198-147-115.compute-1.amazonaws.com:30580'  # or 'redis://localhost:6379'
-
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_ACCEPT_CONTENT = ['application/json']  # or ['json']
-
-CELERY_TIMEZONE = 'Europe/Warsaw'
-CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60
-
-# Stores tasks status in django database
-CELERY_RESULT_BACKEND = 'redis://:p40891d05143cda309f34808c719ff2beb87113706a0e4db52949b86ae98275b1@ec2-44-198-147-115.compute-1.amazonaws.com:30580'  # or 'django-db'
-
-# Celery Beat settings
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+# # Celery Configuration
+# CELERY_BROKER_URL = 'redis://:p40891d05143cda309f34808c719ff2beb87113706a0e4db52949b86ae98275b1@ec2-44-198-147-115.compute-1.amazonaws.com:30580'  # or 'redis://localhost:6379'
+#
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_ACCEPT_CONTENT = ['application/json']  # or ['json']
+#
+# CELERY_TIMEZONE = 'Europe/Warsaw'
+# CELERY_TASK_TRACK_STARTED = True
+# CELERY_TASK_TIME_LIMIT = 30 * 60
+#
+# # Stores tasks status in django database
+# CELERY_RESULT_BACKEND = 'redis://:p40891d05143cda309f34808c719ff2beb87113706a0e4db52949b86ae98275b1@ec2-44-198-147-115.compute-1.amazonaws.com:30580'  # or 'django-db'
+#
+# # Celery Beat settings
+# CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 # Django REST Framework
 REST_FRAMEWORK = {
