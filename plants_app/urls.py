@@ -15,11 +15,13 @@ urlpatterns = i18n_patterns(
     path('send_push', send_push),
     path('webpush/', include('webpush.urls')),
     path('sw.js', TemplateView.as_view(template_name='sw.js', content_type='application/x-javascript')),
-    path('accounts/', include('django.contrib.auth.urls')),
+    # path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('allauth.urls')),
     path('authentication/', include('authentication.urls')),
     path('blog/', include('blog.urls')),
     path('control/', include('control_panel.urls')),
     path('galleries/', include('galleries.urls')),
+
     prefix_default_language=False,
 )
 # ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

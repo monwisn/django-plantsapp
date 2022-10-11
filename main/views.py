@@ -216,6 +216,8 @@ def contact(request):
 
             messages.success(request, 'Your request message has been send successfully.')
             return redirect('main:contact')
+        else:
+            messages.info(request, "You must confirm reCAPTCHA")
 
     else:
         form = ContactForm()
@@ -316,6 +318,7 @@ def change_language(request):
             response = HttpResponseRedirect(redirect_path)
             response.set_cookie(settings.LANGUAGE_COOKIE_NAME, language)
     return response
+
 
 # def translate_website(request):
 #     if 'language' in request.GET and request.GET['language']:

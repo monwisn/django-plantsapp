@@ -1,5 +1,7 @@
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordResetForm
 from django.contrib.auth.models import User
 from django.core import validators
 
@@ -45,3 +47,10 @@ class EditRegisterForm(UserChangeForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']  # 'password'
+
+
+class NewPasswordResetForm(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super(PasswordResetForm, self).__init__(*args, **kwargs)
+
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox(), label='')

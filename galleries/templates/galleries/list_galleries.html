@@ -16,10 +16,11 @@
             </div>
         </div>
     </div>
-    <div class="table-responsive table-hover">
+    <div class="card card-body special-cards">
+{#    <div class="table-responsive table-hover">#}
         <table class="table">
             <thead class="thead-dark">
-                <tr align="center">
+                <tr style="text-align: center">
                     <th scope="col">Title</th>
 {#                    <th scope="col">Slug</th>#}
                     <th scope="col">Number of photos</th>
@@ -34,7 +35,7 @@
             </thead>
             <tbody>
             {% for item in gallery %}
-                <tr style="text-align: center">
+                <tr style="font-weight: normal; text-align: center">
                     <td>{{ item.title }}</td>
 {#                    <td>{{ item.slug }}</td>#}
                     <td>{{ item.photos.count }}</td>

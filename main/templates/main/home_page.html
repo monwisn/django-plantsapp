@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
 {% load i18n %}
 {% load static %}
 
@@ -16,7 +17,6 @@
     <div style="text-align: center; font-size: large">
         <h4><b>{% trans 'Welcome to Watering Plants Application' %}</b></h4>
     </div>
-
     {#    <!-- weather section -->#}
     <div class="col-sm-12 col-md-12 col-lg-3 pb-4 special-card">
         <div class="card bold-card p-4">
@@ -57,7 +57,8 @@
                                 <span class="title">{{ weather.city|capfirst }}, {{ weather.country_code }}</span>
                                 {{ values|linebreaks }}
                                 <span class="subtitle"><b>{{ weather.temperature }}°C</b></span>
-                                <br> Feels like {{ weather.feels_like }}°C ({{ weather.description }})
+                                <br> Feels like: {{ weather.feels_like }}°C
+                                <br> ({{ weather.description }})
                             </p>
                         </div>
                     </div>
@@ -108,7 +109,13 @@
                 <a href="{% url 'main:policy' %}" class="nav-link">Cookies policy</a>
             </button>
         </div>
-    </footer><br>
+        <br>
+        <div class="text-center p-3" style="background-color: transparent;">
+            <p>© {% now "Y" %} Copyright:
+                <a href="https://plants-mw.herokuapp.com/">PlantsApp.com</a>
+            </p>
+        </div>
+    </footer>
 {#        <footer class="social-footer">#}
 {#            <ul class="menu simple">#}
 {#                <li><a href="https://www.facebook.com/"><i class="fa fa-social fa-facebook" aria-hidden="true"></i></a></li>#}

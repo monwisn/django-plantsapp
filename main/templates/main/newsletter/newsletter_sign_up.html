@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-lg-7 col-lg-offset-3">
                 {% if messages %}
                     {% for message in messages %}
@@ -15,9 +15,11 @@
                         </div>
                     {% endfor %}
                 {% else %}
-                <h4>Subscribe to receive the Watering Plants Application newsletter.</h4>
-                <hr>
                 <br>
+                <h4 style="text-align: center">
+                    <i>Subscribe to receive the Watering Plants Application newsletter.</i>
+                </h4>
+                <hr><br>
                 <form method="POST">
                     {% csrf_token %}
                     {{ form|crispy }}

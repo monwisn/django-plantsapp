@@ -103,10 +103,16 @@
                                     <li><a class="dropdown-item" href="{% url 'galleries:add_gallery' %}">Add new gallery</a></li>
                                     <li><a class="dropdown-item" href="{% url 'galleries:list' %}">Galleries details</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{% url 'authentication:logout_user' %}">Log out</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'authentication:logout_user' %}">Log out
+                                        <img src="{% static "main/img/logout_icon.png" %}" alt="logo" width="7%">
+                                    </a></li>
                                 {% else %}
-                                    <li><a class="dropdown-item" href="{% url 'authentication:register' %}">Registration</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'authentication:login_user' %}">Login</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'authentication:register' %}">Registration
+                                        <img src="{% static "main/img/register_icon.png" %}" alt="logo" width="11%">
+                                    </a></li>
+                                    <li><a class="dropdown-item" href="{% url 'authentication:login_user' %}">Login
+                                        <img src="{% static "main/img/login_icon.png" %}" alt="logo" width="11%">
+                                    </a></li>
                                 {% endif %}
                             </ul>
                         </li>

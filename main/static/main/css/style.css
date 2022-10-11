@@ -214,6 +214,11 @@ ul li a:hover {
   color: white;
 }
 
+/*.fa-google {*/
+/*  background: #3B5998;*/
+/*  color: white;*/
+/*}*/
+
 .button-pill {
   background-color: #fefefe;
   border: none;
@@ -283,5 +288,4 @@ ul li a:hover {
     margin: auto;
     width: 70%
 }
-
 

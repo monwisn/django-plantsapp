@@ -12,7 +12,7 @@ from plants_app.config import pagination
 from main.models import Newsletter
 
 
-# # @login_required(login_url='/accounts/login/')
+# # @login_required(login_url='/authentication/login/')
 # @staff_member_required
 # def control_newsletter(request):
 #     form = NewsletterCreationForm(request.POST or None)
@@ -33,7 +33,8 @@ from main.models import Newsletter
 #     template = 'control_panel/control_newsletter.html'
 #     return render(request, template, context)
 
-@staff_member_required
+
+@staff_member_required(login_url='/authentication/login/')
 def control_newsletter(request):
     form = NewsletterCreationForm(request.POST or None)
     if form.is_valid():
@@ -66,7 +67,7 @@ def control_newsletter(request):
     return render(request, 'control_panel/control_newsletter.html', {'form': form})
 
 
-@staff_member_required
+@staff_member_required(login_url='/authentication/login/')
 def control_newsletter_list(request):
     newsletters = Newsletter.objects.all()
     pages = pagination(request, newsletters, 15)
@@ -86,6 +87,7 @@ def control_newsletter_list(request):
 #     return render(request, template, context)
 
 
+@staff_member_required(login_url='/authentication/login/')
 def control_newsletter_edit(request, pk):
     newsletter = get_object_or_404(Newsletter, pk=pk)
     if request.method == 'POST':
@@ -119,6 +121,7 @@ def control_newsletter_edit(request, pk):
     return render(request, 'control_panel/control_newsletter.html', {'form': form})
 
 
+@staff_member_required(login_url='/authentication/login/')
 def control_newsletter_delete(request, pk):
     newsletter = get_object_or_404(Newsletter, pk=pk)
     if request.method == 'POST':

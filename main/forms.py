@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Checkbox
 
 from .models import UserProfile, NewsletterUser
 
@@ -9,8 +11,7 @@ class UserProfileForm(forms.ModelForm):
     name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
     location = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    birth_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}))
-
+    birth_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}, format='%d%m%Y'))
     # profile_image = forms.ImageField(widget=forms.widgets.FileInput())
 
     class Meta:
@@ -23,7 +24,8 @@ class ContactForm(forms.Form):
     name = forms.CharField(max_length=50)
     subject = forms.CharField(max_length=100, label='Subject')
     message = forms.CharField(max_length=1500, widget=forms.Textarea, label="Message Content", required=True)
-    send_to_me = forms.BooleanField(required=False, label='Send to me')
+    send_to_me = forms.BooleanField(label='Send to me', required=False)
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox, label='')
 
 
 class NewsletterUserSignUpForm(forms.ModelForm):

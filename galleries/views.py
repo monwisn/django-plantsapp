@@ -13,6 +13,7 @@ from django.views.generic.detail import SingleObjectMixin
 
 from galleries.models import Gallery, Photo, Status
 from galleries.forms import GalleryForm, PhotoForm, GalleryPhotosFormset
+from plants_app.celery import setup_periodic_tasks
 from plants_app.config import pagination
 
 
@@ -117,6 +118,14 @@ def add_photos(request, gallery_id):
             for f in formset.cleaned_data:
                 if f:
                     Photo.objects.create(gallery=gallery, **f)
+                    if f['send_reminder']:
+                        if f['how_often'] == 'Once a week':
+                            send_reminder()
+                            print('once a week')
+                        elif f['how_often'] == 'Once every 2 weeks':
+                            print('two weeks')
+                        elif f['how_often'] == 'Once every 2-3 days':
+                            print('2-3 days')
         messages.success(request, "Your photos have been successfully added to the gallery!")
         return HttpResponseRedirect(reverse("galleries:details", args=[gallery_id]))
 
@@ -165,3 +174,9 @@ class PhotosEditView(SingleObjectMixin, LoginRequiredMixin, FormView):
 
     def get_success_url(self):
         return reverse('galleries:details', kwargs={'gallery_id': self.object.pk})
+
+
+def send_reminder():
+    print('true')
+
+

@@ -8,7 +8,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives, BadHeaderError, EmailMessage
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -16,7 +16,8 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from main.views import create_user_profile
-from .forms import RegisterForm, EditRegisterForm
+from plants_app import settings
+from .forms import RegisterForm, EditRegisterForm, NewPasswordResetForm
 from .token import account_activation_token
 
 
@@ -38,6 +39,7 @@ from .token import account_activation_token
 #         form = RegisterForm()
 #     return render(request, "authentication/register.html", {"register_form": form})
 
+
 def register(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
@@ -56,7 +58,7 @@ def register(request):
             })
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(
-                        mail_subject, message, to=[to_email]
+                mail_subject, message, to=[to_email]
             )
             email.send()
             messages.info(request, 'Activation link has been sent to your email address! Please confirm.')
@@ -106,18 +108,23 @@ def login_user(request):
         if request.method == 'POST':
             username = request.POST['username']
             password = request.POST['password']
-
             user = authenticate(request, username=username, password=password)
+            next_page = request.POST['next']
 
             if user is not None:
                 login(request, user)
                 create_user_profile(request)
                 messages.success(request, f"You've been successfully logged in as {username}!")
-                return render(request, 'authentication/login.html')
+
+                if next_page != '':
+                    return HttpResponseRedirect(next_page)
+                    # return redirect(next_page)
+                else:
+                    return redirect('main:home_page')
             else:
                 messages.error(request, "Username or password not correct. Try again.")
 
-    return render(request, 'authentication/login.html', {})
+    return render(request, 'authentication/login.html')
 
 
 def logout_user(request):
@@ -145,10 +152,10 @@ def change_password(request):
     return render(request, 'authentication/change_password.html', {'register_form': form})
 
 
-# reset forgot password -logout user
+# reset a forgotten password -logout user
 def password_reset(request):
     if request.method == 'POST':
-        password_reset_form = PasswordResetForm(request.POST)
+        password_reset_form = NewPasswordResetForm(request.POST)
         if password_reset_form.is_valid():
             data = password_reset_form.cleaned_data['email']
             associated_users = User.objects.filter(Q(email=data) | Q(username=data))
@@ -178,5 +185,9 @@ def password_reset(request):
                     messages.success(request, 'A message with reset password instructions has been sent to your inbox.')
                     return redirect('authentication:login_user')
             messages.error(request, 'An invalid email has been entered.')
-    password_reset_form = PasswordResetForm()
+        else:
+            messages.info(request, 'Confirm that you are not a robot')
+
+    else:
+        password_reset_form = NewPasswordResetForm()
     return render(request, 'authentication/password_reset.html', {'password_reset_form': password_reset_form})

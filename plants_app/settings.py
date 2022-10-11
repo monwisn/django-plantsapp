@@ -37,7 +37,6 @@ SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al
 # SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-
 DEBUG = True  # development
 # DEBUG = False  # production
 
@@ -64,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'django_extensions',
     'django_filters',
     'import_export',
@@ -79,6 +79,11 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'django_celery_results',
     'django_celery_beat',
+    'captcha',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 
     'main.apps.MainConfig',
     'authentication.apps.AuthenticationConfig',
@@ -123,8 +128,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'plants_app.wsgi.application'
 
-# postgres database:
-
+# Postgres database:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -228,7 +232,7 @@ TRANSLATIONS_HINT_LANGUAGE = 'en'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'  # is the URL location of static files located in STATIC_ROOT
+STATIC_URL = '/static/'  # the URL location of static files located in STATIC_ROOT
 MEDIA_URL = '/media/'
 
 if DEBUG:
@@ -247,7 +251,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# to reduce the size of the static files when they are served (more efficient)
+# To reduce the size of the static files when they are served (more efficient)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 TEMPLATE_LOADERS = 'django.template.loaders.filesystem.Loader'
@@ -272,11 +276,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 SHELL_PLUS_PRINT_SQL = True
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+SITE_ID = 2  # 1 will be if we've changed the example.com to the local address
 
 LOGIN_URL = '/authentication'
 LOGIN_REDIRECT_URL = '/'
@@ -297,20 +304,22 @@ EMAIL_USE_TLS = True  # this encrypts our emails being sent
 
 # Celery Configuration
 CELERY_BROKER_URL = 'redis://:p40891d05143cda309f34808c719ff2beb87113706a0e4db52949b86ae98275b1@ec2-44-198-147-115.compute-1.amazonaws.com:30580'  # or 'redis://localhost:6379'
-CELERY_ACCEPT_CONTENT = ['json']  # or ['application/json']
-CELERY_RESULT_SERIALIZER = 'json'
+
 CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['application/json']  # or ['json']
+
 CELERY_TIMEZONE = 'Europe/Warsaw'
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
-# stores tasks status in django database
-CELERY_RESULT_BACKEND = 'django-db'
+# Stores tasks status in django database
+CELERY_RESULT_BACKEND = 'redis://:p40891d05143cda309f34808c719ff2beb87113706a0e4db52949b86ae98275b1@ec2-44-198-147-115.compute-1.amazonaws.com:30580'  # or 'django-db'
 
-# celery beat setting
+# Celery Beat settings
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
-# Django REST Framework:
+# Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
@@ -323,6 +332,35 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+# reCAPTCHA
+RECAPTCHA_PUBLIC_KEY = '6LdsRlwiAAAAAAbfW28eMholsdnvkdQugh552FuV'
+RECAPTCHA_PRIVATE_KEY = '6LdsRlwiAAAAAD2eBGWZyAwkCElSovecU1A-tqDT'
+
+# Google OAuth
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+# Additional configuration settings
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+
+SOCIALACCOUNT_QUERY_EMAIL = ACCOUNT_EMAIL_REQUIRED
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_EMAIL_REQUIRED = False
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_LOGOUT_ON_GET = True
 
 # To activate django-heroku
 django_heroku.settings(locals())
