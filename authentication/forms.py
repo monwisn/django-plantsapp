@@ -1,8 +1,9 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordResetForm
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.core import validators
 
 
@@ -16,12 +17,13 @@ class RegisterForm(UserCreationForm):
     password2 = forms.PasswordInput()
 
     class Meta:
-        model = User
+        model = get_user_model()
+        # model = User
         fields = ["username", "email", "first_name", "last_name", "password1", "password2"]
 
     def clean_username(self):
         username = self.cleaned_data['username']
-        if User.objects.filter(username=username).exists():
+        if get_user_model().objects.filter(username=username).exists():
             raise forms.ValidationError(f": A user with that username '{username}' is already exists!\n")
         return username
 
@@ -38,15 +40,18 @@ class RegisterForm(UserCreationForm):
 
     def clean_email(self):
         email = self.cleaned_data["email"]
-        if User.objects.filter(email__iexact=email).exists():
+        if get_user_model().objects.filter(email__iexact=email).exists():
             raise forms.ValidationError(f": A user with that email '{email}' already exists!\n")
         return email
 
 
-class EditRegisterForm(UserChangeForm):
+class EditRegisterForm(forms.ModelForm):
+    # password = None
+
     class Meta:
-        model = User
-        fields = ['username', 'email', 'first_name', 'last_name']  # 'password'
+        model = get_user_model()
+        # model = User
+        fields = ['username', 'email', 'first_name', 'last_name', ]  # 'password'
 
 
 class NewPasswordResetForm(PasswordResetForm):

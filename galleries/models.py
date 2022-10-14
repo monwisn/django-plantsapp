@@ -5,6 +5,8 @@ from django.urls import reverse
 from main.common import Timestamped, SlugMixin
 from tinymce import models as tinymce_models
 
+from plants_app import settings
+
 
 class Status(models.IntegerChoices):
     HIDE = 1, "Hide"
@@ -15,7 +17,7 @@ class Gallery(Timestamped, SlugMixin):
     title = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     # description = tinymce_models.HTMLField(null=True, blank=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     status = models.PositiveSmallIntegerField(default=Status.PUBLISHED, choices=Status.choices)
     slug = models.SlugField(max_length=100, unique=True)
 

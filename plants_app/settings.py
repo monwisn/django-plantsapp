@@ -277,13 +277,16 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
+    'authentication.backends.EmailBackend'
 )
+
+AUTH_USER_MODEL = 'authentication.User'
 
 SHELL_PLUS_PRINT_SQL = True
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
-SITE_ID = 2  # 1 will be if we've changed the example.com to the local address
+SITE_ID = 2  # 2 will be if we've changed (add new) the example.com to the local address
 
 LOGIN_URL = '/authentication'
 LOGIN_REDIRECT_URL = '/'
@@ -356,7 +359,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 
-SOCIALACCOUNT_QUERY_EMAIL = ACCOUNT_EMAIL_REQUIRED
+# SOCIALACCOUNT_QUERY_EMAIL = ACCOUNT_EMAIL_REQUIRED
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_EMAIL_REQUIRED = False
 SOCIALACCOUNT_LOGIN_ON_GET = True

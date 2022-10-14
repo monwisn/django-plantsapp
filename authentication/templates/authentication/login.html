@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load socialaccount %}
 {% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
 {% load socialaccount %}
@@ -20,7 +19,7 @@
             {% csrf_token %}
                 <table class="table">
                     <tr>
-                        <td><label for="id_username">Username</label></td>
+                        <td><label for="id_username">Username/Email</label></td>
                         <td><input id="id_username" name="username" type="text" class="form-control"></td>
                     </tr>
                     <tr>
@@ -35,7 +34,7 @@
                     <a class="btn btn-primary me-1" href="{% url 'authentication:password_reset' %}" role="button">Lost password?</a>
                 {# google #}
                     <button class="btn btn-outline-info">
-{#                        <a href="{% provider_login_url 'google'%}?next=/" style="text-decoration: none">#}
+                        <a href="{% provider_login_url 'google'%}?next=/" style="text-decoration: none">
                             <i class="fa fa-google"></i>
                              Login with Google
                         </a>

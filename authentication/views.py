@@ -122,7 +122,7 @@ def login_user(request):
                 else:
                     return redirect('main:home_page')
             else:
-                messages.error(request, "Username or password not correct. Try again.")
+                messages.error(request, "Username/Email or password not correct. Try again.")
 
     return render(request, 'authentication/login.html')
 

@@ -5,9 +5,11 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 from django.urls import reverse
 
+from plants_app import settings
+
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, null=True, blank=True)
     bio = models.TextField(max_length=5000, blank=True)
     location = models.CharField(max_length=200, blank=True)

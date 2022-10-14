@@ -12,10 +12,12 @@
     <div style="text-align: inherit; font-size: medium">
         <h5 class="page-header"><b>Newsletter users</b></h5><br>
     </div>
+        <div class="card card-body special-cards">
+
 {#    <div class="table-responsive table-hover">#}
         <table class="table">
             <thead class="thead-black">
-                <tr>
+                <tr style="text-align: center">
                     <th>Email</th>
                     <th>Date Joined</th>
                     <th>Delete</th>
@@ -23,7 +25,7 @@
             </thead>
             <tbody>
             {% for item in newsletter_users %}
-                <tr>
+                <tr style="text-align: center">
                     <td>{{ item.email }}</td>
                     <td>{{ item.joined }}</td>
                     <td><a href="{% url 'main:newsletter_users_delete' item.id %}"><button class="btn btn-danger">Delete</button></a></td>
@@ -31,7 +33,7 @@
             {% endfor %}
             </tbody>
         </table>
-{#        </div>#}
+        </div>
     {% include 'pagination.html' %}
     <footer>
     <br>

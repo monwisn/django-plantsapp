@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from main.common import Timestamped, SlugMixin
+from plants_app import settings
 
 
 class Category(Timestamped, SlugMixin):
@@ -36,7 +37,7 @@ class Post(Timestamped, SlugMixin):
     )
     title = models.CharField(max_length=150)
     description = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     place = models.CharField(max_length=100, default='Gdansk')
     category = models.ForeignKey(Category, default='new', on_delete=models.SET_DEFAULT)
     slug = models.SlugField(max_length=200, unique=True)
@@ -44,7 +45,7 @@ class Post(Timestamped, SlugMixin):
     image = models.ImageField(upload_to='blog/images/%Y/%m/%d/')
     image_width = models.IntegerField(blank=True, null=True, editable=False)
     status = models.CharField(max_length=10, default='Draft', choices=STATUS_CHOICES)
-    likes = models.ManyToManyField(User, related_name='likes')
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes')
     # created = models.DateTimeField(auto_now_add=True)
     # updated = models.DateTimeField(auto_now=True)
 

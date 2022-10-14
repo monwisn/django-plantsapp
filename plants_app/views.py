@@ -1,6 +1,7 @@
 import json
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -43,7 +44,7 @@ def send_push(request):
             return JsonResponse(status=400, data={"message": "Invalid data format"})
 
         user_id = data['id']  # id of the request user
-        user = get_object_or_404(User, pk=user_id)  # the recipient of the push notification
+        user = get_object_or_404(get_user_model(), pk=user_id)  # the recipient of the push notification
         payload = {'head': data['head'], 'body': data['body']}  # the notification info which includes the head and body
         send_user_notification(user=user, payload=payload, ttl=1000)
         # ttl- the max. time in sec that the notification should be stored if the user is offline
