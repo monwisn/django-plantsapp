@@ -1,17 +1,18 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
-from .views import register, edit_register, login_user, logout_user, change_password, password_reset, activate_email
+from . import views
+
 
 app_name = 'authentication'
 urlpatterns = [
-    path('', register, name='register'),
-    path('activate/<uidb64>/<token>/', activate_email, name='activate'),
-    path('edit-register/', edit_register, name='edit_register'),
-    path('login/', login_user, name='login_user'),
-    path('logout/', logout_user, name='logout_user'),
-    path('change-password/', change_password, name='change_password'),
-    path('password_reset/', password_reset, name='password_reset'),
+    path('', views.register, name='register'),
+    path('activate/<uidb64>/<token>/', views.activate_email, name='activate'),
+    path('edit-register/', views.edit_register, name='edit_register'),
+    path('login/', views.login_user, name='login_user'),
+    path('logout/', views.logout_user, name='logout_user'),
+    path('change-password/', views.change_password, name='change_password'),
+    path('password_reset/', views.password_reset, name='password_reset'),
     path('password_reset/done/',
          auth_views.PasswordResetDoneView.as_view(template_name='authentication/password_reset_done.html'),
          name='password_reset_done'),
@@ -21,4 +22,5 @@ urlpatterns = [
     path('reset/done/',
          auth_views.PasswordResetCompleteView.as_view(template_name='authentication/password_reset_complete.html'),
          name='password_reset_complete'),
+    path('set-password/', views.set_password, name='set_password'),
 ]

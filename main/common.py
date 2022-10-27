@@ -1,6 +1,8 @@
+import datetime
 import string
 import random
 
+from django import forms
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -54,12 +56,12 @@ class SlugMixin(models.Model):
 
 
 # Cookie Decorator
-
 def cookie_policy(func):
     """
     This decorator can be used to redirect the visitor to the cookie policy page
     when it has not been accepted
     """
+
     def wrapper(request, *args, **kwargs):
         if request.COOKIES.get('cookie_accepted', False):
             return func(request, *args, **kwargs)
@@ -73,7 +75,6 @@ def cookie_policy(func):
 
 
 # Cookie Law Decorator
-
 def cookie_law(func):
     def wrapper(request, *args, **kwargs):
         if request.GET.get('cookie_accepted', None):
@@ -86,3 +87,16 @@ def cookie_law(func):
     wrapper.__doc__ = func.__doc__
     wrapper.__name__ = func.__name__
     return wrapper
+
+
+def past_or_present_date(value):
+    if value > datetime.date.today():
+        raise forms.ValidationError(' The date cannot be in the future.')
+    return value
+
+
+def check_age_under_18(value):
+    age = (datetime.date.today() - value).days / 365
+    if age < 18:
+        raise forms.ValidationError('You must be at least 18 years old.')
+    return value

@@ -16,13 +16,11 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from main.views import create_user_profile
-from plants_app import settings
-from .forms import RegisterForm, EditRegisterForm, NewPasswordResetForm
+from .forms import RegisterForm, EditRegisterForm, NewPasswordResetForm, CustomSetPasswordForm
 from .token import account_activation_token
 
 
-# registration without an activation link
-
+# Registration without an activation link.
 # def register(request):
 #     if request.method == "POST":
 #         form = RegisterForm(request.POST)
@@ -62,8 +60,11 @@ def register(request):
             )
             email.send()
             messages.info(request, 'Activation link has been sent to your email address! Please confirm.')
+            return redirect('main:home_page')
         else:
-            messages.error(request, f'Something went wrong!\n\n {form.errors}')
+            for error in list(form.errors.values()):
+                messages.error(request, error)
+            # messages.error(request, f'Something went wrong!\n\n {form.errors}')
         return redirect(reverse("authentication:register"))
 
     else:
@@ -122,7 +123,7 @@ def login_user(request):
                 else:
                     return redirect('main:home_page')
             else:
-                messages.error(request, "Username/Email or password not correct. Try again.")
+                messages.error(request, "Username or Email or Password not correct. Try again.")
 
     return render(request, 'authentication/login.html')
 
@@ -133,7 +134,7 @@ def logout_user(request):
     return redirect('authentication:login_user')
 
 
-# for logged in users
+# For logged in users.
 @login_required
 def change_password(request):
     if request.method == 'POST':
@@ -152,7 +153,7 @@ def change_password(request):
     return render(request, 'authentication/change_password.html', {'register_form': form})
 
 
-# reset a forgotten password -logout user
+# Reset a forgotten password -logout user.
 def password_reset(request):
     if request.method == 'POST':
         password_reset_form = NewPasswordResetForm(request.POST)
@@ -192,3 +193,20 @@ def password_reset(request):
     else:
         password_reset_form = NewPasswordResetForm()
     return render(request, 'authentication/password_reset.html', {'password_reset_form': password_reset_form})
+
+
+@login_required
+def set_password(request):
+    user = request.user
+    if request.method == 'POST':
+        form = CustomSetPasswordForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your password has been successfully changed.')
+            return redirect('main:user_profile')
+        else:
+            for error in list(form.errors.values()):
+                messages.error(request, error)
+    form = CustomSetPasswordForm(user)
+
+    return render(request, 'authentication/password_set.html', {'form': form})

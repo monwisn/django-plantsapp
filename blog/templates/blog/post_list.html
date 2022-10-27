@@ -6,7 +6,7 @@
 {#{% endblock %}#}
 
 {% block content %}
-    <div style="display: flex; justify-content: flex-end">Current login user: &nbsp;<b>{{ user.username }}</b></div>
+    <div style="display: flex; justify-content: flex-end">Current login user: &nbsp;<b>'{{ user.username|default:'Guest'}}'</b></div>
     <div class="container">
         <div class="header-bottom-set dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

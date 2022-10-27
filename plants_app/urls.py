@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
@@ -36,7 +36,7 @@ if settings.DEBUG:
 
 if 'rosetta' in settings.INSTALLED_APPS:
     urlpatterns += [
-        re_path(r'^rosetta/', include('rosetta.urls'))
+        path('rosetta/', include('rosetta.urls'))
     ]
 
 if not settings.DEBUG:

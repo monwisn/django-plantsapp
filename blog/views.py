@@ -58,7 +58,6 @@ class PostDetailView(ListView):
 
 
 # API
-
 class FilterPostView(ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -136,7 +135,7 @@ def new_post(request):
     if form.is_valid() and img_form.is_valid():
         instance = form.save(commit=False)
         instance.author = request.user
-        instance.save()  # we should be updating the instance not the form, if we write: img_form.save() and form.save() this will give us an error
+        instance.save()  # We should be updating the instance not the form, if we write: img_form.save() and form.save() this will give us an error.
         for img in image:
             image_instance = Images.objects.create(images=img, post=instance)
             image_instance.save()
@@ -214,9 +213,7 @@ def delete_post(request, pk):
 @staff_member_required
 def post_list_admin(request):
     post = Post.objects.all()
-
     pages = pagination(request, post, 10)
-
     context = {
         'post_list_admin': pages,
         'page_obj': pages}

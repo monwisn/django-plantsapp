@@ -261,9 +261,9 @@ WHITENOISE_USE_FINDERS = True
 
 # Cloudinary to serve media files
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'hwsaxtipv',
-    'API_KEY': '862665951215524',
-    'API_SECRET': 'DG3rhdnRiyOW1_LhsscuadKCsRY',
+    'CLOUD_NAME': 'dflf5oweo',
+    'API_KEY': '511574966865236',
+    'API_SECRET': 'LPXvAZ4RHrpEKXiGy_LAPAsB4wM',
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
@@ -277,7 +277,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
-    'authentication.backends.EmailBackend'
+    # 'authentication.backends.EmailBackend'
 )
 
 AUTH_USER_MODEL = 'authentication.User'
@@ -286,7 +286,7 @@ SHELL_PLUS_PRINT_SQL = True
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
-SITE_ID = 2  # 2 will be if we've changed (add new) the example.com to the local address
+SITE_ID = 2  # 2 will be if we've changed (add new) the example.com to the local address.
 
 LOGIN_URL = '/authentication'
 LOGIN_REDIRECT_URL = '/'
@@ -342,6 +342,12 @@ RECAPTCHA_PRIVATE_KEY = '6LdsRlwiAAAAAD2eBGWZyAwkCElSovecU1A-tqDT'
 
 # Google OAuth
 SOCIALACCOUNT_PROVIDERS = {
+    # 'APP': {
+    #     'client_id': '506093727292-i30g9b934aq40ed74mr6gnujr1bol6uk.apps.googleusercontent.com',
+    #     'secret': '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',
+    #     'key': ''
+    #
+    # },
     'google': {
         'SCOPE': [
             'profile',
@@ -354,16 +360,23 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # Additional configuration settings
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Login method to use: the user logs in by entering their email (also possible: username or username_email).
+ACCOUNT_EMAIL_REQUIRED = True  # The user is required to hand over an e-mail address when signing up.
+ACCOUNT_USERNAME_REQUIRED = True  # The user is required to enter a username when signing up.
+ACCOUNT_UNIQUE_EMAIL = True  # Enforce uniqueness of e-mail addresses.
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # Determines the e-mail verification method during signup. Setting this to 'mandatory' requires ACCOUNT_EMAIL_REQUIRED = True.
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3  # Determines the expiration date of email confirmation mails-in days.
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True  # When signing up, let the user type in their password twice to avoid typos.
 
-# SOCIALACCOUNT_QUERY_EMAIL = ACCOUNT_EMAIL_REQUIRED
-SOCIALACCOUNT_AUTO_SIGNUP = True
-SOCIALACCOUNT_EMAIL_REQUIRED = False
+SOCIALACCOUNT_AUTO_SIGNUP = True  # Attempt to bypass the signup form by using fields (e.g. username, email) retrieved from the social account provider.
+SOCIALACCOUNT_EMAIL_VERIFICATION = ACCOUNT_EMAIL_VERIFICATION
+SOCIALACCOUNT_EMAIL_REQUIRED = ACCOUNT_EMAIL_REQUIRED
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_LOGOUT_ON_GET = True
+
+
+# ACCOUNT_FORMS = {
+#     'signup': 'authentication.forms.CustomSignupForm'}
 
 # To activate django-heroku
 django_heroku.settings(locals())

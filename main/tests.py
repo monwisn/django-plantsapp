@@ -1,7 +1,6 @@
 import unittest
 from django.test import TestCase, SimpleTestCase
 from django.urls import reverse
-from django.utils import timezone
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -27,9 +26,7 @@ class SimpleTests(SimpleTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'main/contact.html')
 
-
-
-# views test
+    # views test
     def test_newsletter_user_list(self):
         newsletter_user = self.create_newsletter_user()
         url = reverse("newsletter_user.views.newsletter_user")
@@ -37,7 +34,6 @@ class SimpleTests(SimpleTestCase):
 
         self.assertEqual(resp.status_code, 200)
         self.assertIn(newsletter_user.email, resp.content)
-
 
 
 class TestSignup(unittest.TestCase):

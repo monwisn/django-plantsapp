@@ -9,7 +9,7 @@ class PostFormTest(TestCase):
     def test_get(self):
         response = self.client.get("/blog/new-post/")
 
-        # 302 because first redirect to login page before adding new post
+        # 302 because first redirect to login page before adding new post.
         self.assertEqual(response.status_code, HTTPStatus.OK)  # status code 200
         self.assertTemplateUsed(response, 'blog/new_post.html')
 

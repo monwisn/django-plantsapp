@@ -64,7 +64,7 @@ class CategoryModelTest(TestCase):
 
     def test_get_absolute_url(self):
         category = Category.objects.get(id=1)
-        # This will also fail if the urlconf is not defined
+        # This will also fail if the urlconf is not defined.
         self.assertEqual(category.get_absolute_url(), '/blog/category-detail/1')
 
     def test_get_absolute_url_fail(self):

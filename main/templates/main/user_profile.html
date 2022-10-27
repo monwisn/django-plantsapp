@@ -3,21 +3,22 @@
 {% load i18n %}
 {% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 
 {% block content %}
     {% if messages %}
         {% for message in messages %}
             <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-                {{ message }}
+                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                {{ message|striptags|safe|linebreaksbr|capfirst }}
             </div>
         {% endfor %}
     {% endif %}
-
     <!--User Bio- profile form-->
     <br><br>
 	<div class="container mx-auto" style="text-align: center">
         <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-3 pb-4 special-card">
+            <div class="col-sm-12 col-md-12 col-lg-4 pb-4 special-card">
                 <div class="card bold-card p-4">
                     <h4 class="card-title font-weight-bold text-center">{% trans 'Profile information' %}</h4>
 			      	<hr>
@@ -33,13 +34,16 @@
                             <p>{{ user.userprofile.birth_date }}</p>
                          <p class="text-muted mb-0" style="font-size: 12px">Joined:</p>
                             <p>{{ user.userprofile.join_date }}</p>
+                        <p class="text-muted mb-0" style="font-size: 12px">Last login:</p>
+                            <p>{{ user.last_login }}</p>
+{#                        {{ user.socialaccount_set.all.0.last_login }}#}
                     </div>
                     <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#profileModal-profile">{% trans 'Edit profile' %}</button>
                 </div>
             </div>
 
     <!--User- register form-->
-            <div class="col-sm-12 col-md-12 col-lg-3 pb-4 special-card">
+            <div class="col-sm-12 col-md-12 col-lg-4 pb-4 special-card">
 		    	<div class="card bold-card p-4">
 			    	<h4 class="card-title font-weight-bold text-center">{% trans 'Hello' %}, {{ user.username }}!</h4>
 			      	<hr>
@@ -58,7 +62,7 @@
             </div>
 
     <!-- User Account-->
-            <div class="col-sm-12 col-md-12 col-lg-3 pb-4 special-card">
+            <div class="col-sm-12 col-md-12 col-lg-4 pb-4 special-card">
                 <div class="card bold-card p-4">
                     <h4 class="card-title font-weight-bold text-center">{% trans 'Delete user account' %}</h4>
                     <hr>
@@ -79,12 +83,17 @@
                             </div>
                             <div class="modal-body">
                                 <form method="post">
-                                     {% csrf_token %}
+                                    {% csrf_token %}
                                     {{ register_form|crispy }}
                                     <div class="modal-footer">
-                                        <a class="btn btn-info" href="{% url 'authentication:change_password' %}" role="button">Change password</a>
+                                        {% if user.socialaccount_set.exists %}
+                                            <a class="btn btn-info" href="{% url 'authentication:set_password' %}" role="button">Set password</a>
+                                        {% else %}
+                                            <a class="btn btn-info" href="{% url 'authentication:change_password' %}" role="button">Change password</a>
+                                        {% endif %}
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>

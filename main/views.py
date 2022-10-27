@@ -1,15 +1,17 @@
 import datetime
-
 import requests
+
 from django import template
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.core.mail import BadHeaderError, EmailMultiAlternatives
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template
 from django.utils import translation
+from googletrans import Translator
 
 from plants_app.config import pagination
 from django.shortcuts import render, redirect
@@ -71,7 +73,7 @@ def cookie_banner(request):
 def home_page(request):
     weather = {}
     if request.method == 'POST':
-        city = request.POST['city']  # use your own api_key place api_key in place of appid ="your_api_key_here"
+        city = request.POST['city']  # Use your own api_key place api_key in place of appid ="your_api_key_here".
         lang = 'en'
         url = f'https://api.openweathermap.org/data/2.5/weather?q={city}' \
               f'&units=metric&appid=84459d8299db831d56abee888bea5970&lang={lang}'
@@ -124,28 +126,40 @@ def api_location(request):
     return render(request, 'main/location.html', {'weather': weather})
 
 
+def translate_app(request):
+    if request.method == "POST":
+        lang = request.POST.get("lang", None)
+        txt = request.POST.get("txt", None)
+        translator = Translator()
+        tr = translator.translate(text=txt, dest=lang)
+
+        return render(request, 'main/translate.html', {"result": tr.text, "text": txt})
+    return render(request, 'main/translate.html')
+
+
 def about(request):
     return render(request, 'main/about.html')
 
 
+@login_required(login_url='/authentication/login/')
 def create_user_profile(request):
     instance, created = UserProfile.objects.get_or_create(user=request.user)
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance)
-
         if form.is_valid():
             form.save()
-            messages.success(request, "Your profile has been crated successfully")
+            messages.success(request, "Your profile has been created successfully!")
             return redirect(to='create_user_profile')
         else:
             form = UserProfileForm(instance=request.user.userprofile)
     else:
         form = UserProfileForm()
 
-    return render(request, 'main/create_user_profile.html', {'form': form})
+    return redirect('main:user_profile')
+    # return render(request, 'main/create_user_profile.html', {'form': form})
 
 
-@login_required
+@login_required(login_url='/authentication/login/')
 def user_profile(request):
     if request.method == 'POST':
         register_form = EditRegisterForm(request.POST, instance=request.user)
@@ -159,7 +173,11 @@ def user_profile(request):
             messages.success(request, 'Your profile has been successfully updated!')
 
         else:
-            messages.error(request, 'Something went wrong! (You may have entered incorrect data).')
+            messages.error(request, 'Something went wrong. You may have entered incorrect data.')
+            if ValidationError:
+                for error in list(profile_form.errors.values()):
+                    messages.info(request, error)
+                # messages.info(request, profile_form.errors)
         return redirect('main:user_profile')
 
     else:
@@ -177,7 +195,7 @@ def delete_user(request):
         user = request.user
         user.delete()
         messages.info(request, 'Your account has been deleted.')
-        return redirect('authentication:register')
+        return redirect('main:home_page')
     else:
         delete_form = UserDeleteForm(instance=request.user)
 
@@ -320,6 +338,11 @@ def change_language(request):
     return response
 
 
+def signup_redirect(request):
+    messages.error(request, "Something went wrong. It might be that an account already exists with this e-mail.")
+    return redirect("main:home_page")
+
+
 # def translate_website(request):
 #     if 'language' in request.GET and request.GET['language']:
 #         language = request.GET['language']
@@ -330,3 +353,4 @@ def change_language(request):
 #                 translation.activate(language)
 #             if language == 'es':
 #                 translation.activate(language)
+
