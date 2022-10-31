@@ -362,7 +362,7 @@ SOCIALACCOUNT_PROVIDERS = {
 # Additional configuration settings
 ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Login method to use: the user logs in by entering their email (also possible: username or username_email).
 ACCOUNT_EMAIL_REQUIRED = True  # The user is required to hand over an e-mail address when signing up.
-ACCOUNT_USERNAME_REQUIRED = True  # The user is required to enter a username when signing up.
+ACCOUNT_USERNAME_REQUIRED = False  # The user is required to enter a username when signing up.
 ACCOUNT_UNIQUE_EMAIL = True  # Enforce uniqueness of e-mail addresses.
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # Determines the e-mail verification method during signup. Setting this to 'mandatory' requires ACCOUNT_EMAIL_REQUIRED = True.
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3  # Determines the expiration date of email confirmation mails-in days.
@@ -374,9 +374,6 @@ SOCIALACCOUNT_EMAIL_REQUIRED = ACCOUNT_EMAIL_REQUIRED
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_LOGOUT_ON_GET = True
 
-
-# ACCOUNT_FORMS = {
-#     'signup': 'authentication.forms.CustomSignupForm'}
 
 # To activate django-heroku
 django_heroku.settings(locals())

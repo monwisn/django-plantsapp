@@ -1,4 +1,5 @@
 from django import template
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash, get_user_model
 from django.contrib.auth.decorators import login_required
@@ -41,7 +42,6 @@ from .token import account_activation_token
 def register(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
-
         if form.is_valid():
             user = form.save(commit=False)
             user.is_active = False
@@ -139,7 +139,6 @@ def logout_user(request):
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(data=request.POST, user=request.user)
-
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
@@ -155,6 +154,7 @@ def change_password(request):
 
 # Reset a forgotten password -logout user.
 def password_reset(request):
+    User = get_user_model()
     if request.method == 'POST':
         password_reset_form = NewPasswordResetForm(request.POST)
         if password_reset_form.is_valid():
@@ -165,10 +165,13 @@ def password_reset(request):
                     subject = 'Password Reset Requested'
                     plaintext = template.loader.get_template('authentication/password_reset_email.txt')
                     htmltemp = template.loader.get_template('authentication/password_reset_email.html')
+                    if settings.DEBUG:
+                        domain = '127.0.0.1:8000'
+                    else:
+                        domain = 'plants-mw.herokuapp.com'
                     content = {
                         'email': user.email,
-                        'domain': 'plants-mw.herokuapp.com',
-                        # 'domain': '127.0.0.1:8000',
+                        'domain': domain,
                         'site_name': 'authentication',
                         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                         'user': user,

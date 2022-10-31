@@ -11,7 +11,7 @@ from plants_app import settings
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50, null=True, blank=True)
+    name = models.CharField(max_length=50, blank=True)
     bio = models.TextField(max_length=5000, blank=True)
     location = models.CharField(max_length=200, blank=True)
     birth_date = models.DateField(default=date.today, null=True, blank=True)

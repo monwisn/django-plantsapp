@@ -14,8 +14,9 @@
             </div>
         {% endfor %}
     {% endif %}
+
     <!--User Bio- profile form-->
-    <br><br>
+    <br>
 	<div class="container mx-auto" style="text-align: center">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-4 pb-4 special-card">
@@ -43,90 +44,121 @@
             </div>
 
     <!--User- register form-->
-            <div class="col-sm-12 col-md-12 col-lg-4 pb-4 special-card">
-		    	<div class="card bold-card p-4">
-			    	<h4 class="card-title font-weight-bold text-center">{% trans 'Hello' %}, {{ user.username }}!</h4>
-			      	<hr>
-			    	<div class="card-text">
-			    		<p class="text-muted mb-0" style="font-size: 12px">Username:</p>
-			    		<p>{{ user.username }}</p>
-                        {% if user.first_name %}
-                            <p class="text-muted mb-0" style="font-size: 12px">Name:</p>
-                            <p>{{ user.first_name }} {{ user.last_name }}</p>
-                        {% endif %}
-                        <p class="text-muted mb-0" style="font-size: 12px">Email:</p>
-				  		<p>{{ user.email }} </p>
-                    </div>
-                    <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#profileModal-register">{% trans 'Edit Your information' %}</button>
-                </div>
+    <div class="col-sm-12 col-md-12 col-lg-4 pb-4 special-card">
+        <div class="card bold-card p-4">
+            <h4 class="card-title font-weight-bold text-center">{% trans 'Hello' %}, {{ user.username }}!</h4>
+            <hr>
+            <div class="card-text">
+                <p class="text-muted mb-0" style="font-size: 12px">Username:</p>
+                <p>{{ user.username }}</p>
+                {% if user.first_name %}
+                    <p class="text-muted mb-0" style="font-size: 12px">Name:</p>
+                    <p>{{ user.first_name }} {{ user.last_name }}</p>
+                {% endif %}
+                <p class="text-muted mb-0" style="font-size: 12px">Email:</p>
+                <p>{{ user.email }} </p>
             </div>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#profileModal-register">{% trans 'Edit Your information' %}</button>
+        </div>
+    </div>
 
-    <!-- User Account-->
-            <div class="col-sm-12 col-md-12 col-lg-4 pb-4 special-card">
-                <div class="card bold-card p-4">
-                    <h4 class="card-title font-weight-bold text-center">{% trans 'Delete user account' %}</h4>
-                    <hr>
-                    <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#profileModal-account">{% trans 'Delete account' %}</button>
-                </div>
-            </div>
+    <!-- User Account -->
+    <div class="col-sm-12 col-md-12 col-lg-4 pb-4 special-card">
+        <!-- Manage emails -->
+        <div class="card bold-card p-4">
+            <h4 class="card-title font-weight-bold text-center">{% trans 'Manage user account emails' %}</h4>
+            <hr>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#profileModal-emails">{% trans 'Manage account' %}</button>
+        </div><br>
+        <!-- Delete account -->
+        <div class="card bold-card p-4">
+            <h4 class="card-title font-weight-bold text-center">{% trans 'Delete user account' %}</h4>
+            <hr>
+            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#profileModal-account">{% trans 'Delete account' %}</button>
+        </div>
+    </div>
 
     <!--Edit User-->
-            <div class="col-sm-12 col-md-12 col-lg-9 pb-4">
-                <div class="modal fade" tabindex="-1" id="profileModal-register" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title text-center">{% trans 'Edit Information' %}:</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="post">
-                                    {% csrf_token %}
-                                    {{ register_form|crispy }}
-                                    <div class="modal-footer">
-                                        {% if user.socialaccount_set.exists %}
-                                            <a class="btn btn-info" href="{% url 'authentication:set_password' %}" role="button">Set password</a>
-                                        {% else %}
-                                            <a class="btn btn-info" href="{% url 'authentication:change_password' %}" role="button">Change password</a>
-                                        {% endif %}
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+    <div class="col-sm-12 col-md-12 col-lg-9 pb-4">
+        <div class="modal fade" tabindex="-1" id="profileModal-register" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center">{% trans 'Edit Information' %}:</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                     </div>
-                </div>
-            </div>
-
-     <!--Edit User Bio-->
-            <div class="col-sm-12 col-md-12 col-lg-9 pb-4">
-                <div class="modal fade" tabindex="-1" id="profileModal-profile" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">{% trans 'Edit Profile' %}:</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                    <div class="modal-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ register_form|crispy }}
+                            <div class="modal-footer">
+                                {% if user.socialaccount_set.exists %}
+                                    <a class="btn btn-info" href="{% url 'authentication:set_password' %}" role="button">Set password</a>
+                                {% else %}
+                                    <a class="btn btn-info" href="{% url 'authentication:change_password' %}" role="button">Change password</a>
+                                {% endif %}
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
-                            <div class="modal-body">
-                                <form method="post" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    {{ profile_form|crispy }}
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </form>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!--Edit User Bio-->
+    <div class="col-sm-12 col-md-12 col-lg-9 pb-4">
+        <div class="modal fade" tabindex="-1" id="profileModal-profile" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% trans 'Edit Profile' %}:</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ profile_form|crispy }}
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Manage User Account Emails-->
+    <div class="col-sm-10 col-md-10 col-lg-8 pb-4">
+        <div class="modal fade" tabindex="-1" id="profileModal-emails" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center">{% trans 'Manage Account' %}:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="text-align: center">
+                            {% trans 'Here you can manage your social accounts email.' %}<br>
+                            {% trans 'To log in your account using the google option, you must first link google email/emails to this profile.' %}
+                        </p><hr>
+                        <div class="form-group">
+                            <a href="/accounts/email"><button class="btn btn-primary">Manage</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
 
     <!--Delete User Account-->
     <div class="col-sm-10 col-md-10 col-lg-8 pb-4">

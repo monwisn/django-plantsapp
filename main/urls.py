@@ -24,7 +24,6 @@ urlpatterns = [
     path('location/', views.api_location, name='api_location'),
     path('translate/', views.translate_app, name='translate_app'),
     path('accounts/social/signup/', views.signup_redirect, name='signup_redirect'),
-
     # path('newsletter/users/create/', CreateNewsletterUserApiView.as_view(), name='create_newsletter_user'),
     # path('newsletter/users/', NewsletterUserListView.as_view, name='newsletter_users'),
     # path('newsletter/users/<int:id>/', NewsletterUserDetailView.as_view, name='newsletter_user_detail'),

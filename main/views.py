@@ -339,8 +339,9 @@ def change_language(request):
 
 
 def signup_redirect(request):
-    messages.error(request, "Something went wrong. It might be that an account already exists with this e-mail.")
-    return redirect("main:home_page")
+    messages.error(request, "You can't log in using this email, because user account already exists with this email.")
+    messages.info(request, "Go log in to your account first, connect your google email to existing user account and then try logging in again.")
+    return redirect("authentication:login_user")
 
 
 # def translate_website(request):

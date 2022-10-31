@@ -43,5 +43,4 @@ class NewsletterUserSignUpForm(forms.ModelForm):
 
         def clean_email(self):
             email = self.cleaned_data.get('email')
-
             return email
