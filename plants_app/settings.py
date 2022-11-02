@@ -41,7 +41,7 @@ DEBUG = True  # development
 # DEBUG = False  # production
 
 ADMINS = (
-    ('admin', env("DEFAULT_FROM_EMAIL")),
+    ('admin', "bartkram11@gmail.com"),
 )
 
 MANAGERS = ADMINS
