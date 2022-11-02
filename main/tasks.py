@@ -10,7 +10,7 @@
 #     message = 'Friendly reminder:' \
 #               'Remember to water your plants today!'
 #     email_from = settings.EMAIL_HOST_USER
-#     recipient_list = ['user123@gmail.com', 'env("DEFAULT_FROM_EMAIL")]
+#     recipient_list = ['monwisn3@gmail.com', "bartkram11@gmail.com"]
 #     send_mail(subject, message, email_from, recipient_list, fail_silently=False)
 #     return "Mail has been sent to users successfully."
 #
@@ -28,7 +28,7 @@
 #     Sincerely,
 #         The Watering Plants Application Team"""
 #     email_from = settings.EMAIL_HOST_USER
-#     recipient_list = ['user123@gmail.com', env("DEFAULT_FROM_EMAIL")]
+#     recipient_list = ['monwisn33@gmail.com', "bartkram11@gmail.com"]
 #     send_mail(subject, message, email_from, recipient_list, fail_silently=False)
 #     return "Mail has been sent to users successfully."
 #
@@ -46,7 +46,7 @@
 #     Sincerely,
 #         The Watering Plants Application Team"""
 #     email_from = settings.EMAIL_HOST_USER
-#     recipient_list = ['user123@gmail.com', env("DEFAULT_FROM_EMAIL")]
+#     recipient_list = ['monwisn3@gmail.com', "bartkram11@gmail.com"]
 #     send_mail(subject, message, email_from, recipient_list, fail_silently=False)
 #     return "Mail has been sent to users successfully."
 #
@@ -66,6 +66,6 @@
 #     Sincerely,
 #         The Watering Plants Application Team"""
 #     email_from = settings.EMAIL_HOST_USER
-#     recipient_list = ['user123@gmail.com', env("DEFAULT_FROM_EMAIL")]
+#     recipient_list = ['monwisn3@gmail.com', "bartkram11@gmail.com"]
 #     send_mail(subject, message, email_from, recipient_list, fail_silently=False)
 #     return "Mail has been sent to users successfully."

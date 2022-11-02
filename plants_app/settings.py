@@ -33,7 +33,8 @@ environ.Env.read_env()
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al'
+# SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # development
@@ -131,13 +132,24 @@ WSGI_APPLICATION = 'plants_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env("DATABASE_NAME"),
-        'USER': env("DATABASE_USER"),
-        'PASSWORD': env("DATABASE_PASSWORD"),
-        'HOST': env("DATABASE_HOST"),
-        'PORT': env("DATABASE_PORT"),
+        'NAME': 'plants_app_db',
+        'USER': 'monika_plants_app',
+        'PASSWORD': 'xyz123^dd2ded',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': env("DATABASE_NAME"),
+#         'USER': env("DATABASE_USER"),
+#         'PASSWORD': env("DATABASE_PASSWORD"),
+#         'HOST': env("DATABASE_HOST"),
+#         'PORT': env("DATABASE_PORT"),
+#     }
+# }
 
 prod_db = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
@@ -173,9 +185,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 WEBPUSH_SETTINGS = {
-    "VAPID_PUBLIC_KEY": env("VAPID_PUBLIC_KEY"),
-    "VAPID_PRIVATE_KEY": env("VAPID_PRIVATE_KEY"),
-    "VAPID_ADMIN_EMAIL": env("VAPID_ADMIN_EMAIL")
+    "VAPID_PUBLIC_KEY": "BDcxyHK3YDNBSfLD3znx72PZCh31p18y6no06f4dbsOfysh4vMIbP-4FrXtVo_c6ZcOOH2KZqi7_2DSmDRNoDJ8",
+    "VAPID_PRIVATE_KEY": "EKO42Y5YlevKQVEpNNDIfl6HCDNEaCf-fdGQbHSIsIk",
+    "VAPID_ADMIN_EMAIL": "bartkram11@gmail.com"
+    # "VAPID_PUBLIC_KEY": env("VAPID_PUBLIC_KEY"),
+    # "VAPID_PRIVATE_KEY": env("VAPID_PRIVATE_KEY"),
+    # "VAPID_ADMIN_EMAIL": env("VAPID_ADMIN_EMAIL")
 }
 
 # Internationalization
@@ -245,9 +260,12 @@ TEMPLATE_LOADERS = 'django.template.loaders.filesystem.Loader'
 WHITENOISE_USE_FINDERS = True
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': env("CLOUD_NAME"),
-    'API_KEY': env("API_KEY"),
-    'API_SECRET': env("API_SECRET"),
+    'CLOUD_NAME': 'dflf5oweo',
+    'API_KEY': '511574966865236',
+    'API_SECRET': 'LPXvAZ4RHrpEKXiGy_LAPAsB4wM',
+    # 'CLOUD_NAME': env("CLOUD_NAME"),
+    # 'API_KEY': env("API_KEY"),
+    # 'API_SECRET': env("API_SECRET"),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
@@ -282,12 +300,16 @@ NEWSLETTER_ROOT = BASE_DIR / 'main/templates'
 # Gmail Sending Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
+DEFAULT_FROM_EMAIL = 'bartkram11@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = 'bartkram11@gmail.com'
+EMAIL_HOST_PASSWORD = 'xjabjiktcydxhotr'
 EMAIL_PORT = 587  # this is gmail's port
 EMAIL_USE_TLS = True  # this encrypts our emails being sent
+
+# DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
+# EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 
 # # Celery Configuration
 # CELERY_BROKER_URL = env("CELERY_BROKER_URL")  # or 'redis://localhost:6379'
@@ -320,8 +342,10 @@ MESSAGE_TAGS = {
 }
 
 # reCAPTCHA
-RECAPTCHA_PUBLIC_KEY = env("RECAPTCHA_PUBLIC_KEY")
-RECAPTCHA_PRIVATE_KEY = env("RECAPTCHA_PRIVATE_KEY")
+RECAPTCHA_PUBLIC_KEY = '6LdsRlwiAAAAAAbfW28eMholsdnvkdQugh552FuV'
+RECAPTCHA_PRIVATE_KEY = '6LdsRlwiAAAAAD2eBGWZyAwkCElSovecU1A-tqDT'
+# RECAPTCHA_PUBLIC_KEY = env("RECAPTCHA_PUBLIC_KEY")
+# RECAPTCHA_PRIVATE_KEY = env("RECAPTCHA_PRIVATE_KEY")
 
 # Google OAuth
 SOCIALACCOUNT_PROVIDERS = {
