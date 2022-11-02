@@ -14,6 +14,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
 
 from plants_app.config import pagination
+from plants_app.settings import env
 from .models import Post, Category, Images
 from .forms import PostForm, ImagesForm
 from plants_app import settings
@@ -237,7 +238,7 @@ def send_email_if_new_post(form):
     for sub in subscribers:
         try:
             msg = EmailMultiAlternatives(title, text_content, from_email, [sub.email],
-                                         headers={'Reply-To': 'bartkram11@gmail.com'})
+                                         headers={'Reply-To': env("DEFAULT_FROM_EMAIL")})
             msg.attach_alternative(html_content, 'text/html')
             msg.send()
 

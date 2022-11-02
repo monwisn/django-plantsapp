@@ -32,6 +32,7 @@ from main.models import Newsletter
 #     context = {'form': form}
 #     template = 'control_panel/control_newsletter.html'
 #     return render(request, template, context)
+from plants_app.settings import env
 
 
 @staff_member_required(login_url='/authentication/login/')
@@ -53,7 +54,7 @@ def control_newsletter(request):
             for email in newsletter.email.all():
                 try:
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [email],
-                                                 headers={'Reply-To': 'bartkram11@gmail.com'})
+                                                 headers={'Reply-To': env("DEFAULT_FROM_EMAIL")})
                     msg.attach_alternative(html_content, 'text/html')
                     msg.send()
                 except BadHeaderError:
@@ -106,7 +107,7 @@ def control_newsletter_edit(request, pk):
                 for email in newsletter.email.all():
                     try:
                         msg = EmailMultiAlternatives(subject, text_content, from_email, [email],
-                                                     headers={'Reply-To': 'bartkram11@gmail.com'})
+                                                     headers={'Reply-To': env("DEFAULT_FROM_EMAIL")})
                         msg.attach_alternative(html_content, 'text/html')
                         msg.send()
                     except BadHeaderError:

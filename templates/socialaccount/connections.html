@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Social Account Connections" %}{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                {{ message|striptags|safe|linebreaksbr|capfirst }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="card card-body special-cards">
+        <div style="text-align: right; font-size: medium">
+            <a href="/accounts/email"><button class="btn btn-outline-primary">Back to account manage</button></a>
+        </div>
+        <h4>{% trans "Social Account Connections:" %}</h4><hr>
+        {% if form.accounts %}
+            <medium>{% trans 'You can sign in to your account using any of the following emails from social accounts:' %}</medium><hr>
+            <form method="post" action="{% url 'socialaccount_connections' %}">
+                {% csrf_token %}
+                <fieldset>
+                    {% if form.non_field_errors %}
+                        <div id="errorMsg">{{ form.non_field_errors }}</div>
+                    {% endif %}
+                    {% for base_account in form.accounts %}
+                        {% with base_account.get_provider_account as account %}
+                            <div>
+                                <label for="id_account_{{ base_account.id }}">
+                                    <input id="id_account_{{ base_account.id }}" type="radio" name="account" value="{{ base_account.id }}"/>
+                                    <span class="socialaccount_provider {{ base_account.provider }} {{ account.get_brand.id }}">
+                                        {{ account.get_brand.name }}
+                                    </span>: {{ account }} ({{ account.get_email }})
+                                </label>
+                            </div>
+                        {% endwith %}
+                    {% endfor %}<br>
+                    <div class="buttonHolder modal-footer">
+                        <button class="btn btn-danger" type="submit">{% trans 'Remove' %}</button>
+                    </div>
+                </fieldset>
+            </form>
+        {% else %}
+            <p><strong>{% trans 'Warning:'%}</strong>
+                {% trans 'You currently have no social network accounts connected to this account.' %}
+            </p>
+        {% endif %}
+    </div><br>
+    <div class="card card-body special-cards">
+        <h4>{% trans 'Connect social account email:' %}</h4><hr>
+        <ul class="socialaccount_providers">
+            <b>{% include "socialaccount/snippets/provider_list.html" with process="connect" %}</b>
+        </ul>
+        {% include "socialaccount/snippets/login_extra.html" %}
+    </div>
+{% endblock %}

@@ -19,6 +19,7 @@ from django.views.generic.list import ListView
 
 from authentication.forms import EditRegisterForm
 from plants_app import settings
+from plants_app.settings import env
 from .forms import UserProfileForm, ContactForm, NewsletterUserSignUpForm, UserDeleteForm
 from .models import UserProfile, NewsletterUser
 
@@ -221,12 +222,12 @@ def contact(request):
             try:
                 if send_to_me:
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email, from_email],
-                                                 headers={'Reply-To': 'bartkram11@gmail.com'})
+                                                 headers={'Reply-To': env("DEFAULT_FROM_EMAIL")})
                     msg.attach_alternative(html_content, 'text/html')
                     msg.send()
                 else:
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email],
-                                                 headers={'Reply-To': 'bartkram11@gmail.com'})
+                                                 headers={'Reply-To': env("DEFAULT_FROM_EMAIL")})
                     msg.attach_alternative(html_content, 'text/html')
                     msg.send()
             except BadHeaderError:
