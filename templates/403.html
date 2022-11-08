@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,9 @@
     <title>Forbidden</title>
 </head>
 <body>
-    <h1 style="text-align: center">403 Forbidden</h1>
-    <p style="text-align: center"><b>CSRF verification failed. Request aborted.</b></p>
+{#<body id="bg" style="background-image: url('{% static "main/img/background.png" %}');">#}
+    <p style="text-align: left"><a href="{% url 'main:home_page' %}">Back to home page</a></p>
+    <p style="text-align: center"> <img src="{% static "main/img/403-Forbidden.png" %}" alt="logo" width="40%"></p>
+    <p style="text-align: center"><b>403 Error Forbidden! CSRF Verification failed. Request aborted.</b></p>
 </body>
 </html>

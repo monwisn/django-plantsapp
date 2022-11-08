@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,10 +6,14 @@
     <title>Server error</title>
 </head>
 <body>
-    <h1 style="text-align:center">500 Internal Server Error!</h1>
-    <p style="text-align: center"><b>Oops, something went wrong!</b></p><br>
-    <p style="text-align: center">The server encountered an internal error or misconfiguration and was unable to complete your request.</p>
-    <p style="text-align: center">Please contact the server administrator.</p>
-    <p style="text-align: center"><a href="{% url 'main:home_page' %}">Back to home page</a></p>
+{#<body id="bg" style="background-image: url('{% static "main/img/background.png" %}');">#}
+    <p style="text-align: left"><a href="{% url 'main:home_page' %}">Back to home page</a></p>
+    <p style="text-align: center"> <img src="{% static "main/img/500-Internal-Server-Error.png" %}" alt="logo" width="40%"></p>
+{#    <h2 style="text-align:center">500 Internal Server Error!</h2>#}
+    <p style="text-align: center">
+        Oops, something went wrong!
+        The server encountered an internal error or misconfiguration and was unable to complete your request.
+        Please contact the server administrator.
+    </p>
 </body>
 </html>

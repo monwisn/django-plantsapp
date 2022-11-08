@@ -6,6 +6,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.models import Site
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.core.mail import BadHeaderError, EmailMultiAlternatives
 from django.http import HttpResponse, HttpResponseRedirect
@@ -19,7 +21,6 @@ from django.views.generic.list import ListView
 
 from authentication.forms import EditRegisterForm
 from plants_app import settings
-from plants_app.settings import env
 from .forms import UserProfileForm, ContactForm, NewsletterUserSignUpForm, UserDeleteForm
 from .models import UserProfile, NewsletterUser
 
@@ -83,7 +84,6 @@ def home_page(request):
 
         if city_weather['cod'] == "404" or city == "":
             messages.info(request, 'Incorrect city name, try again.')
-
         else:
             weather = {
                 'city': city_weather['name'],
@@ -94,7 +94,6 @@ def home_page(request):
                 'icon': city_weather['weather'][0]['icon'],
                 'datetime': current_datetime,
             }
-
     else:
         weather = {}
 
@@ -105,12 +104,10 @@ def api_location(request):
     geolocation = requests.get(
         "https://ipgeolocation.abstractapi.com/v1/?api_key=cf3d1c1feafd4da1ae1cdcbd33082d30&"
         "fields=ip_address,city").json()
-
     geo = {
         'city': geolocation['city'],
         # 'ip_address': geolocation['ip_address'],
     }
-
     city = geo['city']
     url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid=84459d8299db831d56abee888bea5970'
     city_weather = requests.get(url).json()
@@ -237,7 +234,6 @@ def contact(request):
             return redirect('main:contact')
         else:
             messages.info(request, "You must confirm reCAPTCHA")
-
     else:
         form = ContactForm()
 
@@ -266,13 +262,15 @@ def newsletter_user_delete(request, pk):
 
 
 def newsletter_signup(request):
+    # site = get_current_site(request)
+    # # current_site = Site.objects.get_current()
     form = NewsletterUserSignUpForm(request.POST or None)
 
     if form.is_valid():
         instance = form.save(commit=False)
         if NewsletterUser.objects.filter(email=instance.email).exists():
             messages.warning(request,
-                             'Your email address already exists in our database!',
+                             'Your email address already exists in our newsletter list!',
                              'alert alert-warning alert-dismissible')
         else:
             instance.save()
@@ -295,13 +293,12 @@ def newsletter_signup(request):
 
 def newsletter_unsubscribe(request):
     form = NewsletterUserSignUpForm(request.POST or None)
-
     if form.is_valid():
         instance = form.save(commit=False)
         if NewsletterUser.objects.filter(email=instance.email).exists():
             NewsletterUser.objects.filter(email=instance.email).delete()
             messages.success(request,
-                             'Your email address has been removed from our database.',
+                             'Your email address has been removed from our newsletter list!',
                              'alert alert-success alert-dismissible')
 
             subject = "You have successfully unsubscribed from our newsletter."
@@ -316,7 +313,7 @@ def newsletter_unsubscribe(request):
             message.send()
         else:
             messages.warning(request,
-                             'Your email address is not in our database.',
+                             'Your email address is not in our newsletter list.',
                              'alert alert-warning alert-dismissible')
 
     return render(request, 'main/newsletter/newsletter_unsubscribe.html', {'form': form})

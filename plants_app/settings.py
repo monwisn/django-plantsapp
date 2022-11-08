@@ -21,6 +21,7 @@ import cloudinary_storage
 from pathlib import Path
 
 from django.contrib import messages, staticfiles
+from django.contrib.sites.shortcuts import get_current_site
 from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,8 +38,8 @@ SECRET_KEY = 'django-insecure-fg8mh0vqvm4ng_wn%z12d3)%em(s1-lcd^^ap^179itn=d2*al
 # SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # development
-# DEBUG = False  # production
+# DEBUG = True  # development
+DEBUG = False  # production
 
 ADMINS = (
     ('admin', "bartkram11@gmail.com"),
@@ -380,7 +381,6 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = ACCOUNT_EMAIL_VERIFICATION
 SOCIALACCOUNT_EMAIL_REQUIRED = ACCOUNT_EMAIL_REQUIRED
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_LOGOUT_ON_GET = True
-
 
 # To activate django-heroku
 django_heroku.settings(locals())
