@@ -1,5 +1,6 @@
 import datetime
 import requests
+from allauth.socialaccount.models import SocialAccount
 
 from django import template
 from django.conf import settings
@@ -353,3 +354,9 @@ def signup_redirect(request):
 #             if language == 'es':
 #                 translation.activate(language)
 
+
+# def google(request):
+#     data = SocialAccount.objects.get(user=request.user).extra_data
+#     extra_data = data.get('email')
+#
+#     return render(request, 'socialaccount/connections.html', {"extra_data": extra_data, "data": data})

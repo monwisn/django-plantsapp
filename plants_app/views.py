@@ -1,5 +1,6 @@
 import json
 
+from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
@@ -52,4 +53,3 @@ def send_push(request):
 
     except TypeError:
         return JsonResponse(status=500, data={'message': 'An error occurred'})
-
