@@ -314,7 +314,6 @@ def newsletter_unsubscribe(request):
             html_template = get_template('main/newsletter/unsubscribe_email.html').render()
             message.attach_alternative(html_template, "text/html")
             message.send()
-            print(current_site)
         else:
             messages.warning(request,
                              'Your email address is not in our newsletter list.',
