@@ -14,6 +14,7 @@ from django.core.mail import BadHeaderError, EmailMultiAlternatives
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template
 from django.utils import translation
+from django.utils.functional import SimpleLazyObject
 from googletrans import Translator
 
 from plants_app.config import pagination
@@ -294,6 +295,7 @@ def newsletter_signup(request):
 
 def newsletter_unsubscribe(request):
     form = NewsletterUserSignUpForm(request.POST or None)
+    current_site = get_current_site(request)
     if form.is_valid():
         instance = form.save(commit=False)
         if NewsletterUser.objects.filter(email=instance.email).exists():
@@ -317,7 +319,7 @@ def newsletter_unsubscribe(request):
                              'Your email address is not in our newsletter list.',
                              'alert alert-warning alert-dismissible')
 
-    return render(request, 'main/newsletter/newsletter_unsubscribe.html', {'form': form})
+    return render(request, 'main/newsletter/newsletter_unsubscribe.html', {'form': form, 'current_site': current_site})
 
 
 def change_language(request):
@@ -353,10 +355,3 @@ def signup_redirect(request):
 #                 translation.activate(language)
 #             if language == 'es':
 #                 translation.activate(language)
-
-
-# def google(request):
-#     data = SocialAccount.objects.get(user=request.user).extra_data
-#     extra_data = data.get('email')
-#
-#     return render(request, 'socialaccount/connections.html', {"extra_data": extra_data, "data": data})
