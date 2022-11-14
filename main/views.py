@@ -328,7 +328,6 @@ def newsletter_signup(request):
 
 def newsletter_unsubscribe(request):
     form = NewsletterUserSignUpForm(request.POST or None)
-    current_site = get_current_site(request)
     if form.is_valid():
         instance = form.save(commit=False)
         if NewsletterUser.objects.filter(email=instance.email).exists():
@@ -338,21 +337,30 @@ def newsletter_unsubscribe(request):
                              'alert alert-success alert-dismissible')
 
             subject = "You have successfully unsubscribed from our newsletter."
+            plaintext = template.loader.get_template('main/newsletter/unsubscribe_email.txt')
+            htmtext = template.loader.get_template('main/newsletter/unsubscribe_email.html')
+            current_site = get_current_site(request)
             from_email = settings.EMAIL_HOST_USER
             to_email = [instance.email]
-            with open(settings.NEWSLETTER_ROOT / 'main/newsletter/unsubscribe_email.txt') as f:
-                unsubscribe_message = f.read()
-            message = EmailMultiAlternatives(subject=subject, body=unsubscribe_message, from_email=from_email,
-                                             to=to_email)
-            html_template = get_template('main/newsletter/unsubscribe_email.html').render()
-            message.attach_alternative(html_template, "text/html")
-            message.send()
+            content = {
+                'domain': current_site.domain,
+            }
+            text_content = plaintext.render(content)
+            html_content = htmtext.render(content)
+            try:
+                msg = EmailMultiAlternatives(subject, text_content, from_email, to_email,
+                                             headers={'Reply-To': "bartkram11@gmail.com"})
+                msg.attach_alternative(html_content, 'text/html')
+                msg.send()
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+
         else:
             messages.warning(request,
                              'Your email address is not in our newsletter list.',
                              'alert alert-warning alert-dismissible')
 
-    return render(request, 'main/newsletter/newsletter_unsubscribe.html', {'form': form, 'current_site': current_site})
+    return render(request, 'main/newsletter/newsletter_unsubscribe.html', {'form': form})
 
 
 def change_language(request):

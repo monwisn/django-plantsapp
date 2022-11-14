@@ -8,7 +8,7 @@ If you'd like to come back to us, you can click on the link below and subscribe 
 
 Visit our website:
 
-{{ 'http' }}://{{ '127.0.0.1:8000' }}/{% url 'main:newsletter_sign_up' %}
+{{ domain }}/{% url 'main:newsletter_sign_up' %}
 
 If it wasn't you, click the 'unsubscribe' button and ignore this email.
 
