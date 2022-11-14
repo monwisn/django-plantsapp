@@ -18,8 +18,10 @@
             {{ form|crispy }}
             {{ form.media }}
             <br>
-            <button class="btn btn-primary" type="submit">Save</button>
-            <a class="btn btn-dark" href="{% url 'control_panel:control_newsletter_list' %}" role="button">Back</a>
+            <div style="text-align: right">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <a class="btn btn-dark" href="{% url 'control_panel:control_newsletter_list' %}" role="button">Back</a>
+            </div>
         </form>
     </div><br>
 {% endblock %}

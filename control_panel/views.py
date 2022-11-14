@@ -73,9 +73,13 @@ def control_newsletter_list(request):
     newsletters = Newsletter.objects.all()
     pages = pagination(request, newsletters, 15)
 
-    context = {'control_newsletter_list': pages,
-               'page_obj': pages}
-    return render(request, 'control_panel/control_newsletter_list.html', context)
+    template = 'control_panel/control_newsletter_list.html'
+    context = {
+        'control_newsletter_list': pages,
+        'page_obj': pages
+    }
+
+    return render(request, template, context)
 
 
 # def control_newsletter_detail(request, pk):

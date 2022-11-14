@@ -2,7 +2,6 @@
 {% load crispy_forms_tags %}
 {% load crispy_forms_filters %}
 
-
 {% block content %}
     <div class="container">
         <div class="row justify-content-center">
@@ -19,7 +18,6 @@
                 <h4 style="text-align: center">
                     <i>Unsubscribe from the Watering Plants Application newsletter.</i>
                 </h4>
-{#                    {{ current_site }}#}
                 <hr><br>
                 <form method="post">
                     {% csrf_token %}

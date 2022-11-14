@@ -34,7 +34,7 @@
                 {% endfor %}
                 <div class="row">
                     <div class="col-6 offset-md-3">
-{#                        {% csrf_token %}#}
+                        {% csrf_token %}
                         {{ photo_form|crispy }}
                     </div>
                 </div>

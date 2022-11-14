@@ -14,7 +14,6 @@ from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
 
 from plants_app.config import pagination
-from plants_app.settings import env
 from .models import Post, Category, Images
 from .forms import PostForm, ImagesForm
 from plants_app import settings
@@ -64,7 +63,7 @@ class FilterPostView(ListAPIView):
     serializer_class = PostSerializer
     filter_backends = (OrderingFilter, DjangoFilterBackend)
     ordering_fields = ('created', 'updated', 'place', 'author', 'category')
-    ordering = ('created',)  # default posts ordering
+    ordering = ('created',)  # Default posts ordering.
 
 
 class SearchPostView(ListAPIView):
@@ -80,8 +79,10 @@ def post_list(request):
     pages = pagination(request, object_list, 15)
 
     template = 'blog/post_list.html'
-    context = {'post_list': object_list,
-               'page_obj': pages}
+    context = {
+        'post_list': object_list,
+        'page_obj': pages
+    }
 
     return render(request, template, context)
 
@@ -91,7 +92,10 @@ def post_detail(request, slug):
     files = Images.objects.filter(images=Images.images)
 
     template = 'blog/post_detail.html'
-    context = {'post': post, 'files': files}
+    context = {
+        'post': post,
+        'files': files
+    }
 
     return render(request, template, context)
 
@@ -118,10 +122,11 @@ def search(request):
     pages = pagination(request, results, num=3)
 
     template = 'blog/post_list.html'
-    context = {'page_obj': pages,
-               'query': query,
-               'object_list': pages,
-               }
+    context = {
+        'page_obj': pages,
+        'query': query,
+        'object_list': pages,
+    }
 
     return render(request, template, context)
 
@@ -163,10 +168,8 @@ def edit_post(request, pk):
     user = request.user
     form = PostForm(instance=post)
 
-
     if request.method == 'POST' and user.id == post.author.id:
         form = PostForm(request.POST, request.FILES, instance=post)
-
         if form.is_valid():
             post = form.save()
             messages.success(request, 'The blog post has been updated!')
@@ -177,11 +180,11 @@ def edit_post(request, pk):
     else:
         form = PostForm(instance=post)
 
+    template = 'blog/new_post.html'
     context = {
         'form': form,
         'post': post,
     }
-    template = 'blog/new_post.html'
 
     return render(request, template, context)
 
@@ -215,12 +218,14 @@ def delete_post(request, pk):
 def post_list_admin(request):
     post = Post.objects.all()
     pages = pagination(request, post, 10)
+
+    template = 'blog/post_list_admin.html'
     context = {
         'post_list_admin': pages,
-        'page_obj': pages}
-    templates = 'blog/post_list_admin.html'
+        'page_obj': pages
+    }
 
-    return render(request, templates, context)
+    return render(request, template, context)
 
 
 def send_email_if_new_post(form):
@@ -241,7 +246,6 @@ def send_email_if_new_post(form):
                                          headers={'Reply-To': "bartkram11@gmail.com"})
             msg.attach_alternative(html_content, 'text/html')
             msg.send()
-
         except BadHeaderError:
             return HttpResponse('Invalid header found.')
 

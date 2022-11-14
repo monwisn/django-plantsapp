@@ -1,20 +1,17 @@
 import datetime
 import requests
-from allauth.socialaccount.models import SocialAccount
 
 from django import template
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
-from django.contrib.sites.models import Site
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.core.mail import BadHeaderError, EmailMultiAlternatives
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template
 from django.utils import translation
-from django.utils.functional import SimpleLazyObject
 from googletrans import Translator
 
 from plants_app.config import pagination
@@ -150,10 +147,10 @@ def create_user_profile(request):
             form.save()
             messages.success(request, "Your profile has been created successfully!")
             return redirect(to='create_user_profile')
-        else:
-            form = UserProfileForm(instance=request.user.userprofile)
-    else:
-        form = UserProfileForm()
+    #     else:
+    #         form = UserProfileForm(instance=request.user.userprofile)
+    # else:
+    #     form = UserProfileForm()
 
     return redirect('main:user_profile')
     # return render(request, 'main/create_user_profile.html', {'form': form})
@@ -168,6 +165,7 @@ def user_profile(request):
         if register_form.is_valid():
             register_form.save()
             messages.success(request, 'Your account information has been successfully updated!')
+
         elif profile_form.is_valid():
             profile_form.save()
             messages.success(request, 'Your profile has been successfully updated!')
@@ -247,9 +245,12 @@ def newsletter_users(request):
     users = NewsletterUser.objects.all()
     pages = pagination(request, users, 5)
 
-    context = {'newsletter_users': pages,
-               'page_obj': pages}
-    return render(request, 'main/newsletter/newsletter_users_list.html', context)
+    template = 'main/newsletter/newsletter_users_list.html'
+    context = {
+        'newsletter_users': pages,
+        'page_obj': pages
+    }
+    return render(request, template, context)
 
 
 @staff_member_required
@@ -264,10 +265,7 @@ def newsletter_user_delete(request, pk):
 
 
 def newsletter_signup(request):
-    # site = get_current_site(request)
-    # # current_site = Site.objects.get_current()
     form = NewsletterUserSignUpForm(request.POST or None)
-
     if form.is_valid():
         instance = form.save(commit=False)
         if NewsletterUser.objects.filter(email=instance.email).exists():
@@ -281,16 +279,51 @@ def newsletter_signup(request):
                              'alert alert-success alert-dismissible')
 
             subject = "Thank you for joining our newsletter."
+            plaintext = template.loader.get_template('main/newsletter/sign_up_email.txt')
+            htmtext = template.loader.get_template('main/newsletter/sign_up_email.html')
+            current_site = get_current_site(request)
             from_email = settings.EMAIL_HOST_USER
             to_email = [instance.email]
-            with open(settings.NEWSLETTER_ROOT / 'main/newsletter/sign_up_email.txt') as f:
-                signup_message = f.read()
-            message = EmailMultiAlternatives(subject=subject, body=signup_message, from_email=from_email, to=to_email)
-            html_template = get_template('main/newsletter/sign_up_email.html').render()
-            message.attach_alternative(html_template, "text/html")
-            message.send()
+            content = {
+                'domain': current_site.domain,
+                'user': request.user.email
+            }
+            text_content = plaintext.render(content)
+            html_content = htmtext.render(content)
+            try:
+                msg = EmailMultiAlternatives(subject, text_content, from_email, to_email,
+                                             headers={'Reply-To': "bartkram11@gmail.com"})
+                msg.attach_alternative(html_content, 'text/html')
+                msg.send()
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
 
     return render(request, 'main/newsletter/newsletter_sign_up.html', {'form': form})
+
+# def newsletter_signup(request):
+#     form = NewsletterUserSignUpForm(request.POST or None)
+#     if form.is_valid():
+#         instance = form.save(commit=False)
+#         if NewsletterUser.objects.filter(email=instance.email).exists():
+#             messages.warning(request,
+#                              'Your email address already exists in our newsletter list!',
+#                              'alert alert-warning alert-dismissible')
+#         else:
+#             instance.save()
+#             messages.success(request,
+#                              'Your email has been added to the newsletter list!',
+#                              'alert alert-success alert-dismissible')
+#             subject = "Thank you for joining our newsletter."
+#             from_email = settings.EMAIL_HOST_USER
+#             to_email = [instance.email]
+#             with open(settings.NEWSLETTER_ROOT / 'main/newsletter/sign_up_email.txt') as f:
+#                 signup_message = f.read()
+#             message = EmailMultiAlternatives(subject=subject, body=signup_message, from_email=from_email, to=to_email)
+#             html_template = get_template('main/newsletter/sign_up_email.html').render()
+#             message.attach_alternative(html_template, "text/html")
+#             message.send()
+#
+#     return render(request, 'main/newsletter/newsletter_sign_up.html', {'form': form})
 
 
 def newsletter_unsubscribe(request):

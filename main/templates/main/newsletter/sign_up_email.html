@@ -1,4 +1,5 @@
 {% load i18n %}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="">
   <head>
@@ -11,7 +12,7 @@
           <!-- BEGIN EMAIL -->
           <tr>
             <td align="center" bgcolor="#f5f5f5" style="padding:30px">
-               <p style="text-align:left">Hello, <br><br>
+               <p style="text-align:left">Hello, {{ user }}<br><br>
                    We are pleased that we can welcome you among the subscribers of our newsletter.
                    Now you never miss our weekly newsletter.
                    <br><br>
@@ -21,15 +22,15 @@
                    If you want, you can unsubscribe at any time, just visit our website.
                </p>
                 <p style="text-align:left">Visit our website:
-{#                    <a href="{{ 'http' }}://{{ '127.0.0.1:8000' }}"><b>watering-plants-app.com</b></a>#}
-                    <a href="{{ 'https' }}://{{ 'plants-mw.herokuapp.com' }}"><b>watering-plants-app.com</b></a>
+                    <a href="{{ domain }}"><b>watering-plants-app.com</b></a>
+{#                    <a href="{{ 'https' }}://{{ 'plants-mw.herokuapp.com' }}"><b>watering-plants-app.com</b></a>#}
                     <br><br>If it wasn't you, click the 'unsubscribe' button and ignore this email.
-              </p>
+                </p>
                 <p>
                     <a target="_blank" style="text-decoration: white; background-color: burlywood;
                     border: black 1px solid; color: firebrick; padding:10px 10px; display:block;"
-{#                       href="{{ 'http' }}://{{ '127.0.0.1:8000' }}{% url 'main:newsletter_unsubscribe' %}">#}
-                       href="{{ 'https' }}://{{ 'plants-mw.herokuapp.com' }}/{{ 'newsletter/unsubscribe' }}">
+                       href="{{ domain }}{% url 'main:newsletter_unsubscribe' %}">
+{#                       href="{{ 'https' }}://{{ 'plants-mw.herokuapp.com' }}/{{ 'newsletter/unsubscribe' }}">#}
                         <strong>Unsubscribe</strong>
                     </a>
                 </p>

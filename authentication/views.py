@@ -1,5 +1,4 @@
 from django import template
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash, get_user_model
 from django.contrib.auth.decorators import login_required
@@ -17,7 +16,6 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from main.views import create_user_profile
-from plants_app.settings import env
 from .forms import RegisterForm, EditRegisterForm, NewPasswordResetForm, CustomSetPasswordForm
 from .token import account_activation_token
 
@@ -49,12 +47,13 @@ def register(request):
             user.save()
             current_site = get_current_site(request)
             mail_subject = 'Please confirm your email address to complete the registration.'
-            message = render_to_string('authentication/active_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
+            message = render_to_string('authentication/active_email.html',
+                                       {
+                                           'user': user,
+                                           'domain': current_site.domain,
+                                           'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                                           'token': account_activation_token.make_token(user),
+                                       })
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(
                 mail_subject, message, to=[to_email]
@@ -111,12 +110,10 @@ def login_user(request):
             password = request.POST['password']
             user = authenticate(request, username=username, password=password)
             next_page = request.POST['next']
-
             if user is not None:
                 login(request, user)
                 create_user_profile(request)
                 messages.success(request, f"You've been successfully logged in as {username}!")
-
                 if next_page != '':
                     return HttpResponseRedirect(next_page)
                     # return redirect(next_page)
