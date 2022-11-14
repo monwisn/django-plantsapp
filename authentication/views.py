@@ -93,7 +93,6 @@ def activate_email(request, uidb64, token):
 def edit_register(request):
     if request.method == 'POST':
         form = EditRegisterForm(request.POST, instance=request.user)
-
         if form.is_valid():
             form.save()
             return redirect('main:user_profile')
@@ -166,13 +165,10 @@ def password_reset(request):
                     subject = 'Password Reset Requested'
                     plaintext = template.loader.get_template('authentication/password_reset_email.txt')
                     htmltemp = template.loader.get_template('authentication/password_reset_email.html')
-                    if settings.DEBUG:
-                        domain = '127.0.0.1:8000'
-                    else:
-                        domain = 'plants-mw.herokuapp.com'
+                    current_site = get_current_site(request)
                     content = {
                         'email': user.email,
-                        'domain': domain,
+                        'domain': current_site.domain,
                         'site_name': 'authentication',
                         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                         'user': user,
