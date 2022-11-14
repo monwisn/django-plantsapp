@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load crispy_forms_filters %}
 {% load crispy_forms_tags %}
 {% load socialaccount %}
@@ -13,46 +14,62 @@
             </div>
         {% endfor %}
     {% endif %}
-    <div id="content-container" class="container p-none">
-        <div class="lgn-container col-lg-6">
-            <form id="login-form" method="post" action=".">
-                {% csrf_token %}
-                <table class="table">
-                    <tr>
-                        <td><label for="id_username"><b>Username or Email*</b></label></td>
-                        <td><input id="id_username" name="username" type="text" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td><label for="id_password"><b>Password*</b></label></td>
-                        <td><input id="id_password" name="password" type="password" class="form-control"></td>
-                    </tr>
-                </table>
-                {% if form.errors %}
-                    <p class="label label-danger">Your username and password didn't match. Please try again.</p>
-                {% endif %}
-                <div class="button-box col-lg-12">  <! -- buttons next to each other ––>
-                    <a class="btn btn-primary me-1" href="{% url 'authentication:password_reset' %}" role="button">
-                        Lost password?
-                    </a>
-                    <!-- google login -->
-                    <button class="btn btn-outline-info">
-                        <a href="{% provider_login_url 'google' process="connect" %}?next=/" style="text-decoration: none">
-                            <i class="fa fa-google"></i>
-                             Login with Google
-                        </a>
-                    </button>
-                    <input type="submit" value="Log-in" class="btn btn-success pull-right"/>
-                    <input type="hidden" name="next" value="{{ request.GET.next }}"/>
-                </div><br>
-            </form>
+	<div class="container mx-auto" style="text-align: left">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 pb-4 special-card">
+                <div class="card bold-card p-4">
+                    <h4 class="card-title font-weight-bold text-center">{% trans 'Login to your account' %}</h4>
+			      	<hr>
+                    <div class="card-text">
+                        <div id="content-container" class="container p-none">
+                            <div class="lgn-container col-lg-6">
+                                <form id="login-form" method="post" action=".">
+                                    {% csrf_token %}
+                                    <table class="table">
+                                        <tr>
+                                            <td><label for="id_username">Username/Email*</label></td>
+                                            <td><input id="id_username" name="username" placeholder="Type your username or email"
+                                                       type="text" class="form-control">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="id_password">Password*</label></td>
+                                            <td><input id="id_password" name="password" placeholder="Type your password"
+                                                       type="password" class="form-control">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    {% if form.errors %}
+                                        <p class="label label-danger">Your username and password didn't match. Please try again.</p>
+                                    {% endif %}
+                                    <div class="button-box col-lg-12">  <! -- buttons next to each other ––>
+                                        <a class="btn btn-primary me-1" href="{% url 'authentication:password_reset' %}" role="button">
+                                            Lost password?
+                                        </a>
+                                        <!-- google login -->
+                                        <button class="btn btn-outline-info">
+                                            <a href="{% provider_login_url 'google' process="connect" %}?next=/" style="text-decoration: none">
+                                                <i class="fa fa-google"></i>
+                                                Login with Google
+                                            </a>
+                                        </button>
+                                        <input type="submit" value="Log-in" class="btn btn-success pull-right"/>
+                                        <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+                                    </div><br>
+                                </form>
+                            </div>
+                        </div>
+                    {#    <p>#}
+                        <div style="text-align: right; font-size: medium">
+                            Don't have an account? Create here:
+                            <a type="button" class="btn btn-primary" href="{% url "authentication:register" %}">Sign-up </a>
+                        </div>
+                    {#    </p>#}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-{#    <p>#}
-    <div style="text-align: right; font-size: medium">
-        Don't have an account? Create here:
-        <a type="button" class="btn btn-primary" href="{% url "authentication:register" %}">Sign-up </a>
-    </div>
-{#    </p>#}
 {% endblock %}
 
 
