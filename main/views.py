@@ -73,6 +73,7 @@ def cookie_banner(request):
 
 def home_page(request):
     weather = {}
+    current_site = get_current_site(request)
     if request.method == 'POST':
         city = request.POST['city']  # Use your own api_key place api_key in place of appid ="your_api_key_here".
         lang = 'en'
@@ -96,7 +97,7 @@ def home_page(request):
     else:
         weather = {}
 
-    return render(request, 'main/home_page.html', {'weather': weather})
+    return render(request, 'main/home_page.html', {'weather': weather, 'current_site': current_site})
 
 
 def api_location(request):
@@ -201,6 +202,7 @@ def delete_user(request):
 
 
 def contact(request):
+    current_site = get_current_site(request)
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -211,6 +213,7 @@ def contact(request):
             body = {
                 'message': form.cleaned_data['message'],
                 'name': form.cleaned_data['name'],
+                'domain': current_site.domain
             }
             to_email = settings.EMAIL_HOST_USER
             send_to_me = form.cleaned_data['send_to_me']

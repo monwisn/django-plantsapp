@@ -67,7 +67,6 @@
         </div>
     </div>
 
-
     <div style="text-align: center; font-size: large">
 {#        <h4><b>{% trans 'Welcome to Watering Plants Application' %}</b></h4>#}
         <br>
@@ -112,7 +111,8 @@
         <br>
         <div class="text-center p-3" style="background-color: transparent;">
             <p>© {% now "Y" %} Copyright:
-                <a href="https://plants-mw.herokuapp.com/">PlantsApp.com</a>
+                <a href={{ current_site.domain }}>PlantsApp.com</a>
+{#                <a href="https://plants-mw.herokuapp.com/">PlantsApp.com</a>#}
             </p>
         </div>
     </footer>
