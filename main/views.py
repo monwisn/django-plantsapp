@@ -286,7 +286,7 @@ def newsletter_signup(request):
             to_email = [instance.email]
             content = {
                 'domain': current_site.domain,
-                'user': request.user.email
+                'email': instance.email
             }
             text_content = plaintext.render(content)
             html_content = htmtext.render(content)
