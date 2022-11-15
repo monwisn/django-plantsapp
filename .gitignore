@@ -136,3 +136,8 @@ dmypy.json
 # docker files
 #docker-compose.yml
 #Dockerfile
+
+# added
+staticfiles
+media
+
