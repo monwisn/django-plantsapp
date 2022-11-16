@@ -222,12 +222,12 @@ def contact(request):
             try:
                 if send_to_me:
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email, from_email],
-                                                 headers={'Reply-To': "EMAIL@gmail.com"})
+                                                 headers={'Reply-To': "bartkram11@gmail.com"})
                     msg.attach_alternative(html_content, 'text/html')
                     msg.send()
                 else:
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email],
-                                                 headers={'Reply-To': "EMAIL11@gmail.com"})
+                                                 headers={'Reply-To': "bartkram11@gmail.com"})
                     msg.attach_alternative(html_content, 'text/html')
                     msg.send()
             except BadHeaderError:
@@ -295,7 +295,7 @@ def newsletter_signup(request):
             html_content = htmtext.render(content)
             try:
                 msg = EmailMultiAlternatives(subject, text_content, from_email, to_email,
-                                             headers={'Reply-To': "EMAIL11@gmail.com"})
+                                             headers={'Reply-To': "bartkram11@gmail.com"})
                 msg.attach_alternative(html_content, 'text/html')
                 msg.send()
             except BadHeaderError:
@@ -352,7 +352,7 @@ def newsletter_unsubscribe(request):
             html_content = htmtext.render(content)
             try:
                 msg = EmailMultiAlternatives(subject, text_content, from_email, to_email,
-                                             headers={'Reply-To': "EMAIL@gmail.com"})
+                                             headers={'Reply-To': "bartkram11@gmail.com"})
                 msg.attach_alternative(html_content, 'text/html')
                 msg.send()
             except BadHeaderError:

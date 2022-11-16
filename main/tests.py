@@ -42,7 +42,7 @@ class TestSignup(unittest.TestCase):
 
     def test_signup_fire(self):
         self.driver.get("http://localhost:8000/newsletter/sign-up/")
-        self.driver.find_element(By.ID, 'id_email').send_keys("EMAIL@gmail.com")
+        self.driver.find_element(By.ID, 'id_email').send_keys("bartkram11@gmail.com")
         self.driver.find_element(By.ID, 'submit').click()
         self.assertIn("http://localhost:8000/", self.driver.current_url)
 

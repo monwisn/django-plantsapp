@@ -24,7 +24,13 @@
                     <h4 class="card-title font-weight-bold text-center">{% trans 'Profile information' %}</h4>
 			      	<hr>
                     <div class="card-text">
-                        <img src="{{ user.userprofile.profile_image.url }}" class="rounded-circle" width="100" height="100" alt="profile image">
+                        {% if user.userprofile.profile_image %}
+                            <img src="{{ user.userprofile.profile_image.url }}" class="rounded-circle"
+                                         width="100" height="100" alt="profile_img">
+                        {% else %}
+                            <img src="{% static 'main/img/default_user.jpg' %}" class="rounded-circle"
+                                 width="100" height="100" alt="profile_img">
+                        {% endif %}
                         <p class="text-muted mb-0" style="font-size: 12px">Name:</p>
                             <p>{{ user.userprofile.name }}</p>
 				  		<p class="text-muted mb-0" style="font-size: 12px">Bio:</p>

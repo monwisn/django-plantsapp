@@ -15,7 +15,8 @@ class UserProfile(models.Model):
     bio = models.TextField(max_length=5000, blank=True)
     location = models.CharField(max_length=200, blank=True)
     birth_date = models.DateField(default=date.today, null=True, blank=True)
-    profile_image = models.ImageField(default='profile/default_user.jpg', upload_to='profile_pictures')
+    # profile_image = CloudinaryField('profile_image')
+    profile_image = models.ImageField(upload_to='profile_pictures')
     join_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
