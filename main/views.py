@@ -130,7 +130,6 @@ def translate_app(request):
         txt = request.POST.get("txt", None)
         translator = Translator()
         tr = translator.translate(text=txt, dest=lang)
-
         return render(request, 'main/translate.html', {"result": tr.text, "text": txt})
     return render(request, 'main/translate.html')
 
