@@ -29,6 +29,12 @@ def get_random_text(n):
     return ''.join(random.choice(letters) for _ in range(n))
 
 
+def generate_numbers():
+    numbers = ''.join(random.choice(string.digits) for _ in range(6))
+    return numbers
+
+
+
 class SlugMixin(models.Model):
     SLUG_BASE_FIELD = 'title'
     SLUG_SUFFIX_LEN = 5

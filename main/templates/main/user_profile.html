@@ -26,13 +26,13 @@
 			      	<hr>
                     <div class="card-text">
                         {% if user.userprofile.profile_image %}
-                            {% thumbnail user.userprofile.profile_image "x320" as im %}
-                                <p style="text-align:center"><a href="{{ user.userprofile.profile_image.url }}">
-                                    <img class="rounded-circle" width="100" height="100" src="{{ im.url }}" alt="profile_img"/></a>
-                                </p>
-                            {% endthumbnail %}
-{#                            <img src="{{ user.userprofile.profile_image.url }}" class="rounded-circle"#}
-{#                                         width="100" height="100" alt="profile_img">#}
+{#                            {% thumbnail user.userprofile.profile_image "x320" as im %}#}
+{#                                <p style="text-align:center"><a href="{{ user.userprofile.profile_image.url }}">#}
+{#                                    <img class="rounded-circle" width="100" height="100" src="{{ im.url }}" alt="profile_img"/></a>#}
+{#                                </p>#}
+{#                            {% endthumbnail %}#}
+                            <img src="{{ user.userprofile.profile_image.url }}" class="rounded-circle"
+                                         width="100" height="100" alt="profile_img">
                         {% else %}
                             <img src="{% static 'main/img/default_user.jpg' %}" class="rounded-circle"
                                  style="object-fit: cover" width="100" height="100" alt="profile_img">
@@ -82,7 +82,15 @@
             <hr>
             <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#profileModal-emails">{% trans 'Manage account' %}</button>
         </div><br>
-        <!-- Delete account -->
+
+    <!-- Generate avatar -->
+        <div class="card bold-card p-4">
+            <h4 class="card-title font-weight-bold text-center">{% trans 'Generate random avatar' %}</h4>
+            <hr>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#profileModal-avatars">{% trans 'Generate avatar' %}</button>
+        </div><br>
+
+    <!-- Delete account -->
         <div class="card bold-card p-4">
             <h4 class="card-title font-weight-bold text-center">{% trans 'Delete user account' %}</h4>
             <hr>
@@ -189,7 +197,35 @@
                             {% trans 'If you delete account your profile will be deleted as well as all your blog posts.' %}
                         </p><hr>
                         <div class="form-group">
-                            <a href="{% url 'main:delete_user' %}"><button class="btn btn-danger">Delete</button></a>
+                            <a href="{% url 'main:delete_user' %}"><button class="btn btn-danger">Delete <i class="fa fa-trash"></i></button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+
+    <!--Generate Random Avatar-->
+    <div class="col-sm-10 col-md-10 col-lg-8 pb-4">
+        <div class="modal fade" tabindex="-1" id="profileModal-avatars" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center">{% trans 'Generate Avatar' %}:</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="text-align: center">
+                            {% trans 'Here you can generate random avatars for your profile image.' %}
+                            {% trans 'Choose button with your gender to generate and save random avatar.' %}
+                            {% trans 'You can generate multiple avatars if you want.' %}
+                        </p><hr>
+                        <div class="form-group">
+                            <a href="{% url 'main:show_avatars' %}"><button class="btn btn-info">Show avatars</button></a>
+                            <a href="{% url 'main:api_avatars_female' %}"><button class="btn btn-primary">Generate Female</button></a>
+                            <a href="{% url 'main:api_avatars_male' %}"><button class="btn btn-primary">Generate Male</button></a>
                         </div>
                     </div>
                 </div>

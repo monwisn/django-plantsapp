@@ -20,6 +20,7 @@ from django.views.generic.list import ListView
 
 from authentication.forms import EditRegisterForm
 from plants_app import settings
+from .common import generate_numbers
 from .forms import UserProfileForm, ContactForm, NewsletterUserSignUpForm, UserDeleteForm
 from .models import UserProfile, NewsletterUser
 
@@ -302,6 +303,7 @@ def newsletter_signup(request):
 
     return render(request, 'main/newsletter/newsletter_sign_up.html', {'form': form})
 
+
 # def newsletter_signup(request):
 #     form = NewsletterUserSignUpForm(request.POST or None)
 #     if form.is_valid():
@@ -384,7 +386,8 @@ def change_language(request):
 
 def signup_redirect(request):
     messages.error(request, "You can't log in using this email, because user account already exists with this email.")
-    messages.info(request, "Go log in to your account first, connect your google email to existing user account and then try logging in again.")
+    messages.info(request,
+                  "Go log in to your account first, connect your google email to existing user account and then try logging in again.")
     return redirect("authentication:login_user")
 
 
@@ -398,3 +401,40 @@ def signup_redirect(request):
 #                 translation.activate(language)
 #             if language == 'es':
 #                 translation.activate(language)
+
+
+def api_avatars_female(request):
+    if request.method == 'GET':
+        numbers = generate_numbers()
+        # gen = request.POST['gender']
+        url = f"https://joeschmoe.io/api/v1/female/random"
+        response = requests.request("GET", url)
+        resp = HttpResponse(response,
+                            headers={'Content-Type': 'image/svg',
+                                     'Content-Disposition': f'attachment; filename = "avatar_female{numbers}.svg"'})
+        return resp
+
+    else:
+        messages.info(request, 'You must choose valid gender [female/male].')
+
+    return redirect('main:user_profile')
+
+
+def api_avatars_male(request):
+    if request.method == 'GET':
+        numbers = generate_numbers()
+        url = f"https://joeschmoe.io/api/v1/male/random"
+        response = requests.request("GET", url)
+        resp = HttpResponse(response,
+                            headers={'Content-Type': 'image/svg',
+                                     'Content-Disposition': f'attachment; filename = "avatar_male{numbers}.svg"'})
+        return resp
+
+    else:
+        messages.info(request, 'You must choose valid gender [female/male].')
+
+    return redirect('main:user_profile')
+
+
+def show_avatars(request):
+    return render(request, 'main/show_api_avatars.html')

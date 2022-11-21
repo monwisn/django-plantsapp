@@ -1,6 +1,7 @@
+import os
 from datetime import date
 
-from cloudinary.models import CloudinaryField
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
@@ -15,7 +16,8 @@ class UserProfile(models.Model):
     bio = models.TextField(max_length=5000, blank=True)
     location = models.CharField(max_length=200, blank=True)
     birth_date = models.DateField(default=date.today, null=True, blank=True)
-    profile_image = models.ImageField(upload_to='profile_pictures', blank=True)
+    profile_image = models.FileField(upload_to='profile_pictures', blank=True,
+                                     validators=[FileExtensionValidator(['jpg', 'jpeg', 'png', 'svg'])])
     join_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
