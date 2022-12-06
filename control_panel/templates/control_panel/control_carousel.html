@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                {{ message|striptags|safe|linebreaksbr }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="flower-background p-4">
+        <div class="col-sm-8 col-md-8 col-lg-12 pb-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <h2 class="page-header" style="color: blue"><b>Carousel</b></h2><hr>
+                    <h5 style="text-align: center; color: blue"><b>Add new photo to home page carousel:</b></h5>
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy|linebreaks }}
+                        {{ form.media }}<br>
+                        <div style="text-align: right">
+                            <button class="btn btn-primary" type="submit">Save</button>
+                            <a class="btn btn-secondary" href="{% url 'main:home_page' %}" role="button">Back</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

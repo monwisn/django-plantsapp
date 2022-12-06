@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Category: <b>{{ category.title }}</b></h1><br>
     <div class="card card-body">
+        <h2><i><b>Category: </b>{{ category.title }}</i></h2><hr><br>
         <p><i><b>Description: </b>{{ category.description }}</i></p>
-    </div>
-    <hr>
+{#    {{ category.get_absolute_url }}#}
+    </div><br>
     <div class="card card-body">
         {% for item in post %}
             <div class="card card-body">
-                <h4><b>{{ item.title }}</b></h4>
+                <h4><b>Post: '{{ item.title }}'</b></h4>
                 {{ item.description|truncatechars:50 }}
-                {{ value|linebreaks }}
             </div>
+            {{ value|linebreaks }}
         {% endfor %}
     </div><br>
     <div style="text-align: right; font-size: medium">

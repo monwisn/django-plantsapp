@@ -1,19 +1,84 @@
 from django.test import TestCase
 from django.template.defaultfilters import slugify
-from django.utils import timezone
+# from model_bakery import baker  # fixture for testing
+# from pprint import pprint
 
+from authentication.models import User
 from blog.models import Post, Category
-from main.models import NewsletterUser
 
 
 class ModelsTestCase(TestCase):
-    def test_post_has_slug(self):
-        """Posts are given slugs correctly when saving"""
-        post = Post.objects.create(title='Next post')
-        post.author = 'test_user010'
-        post.save()
 
-        self.assertEqual(post.slug, slugify(post.title))
+    # # autogenerate data with bakery:
+    # def setUp(self):
+    #     self.post = baker.make('blog.Post')
+    #     pprint(self.post.__dict__)
+
+    @classmethod
+    def setUpTestData(cls):
+        """Set up data for the whole TestCase"""
+
+        user = User.objects.create_user(username="myusername", password="mypassword", email="abc@testmail.com")
+        user2 = User.objects.create_user(username="myusername2", password="mypassword2", email="abcd@testmail.com")
+
+        cls.category = Category.objects.create(
+            title='test category',
+            description='test',
+            slug='test-category',
+        )
+
+        cls.post = Post.objects.create(
+            title='Next post',
+            description='Test post',
+            author=user,
+            place='Test place',
+            category=cls.category,
+            status='Draft',
+        )
+
+        cls.post.save()
+        cls.post.likes.set([user.pk, user2.pk])
+        cls.post.save()
+
+    def test_post_likes(self):
+        self.assertEqual(self.post.likes.count(), 2)
+
+    def test_post_has_slug(self):
+        self.assertEqual(self.post.slug, slugify(self.post.title))
+
+
+    # def test_post_has_slug_and_post_likes(self):
+    #     """Posts are given slugs correctly when saving"""
+    #
+    #     user = User.objects.create_user(
+    #         username="myusername",
+    #         password="mypassword",
+    #         email="abc@testmail.com"
+    #     )
+    #     self.client.user = user
+    #
+    #     user2 = User.objects.create_user(
+    #         username="myusername2",
+    #         password="mypassword2",
+    #         email="abcd@testmail.com"
+    #     )
+    #     self.client.user = user2
+    #
+    #     category = Category.objects.create(title='test category', description='test', slug='test-category')
+    #
+    #     post = Post.objects.create(title='Next post',
+    #                                description='Test post',
+    #                                author=user2,
+    #                                place='Test place',
+    #                                category=category,
+    #                                status='Draft',
+    #                                )
+    #     post.save()
+    #     post.likes.set([user.pk, user2.pk])
+    #     post.save()
+    #
+    #     self.assertEqual(post.slug, slugify(post.title))
+    #     self.assertEqual(post.likes.count(), 2)
 
 
 class CategoryModelTest(TestCase):
@@ -70,5 +135,4 @@ class CategoryModelTest(TestCase):
     def test_get_absolute_url_fail(self):
         category = Category.objects.get(id=1)
         self.assertEqual(category.get_absolute_url(), '/blog/category_detail/1')
-
 

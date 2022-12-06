@@ -24,7 +24,7 @@ class Category(Timestamped, SlugMixin):
         super(Category, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('blog:category_detail', args=str(self.id))
+        return reverse('blog:category_detail', args=str(self.id))  # or [self.slug]
 
     def __str__(self):
         return self.title
@@ -57,7 +57,6 @@ class Post(Timestamped, SlugMixin):
         # if not self.slug:
         #     self.slug = slugify(self.title)
         super(Post, self).save(*args, **kwargs)
-
 
     def __str__(self):
         return f'post {self.id}: "{self.title}"'

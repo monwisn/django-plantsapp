@@ -20,7 +20,7 @@ from django.views.generic.list import ListView
 
 from authentication.forms import EditRegisterForm
 from plants_app import settings
-from .common import generate_numbers
+from .common import generate_numbers, Carousel
 from .forms import UserProfileForm, ContactForm, NewsletterUserSignUpForm, UserDeleteForm
 from .models import UserProfile, NewsletterUser
 
@@ -73,6 +73,7 @@ def cookie_banner(request):
 
 
 def home_page(request):
+    images = Carousel.objects.all()
     weather = {}
     current_site = get_current_site(request)
     if request.method == 'POST':
@@ -98,7 +99,7 @@ def home_page(request):
     else:
         weather = {}
 
-    return render(request, 'main/home_page.html', {'weather': weather, 'current_site': current_site})
+    return render(request, 'main/home_page.html', {'weather': weather, 'current_site': current_site, 'images': images})
 
 
 def api_location(request):
@@ -403,35 +404,18 @@ def signup_redirect(request):
 #                 translation.activate(language)
 
 
-def api_avatars_female(request):
+def api_avatars(request):
+    numbers = generate_numbers()
     if request.method == 'GET':
-        numbers = generate_numbers()
-        # gen = request.POST['gender']
-        url = f"https://joeschmoe.io/api/v1/female/random"
-        response = requests.request("GET", url)
-        resp = HttpResponse(response,
-                            headers={'Content-Type': 'image/svg',
-                                     'Content-Disposition': f'attachment; filename = "avatar_female{numbers}.svg"'})
-        return resp
-
-    else:
-        messages.info(request, 'You must choose valid gender [female/male].')
-
-    return redirect('main:user_profile')
-
-
-def api_avatars_male(request):
-    if request.method == 'GET':
-        numbers = generate_numbers()
-        url = f"https://joeschmoe.io/api/v1/male/random"
-        response = requests.request("GET", url)
-        resp = HttpResponse(response,
-                            headers={'Content-Type': 'image/svg',
-                                     'Content-Disposition': f'attachment; filename = "avatar_male{numbers}.svg"'})
-        return resp
-
-    else:
-        messages.info(request, 'You must choose valid gender [female/male].')
+        gender = request.GET['gender']
+        if gender != 'male' and gender != 'female':
+            messages.info(request, 'You must enter correct gender [female/male].')
+        else:
+            url = f"https://joeschmoe.io/api/v1/{gender}/random"
+            response = requests.request("GET", url)
+            resp = HttpResponse(response, headers={'Content-Type': 'image/svg',
+                                                   'Content-Disposition': f'attachment; filename = "avatar_{gender}{numbers}.svg"'})
+            return resp
 
     return redirect('main:user_profile')
 

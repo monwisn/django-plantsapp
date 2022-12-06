@@ -27,7 +27,6 @@ urlpatterns = [
     # path('newsletter/users/create/', CreateNewsletterUserApiView.as_view(), name='create_newsletter_user'),
     # path('newsletter/users/', NewsletterUserListView.as_view, name='newsletter_users'),
     # path('newsletter/users/<int:id>/', NewsletterUserDetailView.as_view, name='newsletter_user_detail'),
-    path('api-avatars-female/', views.api_avatars_female, name='api_avatars_female'),
-    path('api-avatars-male/', views.api_avatars_male, name='api_avatars_male'),
-    path('show-avatars/', views.show_avatars, name='show_avatars')
+    path('api-avatars/', views.api_avatars, name='api_avatars'),
+    path('show-avatars/', views.show_avatars, name='show_avatars'),
 ]

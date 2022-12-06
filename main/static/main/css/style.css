@@ -288,3 +288,19 @@ ul li a:hover {
     margin: auto;
     width: 70%
 }
+
+.carousel-control-next,
+.carousel-control-prev,
+.carousel-indicators
+{
+    filter: invert(100%);
+}
+
+.flower-background {
+    background-image: url("/media/background_new2.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    opacity: 80%;
+    border: 2px solid dimgrey;
+}

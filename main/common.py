@@ -34,7 +34,6 @@ def generate_numbers():
     return numbers
 
 
-
 class SlugMixin(models.Model):
     SLUG_BASE_FIELD = 'title'
     SLUG_SUFFIX_LEN = 5
@@ -106,3 +105,12 @@ def check_age_under_18(value):
     if age < 18:
         raise forms.ValidationError('You must be at least 18 years old.')
     return value
+
+
+class Carousel(Timestamped):
+    image = models.ImageField(upload_to='carousel_images/%Y/%m/%d/')
+    title = models.CharField(max_length=150)
+    sub_title = models.CharField(max_length=100, blank=True, verbose_name='description')
+
+    def __str__(self):
+        return self.title

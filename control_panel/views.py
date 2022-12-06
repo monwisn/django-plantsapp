@@ -7,10 +7,10 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from django.shortcuts import render, get_object_or_404, redirect
 
-from control_panel.forms import NewsletterCreationForm
+from control_panel.forms import NewsletterCreationForm, CarouselCreationForm
+from main.common import Carousel
 from plants_app.config import pagination
 from main.models import Newsletter
-
 
 # # @login_required(login_url='/authentication/login/')
 # @staff_member_required
@@ -122,7 +122,6 @@ def control_newsletter_edit(request, pk):
     else:
         form = NewsletterCreationForm(instance=newsletter)
 
-
     return render(request, 'control_panel/control_newsletter.html', {'form': form})
 
 
@@ -135,3 +134,44 @@ def control_newsletter_delete(request, pk):
         return redirect('control_panel:control_newsletter_list')
 
     return render(request, 'control_panel/control_newsletter_delete.html', {'newsletter': newsletter})
+
+
+@staff_member_required(login_url='/authentication/login/')
+def control_carousel(request):
+    if request.method == "POST":
+        form = CarouselCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your carousel has been created successfully.')
+            return redirect('control_panel:control_carousel')
+        else:
+            messages.error(request, f'Something went wrong!\n\n {form.errors}')
+            return redirect('control_panel:control_carousel')
+    else:
+        form = CarouselCreationForm()
+    return render(request, "control_panel/control_carousel.html", {"form": form})
+
+
+@staff_member_required(login_url='/authentication/login/')
+def control_carousel_list(request):
+    carousel = Carousel.objects.all()
+    pages = pagination(request, carousel, 10)
+
+    template = 'control_panel/control_carousel_list.html'
+    context = {
+        'control_carousel_list': pages,
+        'page_obj': pages
+    }
+
+    return render(request, template, context)
+
+
+@staff_member_required(login_url='/authentication/login/')
+def control_carousel_delete(request, pk):
+    carousel = get_object_or_404(Carousel, pk=pk)
+    if request.method == 'POST':
+        carousel.delete()
+        messages.success(request, 'Carousel photo has been deleted.')
+        return redirect('control_panel:control_carousel_list')
+
+    return render(request, 'control_panel/control_carousel_delete.html', {'carousel': carousel})

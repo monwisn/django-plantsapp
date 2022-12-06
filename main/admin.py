@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models import UserProfile, NewsletterUser, Newsletter
+from .common import Carousel
 
 
 # admin.site.register(UserProfile)
@@ -21,6 +22,11 @@ class NewsletterAdmin(admin.ModelAdmin):
     list_display = ['subject', 'status', 'created', 'updated']
     search_fields = ['subject']
     list_filter = ['status', 'created']
+
+
+@admin.register(Carousel)
+class CarouselAdmin(admin.ModelAdmin):
+    list_display = ['title', 'sub_title', 'created', 'updated']
 
 
 admin.site.site_header = "Welcome to the Admin site"
