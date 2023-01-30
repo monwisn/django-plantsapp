@@ -139,3 +139,6 @@ dmypy.json
 
 # staticfiles
 staticfiles
+
+# static images
+main/static/main/img/
