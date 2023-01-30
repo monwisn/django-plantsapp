@@ -22,7 +22,9 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-4 pb-4 special-card">
                 <div class="card bold-card p-4">
-                    <h4 class="card-title font-weight-bold text-center">{% trans 'Profile information' %}</h4>
+                    <h4 class="card-title font-weight-bold text-center">{% trans 'Profile information' %}
+{#                        <img src="{% static "main/img/christmas_tree_icon.png" %}" alt="logo" width="10%">#}
+                    </h4>
 			      	<hr>
                     <div class="card-text">
                         {% if user.userprofile.profile_image %}
@@ -74,10 +76,9 @@
             </div>
             <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#profileModal-register">{% trans 'Edit Your information' %}</button>
         </div>
-    </div>
 
     <!-- User Account -->
-    <div class="col-sm-12 col-md-12 col-lg-4 pb-4 special-card">
+    <br>
         <!-- Manage emails -->
         <div class="card bold-card p-4">
             <h4 class="card-title font-weight-bold text-center">{% trans 'Manage user account emails' %}</h4>
@@ -85,14 +86,30 @@
             <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#profileModal-emails">{% trans 'Manage account' %}</button>
         </div><br>
 
-    <!-- Generate avatar -->
+        <!-- Generate avatar -->
         <div class="card bold-card p-4">
             <h4 class="card-title font-weight-bold text-center">{% trans 'Generate random avatar' %}</h4>
             <hr>
             <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#profileModal-avatars">{% trans 'Generate avatar' %}</button>
         </div><br>
+    </div>
 
-    <!-- Delete account -->
+    <!-- User Account -->
+    <div class="col-sm-12 col-md-12 col-lg-4 pb-4 special-card">
+
+        <!-- Video Area -->
+        <div class="card bold-card p-4">
+            <h4 class="card-title font-weight-bold text-center">{% trans 'Chillin Music Set' %}
+{#                <img src="{% static "main/img/christmas_icon1.png" %}" alt="logo" width="10%">#}
+            </h4>
+            <hr>
+            <div class="video-area mb-100">
+                <iframe width="350" height="270" allowfullscreen="true" src="https://www.youtube.com/embed/pYDfz8-geZ4"></iframe>
+            </div>
+        </div>
+        <br>
+
+        <!-- Delete account -->
         <div class="card bold-card p-4">
             <h4 class="card-title font-weight-bold text-center">{% trans 'Delete user account' %}</h4>
             <hr>

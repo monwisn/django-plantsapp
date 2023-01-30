@@ -102,7 +102,8 @@
                                         </a></li>
                                     {% else %}
                                         <li><a class="dropdown-item" href="{% url 'main:create_user_profile' %}">
-                                            Your profile: <b>({{ user.username }})</b>
+                                            <b>Your profile</b>
+{#                                            Your profile: <b>({{ user.username }})</b>#}
                                         </a></li>
                                     {% endif %}
                                     <li><a class="dropdown-item" href="{% url 'galleries:galleries_list_view' %}">Galleries</a></li>
@@ -110,7 +111,7 @@
                                     <li><a class="dropdown-item" href="{% url 'galleries:list' %}">Galleries details</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="{% url 'authentication:logout_user' %}">Log out
-                                        <img src="{% static "main/img/logout_icon.png" %}" alt="logo" width="7%">
+                                        <img src="{% static "main/img/logout_icon.png" %}" alt="logo" width="11%">
                                     </a></li>
                                 {% else %}
                                     <li><a class="dropdown-item" href="{% url 'authentication:register' %}">Register
@@ -122,6 +123,7 @@
                                 {% endif %}
                                 <li><a class="dropdown-item" href="{% url 'main:translate_app' %}">Google Translate
                                     <img src="{% static "main/img/google_translate_icon.png" %}" alt="logo" width="13%">
+                                    &nbsp;&nbsp;
                                 </a></li>
                             </ul>
                         </li>

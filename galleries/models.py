@@ -49,7 +49,7 @@ class Photo(Timestamped, SlugMixin):
     )
 
     title = models.CharField(max_length=100)
-    short_description = models.CharField(max_length=300, null=True, blank=True)
+    short_description = models.CharField(max_length=300, blank=True)
     how_often = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Once a week')
     image = models.ImageField(upload_to=upload_to)
     gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE, related_name="photos")
