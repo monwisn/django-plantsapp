@@ -54,7 +54,7 @@ def control_newsletter(request):
             for email in newsletter.email.all():
                 try:
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [email],
-                                                 headers={'Reply-To': "bartkram11@gmail.com"})
+                                                 headers={'Reply-To': "email@gmail.com"})
                     msg.attach_alternative(html_content, 'text/html')
                     msg.send()
                 except BadHeaderError:
@@ -111,7 +111,7 @@ def control_newsletter_edit(request, pk):
                 for email in newsletter.email.all():
                     try:
                         msg = EmailMultiAlternatives(subject, text_content, from_email, [email],
-                                                     headers={'Reply-To': "bartkram11@gmail.com"})
+                                                     headers={'Reply-To': "email@gmail.com"})
                         msg.attach_alternative(html_content, 'text/html')
                         msg.send()
                     except BadHeaderError:

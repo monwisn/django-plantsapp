@@ -103,9 +103,11 @@ def home_page(request):
 
 
 def api_location(request):
+    # geolocation = requests.get(
+    #     "https://ipgeolocation.abstractapi.com/v1/?api_key=cf3d1c1feafd4da1ae1cdcbd33082d30&"
+    #     "fields=ip_address,city").json()
     geolocation = requests.get(
-        "https://ipgeolocation.abstractapi.com/v1/?api_key=cf3d1c1feafd4da1ae1cdcbd33082d30&"
-        "fields=ip_address,city").json()
+        "https://api.ipgeolocation.io/ipgeo?apiKey=a7c32a635e30443e80765774d7381a6b&fields=ip,city").json()
     geo = {
         'city': geolocation['city'],
         # 'ip_address': geolocation['ip_address'],
@@ -223,12 +225,12 @@ def contact(request):
             try:
                 if send_to_me:
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email, from_email],
-                                                 headers={'Reply-To': "bartkram11@gmail.com"})
+                                                 headers={'Reply-To': "email@gmail.com"})
                     msg.attach_alternative(html_content, 'text/html')
                     msg.send()
                 else:
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email],
-                                                 headers={'Reply-To': "bartkram11@gmail.com"})
+                                                 headers={'Reply-To': "email@gmail.com"})
                     msg.attach_alternative(html_content, 'text/html')
                     msg.send()
             except BadHeaderError:
@@ -296,7 +298,7 @@ def newsletter_signup(request):
             html_content = htmtext.render(content)
             try:
                 msg = EmailMultiAlternatives(subject, text_content, from_email, to_email,
-                                             headers={'Reply-To': "bartkram11@gmail.com"})
+                                             headers={'Reply-To': "email@gmail.com"})
                 msg.attach_alternative(html_content, 'text/html')
                 msg.send()
             except BadHeaderError:
@@ -354,7 +356,7 @@ def newsletter_unsubscribe(request):
             html_content = htmtext.render(content)
             try:
                 msg = EmailMultiAlternatives(subject, text_content, from_email, to_email,
-                                             headers={'Reply-To': "bartkram11@gmail.com"})
+                                             headers={'Reply-To': "email@gmail.com"})
                 msg.attach_alternative(html_content, 'text/html')
                 msg.send()
             except BadHeaderError:
