@@ -106,7 +106,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.sites.middleware.CurrentSiteMiddleware',  ####
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
 ]
 
 ROOT_URLCONF = 'plants_app.urls'
@@ -223,6 +223,7 @@ TRANSLATIONS_HINT_LANGUAGE = 'en'
 STATIC_URL = '/static/'  # the URL location of static files located in STATIC_ROOT
 MEDIA_URL = '/media/'
 
+
 if DEBUG:
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'main/static'), ]  # Tells Django where to look for static files in a Django project.
@@ -252,7 +253,7 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': env("API_SECRET"),
 }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

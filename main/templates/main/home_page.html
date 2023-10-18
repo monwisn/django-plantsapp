@@ -13,7 +13,6 @@
             </div>
         {% endfor %}
     {% endif %}
-
     <div style="text-align: center; font-size: large">
         <h4><b>{% trans 'Welcome to Watering Plants Application' %}</b></h4>
     </div>
@@ -31,7 +30,7 @@
                     <div class="input-group">
                         <input type="text" class='form-control' name='city' placeholder="Search city">
                         <span class="input-group-btn">
-                            <button type="submit" class="btn btn-outline-primary">Search</button>
+                            <button type="submit" class="btn btn-outline-primary">{% trans 'Search' %}</button>
                         </span>
                     </div>
                 </div>
@@ -40,10 +39,9 @@
             <!-- api location -->
             <div style="text-align: center; font-size: medium">
                 {{ values|linebreaks }}
-                Use your current <a href="{% url 'main:api_location' %}">location</a>
+                {% trans 'Use your current' %}&nbsp;<a href="{% url 'main:api_location' %}">{% trans 'location' %}</a>
                 <img src="{% static "main/img/location_icon.png" %}" alt="logo" width="6%">
             </div>
-
             {{ values|linebreaks }}
             {% if weather.city %}
                 <article class="media">
@@ -138,7 +136,7 @@
             </button>
         </div>
         <br>
-        <div class="text-center p-3" style="background-color: transparent;">
+        <div class="new-footer">
             <p>© {% now "Y" %} Copyright:
                 <a href={{ current_site.domain }}>PlantsApp.com</a>
             </p>

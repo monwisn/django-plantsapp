@@ -13,32 +13,30 @@
     <div style="text-align: right; font-size: medium">
         <a href="{% url 'galleries:galleries_list_view' %}"><button class="btn btn-secondary">Back to list</button></a>
     </div><br>
-    <div class="card card-body">
-        {% if user.id == gallery.author.id %}
-            <h3><b>{{ gallery.title }}</b></h3><hr>
-{#            <div class="container">#}
-{#                <div class="row">#}
-{#                    <div class="col">#}
-{#                        <section class="photo_gallery">#}
-                            {% for gallery_image in gallery.photos.all %}
+
+    <!-- Gallery Images -->
+        <div class="card card-body">
+            <div class="container">
+                {% if user.id == gallery.author.id %}
+                    <h3 class="fw-light text-center text-lg-start mt-4 mb-0">{{ gallery.title }}</h3>
+                    <hr class="mt-2 mb-5">
+                    <div class="row text-center text-lg-start">
+                        {% for gallery_image in gallery.photos.all %}
                                 {% if gallery_image.is_published %}
-                                    <p style="text-align:center">
-                                        {% thumbnail gallery_image.image "x300" as im %}
-                                            <a href="{{ gallery_image.image.url }}">
-                                                <img class="centerImage" style="border:3px solid black;" src="{{ im.url }}" alt="image" title=""/>
-                                            </a>
-                                        {% endthumbnail %}
-                                    </p>
+                                    <div class="col-lg-3 col-md-4 col-6">
+                                    {% thumbnail gallery_image.image "x300" as im %}
+                                        <a href="{{ gallery_image.image.url }}" class="d-block mb-4 h-100">
+                                            <img class="img-fluid img-thumbnail" src="{{ im.url }}" alt="image">
+                                        </a>
+                                    {% endthumbnail %}
+                                    </div>
                                 {% endif %}
-                            {% endfor %}
-{#                        </section>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-        {% endif %}
-        <br/>
-    </div>
-    {{ values|linebreaks }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <br/><br/>
     {% endif %}
 {% endblock %}
 

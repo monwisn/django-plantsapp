@@ -108,7 +108,7 @@ def check_age_under_18(value):
 
 
 class Carousel(Timestamped):
-    image = models.ImageField(upload_to='carousel_images/%Y/%m/%d/')
+    image = models.ImageField(upload_to='carousel_images/')
     title = models.CharField(max_length=150)
     sub_title = models.CharField(max_length=100, blank=True, verbose_name='description')
 

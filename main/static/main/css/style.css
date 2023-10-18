@@ -258,6 +258,7 @@ ul li a:hover {
 
 #slider {
     opacity: 0.85;
+    alignment: center;
   }
 
 #confirmCookie {
@@ -297,10 +298,29 @@ ul li a:hover {
 }
 
 .flower-background {
-    background-image: url("/media/background_new2.jpg");
+    background-image: url("/media/bg-carousel.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     opacity: 80%;
-    border: 2px solid dimgrey;
+    border: 1px solid dimgrey;
+}
+
+.new-footer {
+    background: transparent;
+    /*background: white;*/
+    /*opacity: 0.6;*/
+    color: black;
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px;
+}
+
+.galleries {
+    height:100px;
+    width:305px;
+    text-align:center;
+    border:1px solid #ccc;
+    font:14px/24px Arial, Garamond, Serif;
+    overflow:auto;
 }
