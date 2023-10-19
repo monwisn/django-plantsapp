@@ -1,4 +1,4 @@
-![plantsapp30](https://github.com/monwisn/django-plantsapp/assets/48805011/58a6948a-36e1-4d30-87b5-f93cc2c25cd7)![plantsapp29](https://github.com/monwisn/django-plantsapp/assets/48805011/29ec778e-b892-4fd3-a6bd-5a3b267956a8)# django_app
+# django_app
 
 An application that will help you manage watering plants.
 Heroku address for a quick overview of the application:  https://plants-mw.herokuapp.com/
