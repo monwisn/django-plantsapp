@@ -10,7 +10,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from control_panel.forms import NewsletterCreationForm, CarouselCreationForm
 from main.common import Carousel
 from plants_app.config import pagination
-from main.models import Newsletter
+from main.models import Newsletter, NewsletterUser
 
 # # @login_required(login_url='/authentication/login/')
 # @staff_member_required
@@ -51,17 +51,19 @@ def control_newsletter(request):
             from_email = settings.EMAIL_HOST_USER
             text_content = plaintext.render(body)
             html_content = htmltemp.render(body)
-            for email in newsletter.email.all():
+            emails = NewsletterUser.objects.all().values_list('email', flat=True)
+            for email in emails:
                 try:
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [email],
-                                                 headers={'Reply-To': "email@gmail.com"})
+                                                 headers={'Reply-To': from_email})
                     msg.attach_alternative(html_content, 'text/html')
                     msg.send()
                 except BadHeaderError:
                     return HttpResponse('Invalid header found.')
 
             messages.success(request, 'New newsletter was sent successfully.')
-            return redirect('control_panel:control_newsletter')
+            return redirect('control_panel:control_newsletter_list')
+        return redirect('control_panel:control_newsletter_list')
     else:
         form = NewsletterCreationForm()
 
@@ -107,11 +109,11 @@ def control_newsletter_edit(request, pk):
                 from_email = settings.EMAIL_HOST_USER
                 text_content = plaintext.render(body)
                 html_content = htmltemp.render(body)
-
-                for email in newsletter.email.all():
+                emails = NewsletterUser.objects.all().values_list('email', flat=True)
+                for email in emails:
                     try:
                         msg = EmailMultiAlternatives(subject, text_content, from_email, [email],
-                                                     headers={'Reply-To': "email@gmail.com"})
+                                                     headers={'Reply-To': from_email})
                         msg.attach_alternative(html_content, 'text/html')
                         msg.send()
                     except BadHeaderError:

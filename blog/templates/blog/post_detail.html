@@ -33,7 +33,7 @@
         {% if post.image %}
             {% thumbnail post.image "x320" as im %}
                 <p style="text-align:center"><a href="{{ post.image.url }}">
-                    <img style="border:3px solid black;" src="{{ im.url }}" alt="" title="image for post: {{ post.pk }}"/></a>
+                    <img class="img-fluid img-thumbnail" src="{{ im.url }}" alt="" title="image for post: {{ post.pk }}"/></a>
                 </p>
             {% endthumbnail %}
         {% endif %}
@@ -45,19 +45,20 @@
             </div>
         {% endif %}
 
-    <!-- Multiple images -->
-        {{ value|linebreaks }}
+        <!-- Multiple images -->
         {% if post.images.exists %}
-            <b>More images:</b><br>
-            {% for image in post.images.all %}
-                {% thumbnail image.images "x320" as img %}
-                    <p style="text-align:center">
-                        <a href="{{ image.images.url }}">
-                            <img style="border:3px solid black;" src="{{ img.url }}" alt="images"/>
-                        </a>
-                    </p>
-                {% endthumbnail %}
-            {% endfor %}
+            <hr class="mt-2 mb-5">
+            <div class="row text-center text-lg-start">
+                {% for image in post.images.all %}
+                    <div class="col-lg-3 col-md-4 col-6">
+                        {% thumbnail image.images "x320" as img %}
+                            <a href="{{ image.images.url }}" class="d-block mb-4 h-100">
+                                <img class="img-fluid img-thumbnail" src="{{ img.url }}" alt="image">
+                            </a>
+                        {% endthumbnail %}
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
         <br/><br/>
         <hr>

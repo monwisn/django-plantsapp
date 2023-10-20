@@ -1,17 +1,17 @@
 # from __future__ import absolute_import, unicode_literals
 #
-# import os
+import os
 # import main.tasks
-# from celery import Celery
+from celery import Celery
 # from celery.schedules import crontab
 # from django.conf import settings
 #
-# # Set the default Django settings module for the 'celery' program.
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'plants_app.settings')
+# Set the default Django settings module for the 'celery' program.
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'plants_app.settings')
 #
-# app = Celery('plants_app')
-# app.conf.enable_utc = False
-# app.conf.update(timezone='Europe/Warsaw')
+app = Celery('plants_app')
+app.conf.enable_utc = False
+app.conf.update(timezone='Europe/Warsaw')
 #
 # # Using a string here means the worker doesn't have to serialize the configuration object to child processes.
 # # - namespace='CELERY' means all celery-related configuration keys should have a `CELERY_` prefix.
@@ -74,5 +74,37 @@
 #         'task': 'tasks.add',
 #         'schedule': crontab(hour=10, minute=30, day_of_week=2),
 #         'args': (16, 16),
-#     },
+#     }
 # }
+
+import django
+django.setup()
+
+from django.core.mail import send_mail
+from celery import shared_task
+
+from main.models import NewsletterUser
+from plants_app import settings
+
+
+@shared_task
+def send_weekly_newsletters():
+    newsletter_users = NewsletterUser.objects.all()
+    subject = 'Weekly Newsletter'
+    message = '''
+    Hello, 
+    
+    This is your weekly newsletter with our tips to keep plants healthy and beautiful.
+    We hope our advice is useful.
+    
+    If you have any suggestions for our newsletter, please let us know at:
+    
+    plantsapp@contact.com
+    
+    
+    Best Regards,
+    PlantsApp Team.
+    '''
+    from_email = settings.EMAIL_HOST_USER
+    recipient_list = [user.email for user in newsletter_users]
+    send_mail(subject, message, from_email, recipient_list)

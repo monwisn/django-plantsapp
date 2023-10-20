@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
@@ -179,4 +181,32 @@ class PhotosEditView(SingleObjectMixin, LoginRequiredMixin, FormView):
 def send_reminder():
     print('true')
 
+
+
+def test_galleries(request):
+    user = request.user
+    gal_users = Gallery.objects.all().values_list('author', flat=True).distinct()
+    if user.is_authenticated:
+        # galleries = Gallery.objects.all().filter(author=user).filter(status=2)
+        photos = Photo.objects.all().filter(gallery__author=user).filter(gallery__status=2).filter(send_reminder=True)
+        for photo in photos:
+            if photo.how_often == 'Once every 2-3 days':
+                time = photo.updated + datetime.timedelta(days=3)
+                print('1', time)
+            elif photo.how_often == 'Once a week':
+                time = photo.updated + datetime.timedelta(weeks=1)
+                print('2', time)
+            elif photo.how_often == 'Once every 2 weeks':
+                time = photo.updated + datetime.timedelta(weeks=2)
+                print('3', time)
+            else:
+                print('4')
+
+        return render(request, 'galleries/test-gallery.html', {'user': user,
+                                                               # 'galleries': galleries,
+                                                               'photos': photos,
+                                                               'gal_users': gal_users})
+
+    else:
+        return redirect('authentication:login_user')
 

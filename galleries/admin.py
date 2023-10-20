@@ -57,7 +57,10 @@ class GalleryAdmin(admin.ModelAdmin):  # new option: object permissions
     exclude = ('slug',)
 
     fieldsets = (
-        ('', {
+        ('Author', {
+            "fields": ("author",),
+        }),
+        ('Title', {
             "fields": ("title",),
         }),
         ('Description', {

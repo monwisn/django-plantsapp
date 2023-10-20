@@ -11,8 +11,8 @@ plants_app/.env
 plants_app/.env/
 .venv
 env/
-.env/
-.env
+plants_app/.env/
+plants_app/.env
 venv/
 ENV/
 env.bak/

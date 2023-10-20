@@ -216,7 +216,8 @@ def contact(request):
             body = {
                 'message': form.cleaned_data['message'],
                 'name': form.cleaned_data['name'],
-                'domain': current_site.domain
+                'domain': current_site.domain,
+                'email': from_email
             }
             to_email = settings.EMAIL_HOST_USER
             send_to_me = form.cleaned_data['send_to_me']

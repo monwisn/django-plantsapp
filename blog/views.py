@@ -141,20 +141,20 @@ def new_post(request):
     if form.is_valid() and img_form.is_valid():
         instance = form.save(commit=False)
         instance.author = request.user
-        instance.save()  # We should be updating the instance not the form, if we write: img_form.save() and form.save() this will give us an error.
+        instance.save()
+        # We should be updating the instance not the form, if we write:
+        # img_form.save() and form.save() this will give us an error.
         for img in image:
             image_instance = Images.objects.create(images=img, post=instance)
             image_instance.save()
             image_list.append(image_instance)
 
         messages.success(request, 'New post has been successfully added!')
-        # print(image_list)
-        if form.data['status'] == 'Draft':
-            form = PostForm()
-
-        else:
+        if form.data['status'] == 'Published':
             send_email_if_new_post(form)
-            form = PostForm()
+
+        return redirect('main:home_page')
+
     else:
         form = PostForm()
         img_form = ImagesForm()
@@ -171,22 +171,14 @@ def edit_post(request, pk):
     if request.method == 'POST' and user.id == post.author.id:
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
-            post = form.save()
+            form.save()
             messages.success(request, 'The blog post has been updated!')
+            return redirect('blog:blog_list')
 
     elif request.method == 'POST' and user.id != post.author.id:
-        messages.warning(request, 'Not your blog post, your must be login as a proper user to edit/delete')
+        messages.warning(request, 'Not your blog post, you must be log in as a proper user to edit/delete.')
 
-    else:
-        form = PostForm(instance=post)
-
-    template = 'blog/new_post.html'
-    context = {
-        'form': form,
-        'post': post,
-    }
-
-    return render(request, template, context)
+    return render(request, 'blog/new_post.html', {'form': form, 'post': post})
 
 
 @login_required

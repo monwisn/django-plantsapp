@@ -8,7 +8,7 @@ class NewsletterCreationForm(forms.ModelForm):
 
     class Meta:
         model = Newsletter
-        fields = ['subject', 'body', 'email', 'status']
+        fields = ['subject', 'body', 'status']
 
 
 class CarouselCreationForm(forms.ModelForm):

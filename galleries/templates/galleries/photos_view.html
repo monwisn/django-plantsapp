@@ -22,15 +22,15 @@
                     <hr class="mt-2 mb-5">
                     <div class="row text-center text-lg-start">
                         {% for gallery_image in gallery.photos.all %}
-                                {% if gallery_image.is_published %}
-                                    <div class="col-lg-3 col-md-4 col-6">
-                                    {% thumbnail gallery_image.image "x300" as im %}
-                                        <a href="{{ gallery_image.image.url }}" class="d-block mb-4 h-100">
-                                            <img class="img-fluid img-thumbnail" src="{{ im.url }}" alt="image">
-                                        </a>
-                                    {% endthumbnail %}
-                                    </div>
-                                {% endif %}
+                            {% if gallery_image.is_published %}
+                                <div class="col-lg-3 col-md-4 col-6">
+                                {% thumbnail gallery_image.image "x300" as im %}
+                                    <a href="{{ gallery_image.image.url }}" class="d-block mb-4 h-100">
+                                        <img class="img-fluid img-thumbnail" src="{{ im.url }}" alt="image">
+                                    </a>
+                                {% endthumbnail %}
+                                </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
                 {% endif %}

@@ -20,6 +20,7 @@ import cloudinary_storage
 
 from pathlib import Path
 
+from celery.schedules import crontab
 from django.contrib import messages, staticfiles
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.translation import gettext_lazy as _
@@ -79,6 +80,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     # 'django_celery_results',
     # 'django_celery_beat',
+    'django_crontab',
     'captcha',
     'allauth',
     'allauth.account',
@@ -294,7 +296,7 @@ EMAIL_USE_TLS = True  # this encrypts our emails being sent
 
 
 # # Celery Configuration
-# CELERY_BROKER_URL = env("CELERY_BROKER_URL")  # or 'redis://localhost:6379'
+CELERY_BROKER_URL = env("CELERY_BROKER_URL")  # or 'redis://localhost:6379'
 # CELERY_TASK_SERIALIZER = 'json'
 # CELERY_RESULT_SERIALIZER = 'json'
 # CELERY_ACCEPT_CONTENT = ['application/json']  # or ['json']
@@ -304,10 +306,18 @@ EMAIL_USE_TLS = True  # this encrypts our emails being sent
 # CELERY_TASK_TIME_LIMIT = 30 * 60
 #
 # # Stores tasks status in django database
-# CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
+CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
 #
 # # Celery Beat settings
 # CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+
+CELERY_BEAT_SCHEDULE = {
+    'send-weekly-emails': {
+        'task': 'plants_app.celery.send_weekly_newsletter',
+        'schedule': crontab(day_of_week='thursday', hour='21', minute='10'),
+       },
+   }
 
 # Django REST Framework
 REST_FRAMEWORK = {
