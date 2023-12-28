@@ -16,5 +16,5 @@ urlpatterns = [
     path('galleries-list-view/<int:gallery_id>', views.photos_view, name='photos_view'),
     path('photo-delete/<int:pk>', views.photo_delete, name='photo_delete'),
     path('<int:pk>/photos-edit/', views.PhotosEditView.as_view(), name='photos_edit'),
-    path('test-galleries/', views.test_galleries, name='test_galleries'),
+    path('galleries-reminder/', views.galleries_reminder, name='galleries_reminder'),
 ]

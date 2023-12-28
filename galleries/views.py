@@ -1,5 +1,6 @@
 import datetime
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
@@ -15,8 +16,8 @@ from django.views.generic.detail import SingleObjectMixin
 
 from galleries.models import Gallery, Photo, Status
 from galleries.forms import GalleryForm, PhotoForm, GalleryPhotosFormset
-# from plants_app.celery import setup_periodic_tasks
 from plants_app.config import pagination
+from main.tasks import send_mail_task
 
 
 @login_required(login_url='/authentication/login')
@@ -34,7 +35,6 @@ def add_gallery(request):
         else:
             messages.error(request, f'Something went wrong!\n\n {form.errors}')
         return redirect('galleries:add_gallery')
-
     else:
         form = GalleryForm()
     return render(request, "galleries/add_gallery.html", {"form": form})
@@ -46,7 +46,6 @@ def galleries_list(request):
     # gallery = Gallery.objects.filter(author=request.user).filter(status=Status.PUBLISHED)
     # gallery = Gallery.objects.filter(status=Status.PUBLISHED).annotate(p_count=Count("photos")).filter(p_count__gt=0)
     pages = pagination(request, gallery, 5)
-
     return render(request, "galleries/list_galleries.html", {"gallery": pages, 'page_obj': pages})
 
 
@@ -57,7 +56,6 @@ def galleries_list_view(request):
     # galleries = Gallery.objects.filter(author=request.user).filter(status=Status.PUBLISHED).annotate(
     #     p_count=Count("photos")).filter(p_count__gt=0)
     pages = pagination(request, galleries, 4)
-
     return render(request, 'galleries/galleries_list_view.html', {'galleries': pages, 'page_obj': pages})
 
 
@@ -72,17 +70,14 @@ def gallery_details(request, gallery_id):
 @login_required(login_url='/authentication/login')
 def gallery_edit(request, pk):
     gallery = get_object_or_404(Gallery, pk=pk, author_id=request.user)
-
     if request.method == 'POST':
         form = GalleryForm(request.POST, instance=gallery)
-
         if form.is_valid():
             form.save()
             messages.success(request, 'Gallery has been updated.')
             return redirect('galleries:list')
     else:
         form = GalleryForm(instance=gallery)
-
     return render(request, 'galleries/add_gallery.html', {'form': form, 'gallery': gallery})
 
 
@@ -93,7 +88,6 @@ def gallery_delete(request, pk):
         gallery.delete()
         messages.success(request, 'Gallery has been deleted.')
         return redirect('galleries:list')
-
     return render(request, 'galleries/gallery_delete.html', {'gallery': gallery})
 
 
@@ -101,10 +95,9 @@ def gallery_delete(request, pk):
 def galleries_list_admin(request):
     galleries = Gallery.objects.all()
     pages = pagination(request, galleries, 15)
-
-    context = {'galleries_list_admin': galleries,
-               'page_obj': pages}
-    return render(request, 'galleries/galleries_list_admin.html', context)
+    return render(request, 'galleries/galleries_list_admin.html', {'galleries_list_admin': galleries,
+                                                                   'page_obj': pages,
+                                                                   })
 
 
 @login_required(login_url='/authentication/login')
@@ -113,7 +106,6 @@ def add_photos(request, gallery_id):
     PhotosFormSet = modelformset_factory(Photo, form=PhotoForm, extra=1)
     formset = PhotosFormSet(queryset=gallery.photos.none())
     form = PhotoForm()
-
     if request.method == "POST":
         formset = PhotosFormSet(request.POST, request.FILES)
         if formset.is_valid():
@@ -122,7 +114,6 @@ def add_photos(request, gallery_id):
                     Photo.objects.create(gallery=gallery, **f)
                     if f['send_reminder']:
                         if f['how_often'] == 'Once a week':
-                            send_reminder()
                             print('once a week')
                         elif f['how_often'] == 'Once every 2 weeks':
                             print('two weeks')
@@ -130,7 +121,6 @@ def add_photos(request, gallery_id):
                             print('2-3 days')
         messages.success(request, "Your photos have been successfully added to the gallery!")
         return HttpResponseRedirect(reverse("galleries:details", args=[gallery_id]))
-
     return render(request, "galleries/add_photos.html", {"formset": formset, "gallery": gallery, 'form': form})
 
 
@@ -138,7 +128,6 @@ def add_photos(request, gallery_id):
 def photos_view(request, gallery_id):
     gallery = Gallery.objects.get(pk=gallery_id)
     # photos = Photo.objects.filter(gallery__author=request.user)
-
     return render(request, "galleries/photos_view.html", {"gallery": gallery})
 
 
@@ -149,7 +138,6 @@ def photo_delete(request, pk):
         photo.delete()
         messages.success(request, f'Photo has been successfully deleted from "{photo.gallery.title}" gallery.')
         return redirect('galleries:list')
-
     return render(request, 'galleries/photo_delete.html', {'photo': photo})
 
 
@@ -171,42 +159,54 @@ class PhotosEditView(SingleObjectMixin, LoginRequiredMixin, FormView):
     def form_valid(self, form):
         form.save()
         messages.add_message(self.request, messages.SUCCESS, 'Photos have been successfully updated.')
-
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('galleries:details', kwargs={'gallery_id': self.object.pk})
 
 
-def send_reminder():
-    print('true')
+@staff_member_required
+def galleries_reminder(request):
+    all_photos = Photo.objects.all().filter(send_reminder=True)
+    for photo in all_photos:
+        if photo.how_often == 'Once every 2-3 days':
+            time = photo.updated + datetime.timedelta(days=3)
+            print('1', time)
+            send_mail_task.delay()
+            print('sent')
+        elif photo.how_often == 'Once a week':
+            time = photo.updated + datetime.timedelta(weeks=1)
+            print('2', time)
+        elif photo.how_often == 'Once every 2 weeks':
+            time = photo.updated + datetime.timedelta(weeks=2)
+            print('3', time)
+        else:
+            print('4')
 
+    # user = request.user
+    # gal_users = Gallery.objects.all().values_list('author', flat=True).distinct()
+    # if user.is_authenticated:
+    #     # galleries = Gallery.objects.all().filter(author=user).filter(status=2)
+    #     photos = Photo.objects.all().filter(gallery__author=user).filter(gallery__status=2).filter(send_reminder=True)
+    #     for photo in photos:
+    #         if photo.how_often == 'Once every 2-3 days':
+    #             time = photo.updated + datetime.timedelta(days=3)
+    #             print('1', time)
+    #         elif photo.how_often == 'Once a week':
+    #             time = photo.updated + datetime.timedelta(weeks=1)
+    #             print('2', time)
+    #         elif photo.how_often == 'Once every 2 weeks':
+    #             time = photo.updated + datetime.timedelta(weeks=2)
+    #             print('3', time)
+    #         else:
+    #             print('4')
+    #
+    #     return render(request, 'galleries/test-gallery.html', {'user': user,
+    #                                                            # 'galleries': galleries,
+    #                                                            'photos': photos,
+    #                                                            'gal_users': gal_users})
+    #
+    # else:
+    #     return redirect('authentication:login_user')
 
-
-def test_galleries(request):
-    user = request.user
-    gal_users = Gallery.objects.all().values_list('author', flat=True).distinct()
-    if user.is_authenticated:
-        # galleries = Gallery.objects.all().filter(author=user).filter(status=2)
-        photos = Photo.objects.all().filter(gallery__author=user).filter(gallery__status=2).filter(send_reminder=True)
-        for photo in photos:
-            if photo.how_often == 'Once every 2-3 days':
-                time = photo.updated + datetime.timedelta(days=3)
-                print('1', time)
-            elif photo.how_often == 'Once a week':
-                time = photo.updated + datetime.timedelta(weeks=1)
-                print('2', time)
-            elif photo.how_often == 'Once every 2 weeks':
-                time = photo.updated + datetime.timedelta(weeks=2)
-                print('3', time)
-            else:
-                print('4')
-
-        return render(request, 'galleries/test-gallery.html', {'user': user,
-                                                               # 'galleries': galleries,
-                                                               'photos': photos,
-                                                               'gal_users': gal_users})
-
-    else:
-        return redirect('authentication:login_user')
-
+    return render(request, 'control_panel/control_send_reminder.html', {'all_photos': all_photos})

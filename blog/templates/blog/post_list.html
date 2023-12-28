@@ -23,9 +23,11 @@
         <div style="text-align: center;">
             <form method="GET" action="{% url 'blog:search' %}">
                 <input name="q" value="{{ request.GET.q }}" placeholder="search..">
-                <button class="btn btn-primary" type="submit" >Search</button>
+                <button class="btn btn-primary" type="submit" >Search&nbsp;
+                    <i class="fa-solid fa-magnifying-glass fa-beat-fade"></i>
+                </button>
                 {% csrf_token %}
-                <img src="{% static "img/search.png" %}" alt="logo" width="2.1%">
+{#                <img src="{% static "img/search.png" %}" alt="logo" width="2.1%">#}
             </form>
         </div>
         <br>

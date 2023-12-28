@@ -25,6 +25,7 @@
     <orderEntry type="library" name="pyscript" level="application" />
     <orderEntry type="library" name="cookieconsent" level="application" />
     <orderEntry type="library" name="jquery-2.1.4" level="application" />
+    <orderEntry type="library" name="all" level="application" />
   </component>
   <component name="PyDocumentationSettings">
     <option name="format" value="PLAIN" />

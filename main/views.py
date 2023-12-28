@@ -72,7 +72,24 @@ def cookie_banner(request):
     return render(request, 'main/cookie_banner.html')
 
 
+def toggle_mode(request):
+    if request.session.get('mode') == 'light':
+        request.session['mode'] = 'dark'
+        messages.info(request, 'Dark mode has been set.')
+    else:
+        request.session['mode'] = 'light'
+        messages.info(request, 'Light mode has been set.')
+
+    return redirect(request.GET.get('next', '/'))
+
+
 def home_page(request):
+    # if 'mode' not in request.session:  # Default to light mode if no mode is set
+    #     request.session['mode'] = 'light'
+    mode = request.session.get('mode', 'light')  # Default to light mode if no mode is set
+    request.session['mode'] = mode
+    request.session.modified = True
+
     images = Carousel.objects.all()
     weather = {}
     current_site = get_current_site(request)
@@ -99,13 +116,14 @@ def home_page(request):
     else:
         weather = {}
 
-    return render(request, 'main/home_page.html', {'weather': weather, 'current_site': current_site, 'images': images})
+    return render(request, 'main/home_page.html', {'weather': weather, 'current_site': current_site, 'images': images, 'mode': mode})
 
 
 def api_location(request):
     # geolocation = requests.get(
     #     "https://ipgeolocation.abstractapi.com/v1/?api_key=cf3d1c1feafd4da1ae1cdcbd33082d30&"
     #     "fields=ip_address,city").json()
+    images = Carousel.objects.all()
     geolocation = requests.get(
         "https://api.ipgeolocation.io/ipgeo?apiKey=a7c32a635e30443e80765774d7381a6b&fields=ip,city").json()
     geo = {
@@ -125,7 +143,7 @@ def api_location(request):
         'icon': city_weather['weather'][0]['icon'],
     }
 
-    return render(request, 'main/location.html', {'weather': weather})
+    return render(request, 'main/location.html', {'weather': weather, 'images': images})
 
 
 def translate_app(request):

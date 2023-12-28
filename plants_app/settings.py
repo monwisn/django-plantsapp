@@ -78,8 +78,8 @@ INSTALLED_APPS = [
     'webpush',
     'cloudinary',
     'cloudinary_storage',
-    # 'django_celery_results',
-    # 'django_celery_beat',
+    'django_celery_results',
+    'django_celery_beat',
     'django_crontab',
     'captcha',
     'allauth',
@@ -124,6 +124,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'main.context_processors.mode',  # light/dark mode on all pages
             ],
         },
     },
@@ -295,29 +296,41 @@ EMAIL_PORT = 587  # this is gmail's port
 EMAIL_USE_TLS = True  # this encrypts our emails being sent
 
 
-# # Celery Configuration
-CELERY_BROKER_URL = env("CELERY_BROKER_URL")  # or 'redis://localhost:6379'
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_ACCEPT_CONTENT = ['application/json']  # or ['json']
-#
-# CELERY_TIMEZONE = 'Europe/Warsaw'
-# CELERY_TASK_TRACK_STARTED = True
-# CELERY_TASK_TIME_LIMIT = 30 * 60
-#
-# # Stores tasks status in django database
-CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
-#
-# # Celery Beat settings
-# CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+# CELERY SETTINGS:
+# Used to point a message broker to Celery (default port for the Redis server is 6379).
+CELERY_BROKER_URL = env("CELERY_BROKER_URL")
 
+# Task sent to the Celery worker must be serialized as JSON before it is sent, worker only process the JSON format tasks
+CELERY_ACCEPT_CONTENT = ['application/json']
+
+# Ensures that processed tasks are in JSON format.
+CELERY_TASK_SERIALIZER = 'json'
+
+# Orders that the results of Celery tasks will be serialized in JSON format before sent back to the Celery client.
+CELERY_RESULT_SERIALIZER = 'json'
+
+CELERY_TIMEZONE = 'Europe/Warsaw'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
+# Stores tasks status in django database
+# CELERY_RESULT_BACKEND = env("CELERY_RESULT_BACKEND")
+CELERY_RESULT_BACKEND = 'django-db'
+
+# Celery Beat settings
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 CELERY_BEAT_SCHEDULE = {
-    'send-weekly-emails': {
-        'task': 'plants_app.celery.send_weekly_newsletter',
-        'schedule': crontab(day_of_week='thursday', hour='21', minute='10'),
-       },
-   }
+    'send-notification': {
+        'task': 'planst_app.tasks.send_notification',
+        'schedule': crontab(hour='16', minute='30', day_of_week='4'),
+    },
+    'send-mail-to-client': {
+        'task': 'planst_app.tasks.send_mail_task',
+        'schedule': crontab(hour='22', minute='10', day_of_week='4')
+    },
+}
 
 # Django REST Framework
 REST_FRAMEWORK = {

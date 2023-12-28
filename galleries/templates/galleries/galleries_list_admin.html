@@ -32,15 +32,14 @@
             {% endfor %}
             </tbody>
         </table>
-    </div>
-    <br>
+    </div><br>
+    {% include 'pagination.html' %}
     <footer>
         <div style="text-align: right; font-size: medium">
-            <button type="button" class="btn button-pills">
+            <button type="button" class="btn btn-sm button-pills">
                 <a href="{% url 'main:home_page' %}" class="nav-link">Back</a>
             </button>
         </div>
     </footer>
     <br><br>
-    {% include 'pagination.html' %}
 {% endblock %}

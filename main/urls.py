@@ -6,6 +6,7 @@ from . import views
 
 
 app_name = 'main'
+
 urlpatterns = [
     path('', views.home_page, name='home_page'),
     path('about/', views.about, name='about'),
@@ -29,4 +30,5 @@ urlpatterns = [
     # path('newsletter/users/<int:id>/', NewsletterUserDetailView.as_view, name='newsletter_user_detail'),
     path('api-avatars/', views.api_avatars, name='api_avatars'),
     path('show-avatars/', views.show_avatars, name='show_avatars'),
+    path('toggle-mode/', views.toggle_mode, name='toggle_mode'),
 ]

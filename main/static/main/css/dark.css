@@ -1,13 +1,21 @@
+/* dark.css */
+
 body {
-    /* Light mode styles */
-    background-color: darkseagreen;
-    color: black;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    width: 100%;
-    height: auto;
+  /* Dark mode styles */
+  /*background-color: #000000;*/
+  background-color: darkseagreen;
+  color: wheat;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  width: 100%;
+  height: auto;
+}
+
+/* Heading color */
+h1, h2, h3 {
+  color: wheat;
 }
 
 textarea {
@@ -53,14 +61,14 @@ section {
 }
 
 .subtitle {
-  color: #4a4a4a;
+  color: wheat;
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.25;
 }
 
 .title {
-  color: #363636;
+  color: wheat;
   font-size: 1.7rem;
   font-weight: 600;
   line-height: 1.125;
@@ -77,24 +85,24 @@ section {
 }
 
 .bold-card {
-    border: 1px solid dimgrey;
+    border: 1px solid lightgrey;
 }
 
 .dropdown-menu {
     /*background-color: transparent;*/
-    background-color: rgba(255, 255, 255, .7) !important;
+    background-color: rgba(85, 107, 47, .85) !important;
 }
 
     h1 {
-        color: black;
+        color: wheat;
         text-align:center;
     }
     h2 {
-        color: black;
+        color: wheat;
         text-align: center;
     }
     h3 {
-        color: black;
+        color: wheat;
         text-align: center;
     }
 
@@ -122,21 +130,20 @@ ul li a:hover {
 }
 
 .box1 {
-    background-color: powderblue;
-    /*color: black;*/
+    background-color: darkolivegreen;
     /*font-style: normal;*/
-    opacity: .70;
+    opacity: .80;
 }
 
 .box2 {
-    background-color: white;
+    background-color: darkolivegreen;
     /*color: black;*/
     /*font-style: normal;*/
     opacity: .90;
 }
 
 .photos-box {
-    background-color: lightblue;
+    background-color: darkolivegreen;
     opacity: 0.85;
 }
 
@@ -146,8 +153,49 @@ ul li a:hover {
 }
 
 .special-cards {
-  background-color: white;
+  background-color: darkolivegreen;
   opacity: .85;
+}
+
+/* Card container */
+.card {
+  background-color: darkolivegreen;
+  color: wheat;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Card title */
+.card .title {
+  color: wheat;
+  font-size: 20px;
+}
+
+/* Card content */
+.card .content {
+  color: wheat;
+  margin-top: 10px;
+}
+
+.card .text {
+    color: wheat;
+}
+
+/* Card button */
+.card .button {
+  background-color: darkolivegreen;
+  color: wheat;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.card .button:hover {
+  background-color: darkolivegreen;
 }
 
 .social-footer {
@@ -169,7 +217,7 @@ ul li a:hover {
 
 .social-footer .social-footer-icons .fa {
     font-size: 1.3rem;
-    color: #fefefe;
+    color: wheat;
 }
 
 .social-footer .social-footer-icons .fa:hover {
@@ -191,40 +239,10 @@ ul li a:hover {
     opacity: 0.7;
 }
 
-/*.fa-instagram {*/
-/*    background: mediumvioletred;*/
-/*    color: white;*/
-/*}*/
-
-/*.fa-github {*/
-/*  background: black;*/
-/*  color: white;*/
-/*}*/
-
-/*.fa-twitter {*/
-/*  background: #55ACEE;*/
-/*  color: white;*/
-/*}*/
-
-/*.fa-linkedin {*/
-/*  background: #007bb5;*/
-/*  color: white;*/
-/*}*/
-
-/*.fa-youtube {*/
-/*  background: #bb0000;*/
-/*  color: white;*/
-/*}*/
-
-/*.fa-google {*/
-/*  background: #3B5998;*/
-/*  color: white;*/
-/*}*/
-
 .button-pill {
-  background-color: #fefefe;
+  background-color: darkolivegreen;
   border: none;
-  color: black;
+  color: wheat;
   padding: 3px 16px;
   text-align: center;
   text-decoration: none;
@@ -239,9 +257,9 @@ ul li a:hover {
 }
 
 .button-pills {
-  background-color: mediumturquoise;
+  background-color: wheat;
   border: none;
-  color: black;
+  color: wheat;
   padding: 4px 6px;
   text-align: center;
   text-decoration: none;
@@ -264,7 +282,7 @@ ul li a:hover {
   }
 
 #confirmCookie {
-  background: none repeat scroll 0 0 rgba(0,0,0,0.6);
+  background: none repeat scroll 0 0 rgba(85, 107, 47, 0.6);
   margin: 0;
   position: relative;
   transition: all 0.5s ease-out 0s;
@@ -272,7 +290,7 @@ ul li a:hover {
   box-shadow: -2px 0 15px #999;
   bottom: 0;
   width: 100%;
-  color: white;
+  color: wheat;
 }
 
 #confirmCookie p {
@@ -312,7 +330,7 @@ ul li a:hover {
     background: transparent;
     /*background: white;*/
     /*opacity: 0.6;*/
-    color: black;
+    color: darkolivegreen;
     text-align: center;
     padding: 15px;
     margin-top: 40px;
@@ -320,9 +338,10 @@ ul li a:hover {
 
 .galleries {
     height:100px;
-    width:305px;
+    width:auto;
     text-align:center;
     border:1px solid #ccc;
     font:14px/24px Arial, Garamond, Serif;
     overflow:auto;
 }
+

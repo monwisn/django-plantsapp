@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+            {{ message|striptags|safe|linebreaksbr }}
+        </div>
+    {% endfor %}
+{% endif %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="row">
+            <div style="text-align: inherit; font-size: medium">
+                <h5 class="page-header"><b>All users reminder:</b></h5><br>
+            </div>
+        </div>
+    </div>
+    <div class="card card-body special-cards">
+{#    <div class="table-responsive table-hover">#}
+        <table class="table">
+            <thead class="thead-dark">
+                <tr style="text-align: center">
+                    <th scope="col">Gallery Author</th>
+                    <th scope="col">Gallery Title</th>
+                    <th scope="col">Photo Title</th>
+                    <th scope="col">How Often</th>
+                    <th scope="col">Created/Updated</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            {% for photo in all_photos %}
+                <tr style="text-align: center">
+                    <td>{{ photo.gallery.author }}</td>
+                    <td>{{ photo.gallery.title }}</td>
+                    <td>{{ photo.title}}</td>
+                    <td>{{ photo.how_often }}</td>
+                    {% if photo.created != photo.updated %}
+                        <td>U: {{ photo.updated }}</td>
+                    {% else %}
+                        <td>C: {{ photo.created }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <footer>
+    <br>
+        <div style="text-align: right; font-size: medium">
+            <button type="button" class="btn btn-light btn-sm">
+                <a href="{% url 'main:home_page' %}" class="nav-link">Back</a>
+            </button>
+        </div>
+    </footer>
+    <br/><br/>
+{% endblock %}

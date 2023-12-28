@@ -1,13 +1,20 @@
+/* light.css */
+
 body {
     /* Light mode styles */
     background-color: darkseagreen;
-    color: black;
+    color: saddlebrown;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
     width: 100%;
     height: auto;
+}
+
+/* Heading color */
+h1, h2, h3 {
+  color: saddlebrown;
 }
 
 textarea {
@@ -84,17 +91,16 @@ section {
     /*background-color: transparent;*/
     background-color: rgba(255, 255, 255, .7) !important;
 }
-
     h1 {
-        color: black;
+        color: saddlebrown;
         text-align:center;
     }
     h2 {
-        color: black;
+        color: saddlebrown;
         text-align: center;
     }
     h3 {
-        color: black;
+        color: saddlebrown;
         text-align: center;
     }
 
@@ -129,7 +135,7 @@ ul li a:hover {
 }
 
 .box2 {
-    background-color: white;
+    background-color: wheat;
     /*color: black;*/
     /*font-style: normal;*/
     opacity: .90;
@@ -146,7 +152,7 @@ ul li a:hover {
 }
 
 .special-cards {
-  background-color: white;
+  background-color: wheat;
   opacity: .85;
 }
 
@@ -169,7 +175,7 @@ ul li a:hover {
 
 .social-footer .social-footer-icons .fa {
     font-size: 1.3rem;
-    color: #fefefe;
+    color: wheat;
 }
 
 .social-footer .social-footer-icons .fa:hover {
@@ -191,40 +197,10 @@ ul li a:hover {
     opacity: 0.7;
 }
 
-/*.fa-instagram {*/
-/*    background: mediumvioletred;*/
-/*    color: white;*/
-/*}*/
-
-/*.fa-github {*/
-/*  background: black;*/
-/*  color: white;*/
-/*}*/
-
-/*.fa-twitter {*/
-/*  background: #55ACEE;*/
-/*  color: white;*/
-/*}*/
-
-/*.fa-linkedin {*/
-/*  background: #007bb5;*/
-/*  color: white;*/
-/*}*/
-
-/*.fa-youtube {*/
-/*  background: #bb0000;*/
-/*  color: white;*/
-/*}*/
-
-/*.fa-google {*/
-/*  background: #3B5998;*/
-/*  color: white;*/
-/*}*/
-
 .button-pill {
-  background-color: #fefefe;
+  background-color: rosybrown;
   border: none;
-  color: black;
+  color: wheat;
   padding: 3px 16px;
   text-align: center;
   text-decoration: none;
@@ -235,13 +211,13 @@ ul li a:hover {
 }
 
 .button-pill:hover {
-  background-color: darkolivegreen;
+  background-color: darkseagreen;
 }
 
 .button-pills {
   background-color: mediumturquoise;
   border: none;
-  color: black;
+  color: saddlebrown;
   padding: 4px 6px;
   text-align: center;
   text-decoration: none;
@@ -264,7 +240,7 @@ ul li a:hover {
   }
 
 #confirmCookie {
-  background: none repeat scroll 0 0 rgba(0,0,0,0.6);
+  background: none repeat scroll 0 0 rgba(139,69,19,0.6);
   margin: 0;
   position: relative;
   transition: all 0.5s ease-out 0s;
@@ -272,7 +248,7 @@ ul li a:hover {
   box-shadow: -2px 0 15px #999;
   bottom: 0;
   width: 100%;
-  color: white;
+  color: wheat;
 }
 
 #confirmCookie p {
@@ -312,7 +288,7 @@ ul li a:hover {
     background: transparent;
     /*background: white;*/
     /*opacity: 0.6;*/
-    color: black;
+    color: saddlebrown;
     text-align: center;
     padding: 15px;
     margin-top: 40px;
@@ -320,9 +296,9 @@ ul li a:hover {
 
 .galleries {
     height:100px;
-    width:305px;
+    width:auto;
     text-align:center;
-    border:1px solid #ccc;
+    border:1px solid wheat;
     font:14px/24px Arial, Garamond, Serif;
     overflow:auto;
 }
